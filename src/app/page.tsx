@@ -2,6 +2,7 @@
 
 import Hero from "@/components/Homepage/Hero";
 import CounterSection from "@/components/Homepage/Counter";
+import GlobalReach from "@/components/Homepage/GlobalReach";
 import Blog from "@/components/Homepage/Blog";
 
 export default function Home() {
@@ -9,11 +10,21 @@ export default function Home() {
     <main className="min-h-screen flex flex-col">
       <div className="flex-grow">
         <section id="home">
-           <Hero />
+          <Hero />
         </section>
 
         <section id="counter">
           <CounterSection />
+        </section>
+
+        {/* THIN DIVIDER LINE */}
+        <div className="w-full">
+          <div className="h-px w-full bg-[#0fb8af]/70"></div>
+        </div>
+
+        {/* NEW GLOBAL REACH SECTION */}
+        <section id="global-reach">
+          <GlobalReach />
         </section>
 
         {/* THIN DIVIDER LINE */}
