@@ -1,0 +1,332 @@
+@import "tailwindcss";
+
+:root {
+  --background: #151515;
+  --foreground: #ffffff;
+  --accent-yellow: #0fb8af;
+  --accent-green: #0fb8af;
+  --gray-light: #e0f7fa;
+  --gray-medium: #a8e6cf;
+  --gray-dark: #252525;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes ping {
+
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-marquee {
+  animation: marquee 15s linear infinite;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.4s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s ease-in forwards;
+}
+
+button,
+a,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+.clickable {
+  cursor: pointer;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #252525;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #17B6B2;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #17B6B2;
+}
+
+/* Utility classes */
+.bg-gradient-radial {
+  background: radial-gradient(var(--tw-gradient-stops));
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Light theme variables */
+.light {
+  --background: #ffffff;
+  --foreground: #151515;
+  --accent-yellow: #0fb8af;
+  --accent-green: #0fb8af;
+  --gray-light: #252525;
+  --gray-medium: #374151;
+  --gray-dark: #f5f5f5;
+}
+
+/* Dark theme variables */
+.dark {
+  --background: #151515;
+  --foreground: #ffffff;
+  --accent-yellow: #0fb8af;
+  --accent-green: #0fb8af;
+  --gray-light: #e0f7fa;
+  --gray-medium: #a8e6cf;
+  --gray-dark: #252525;
+}
+
+/* Theme-specific background and text colors */
+.bg-background {
+  background-color: var(--background) !important;
+}
+
+.text-foreground {
+  color: var(--foreground) !important;
+}
+
+.bg-gray-dark {
+  background-color: var(--gray-dark) !important;
+}
+
+.text-gray-light {
+  color: var(--gray-light) !important;
+}
+
+/* Light theme specific overrides */
+.light .text-white {
+  color: #151515 !important;
+}
+
+.light .text-gray-300 {
+  color: #666666 !important;
+}
+
+.light .text-gray-400 {
+  color: #888888 !important;
+}
+
+.light .border-gray-700 {
+  border-color: #e5e5e5 !important;
+}
+
+.light .bg-black\/60 {
+  background-color: rgba(0,0,0,0.1) !important;
+}
+
+.light .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light .border-white {
+  border-color: #151515 !important;
+}
+
+.light .text-gray-200 {
+  color: #333333 !important;
+}
+
+/* Dark theme specific overrides */
+.dark .text-white {
+  color: #ffffff !important;
+}
+
+.dark .text-gray-300 {
+  color: #d1d5db !important;
+}
+
+.dark .text-gray-400 {
+  color: #9ca3af !important;
+}
+
+.dark .border-gray-700 {
+  border-color: #374151 !important;
+}
+
+.dark .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.dark .bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark .border-white {
+  border-color: #ffffff !important;
+}
+
+.dark .text-gray-200 {
+  color: #e5e7eb !important;
+}
+
+/* Footer should stay dark in both themes - COMPLETE FIX */
+.light footer .text-white {
+  color: #ffffff !important;
+}
+
+.light footer .text-gray-300 {
+  color: #d1d5db !important;
+}
+
+.light footer .text-gray-400 {
+  color: #9ca3af !important;
+}
+
+/* Fix for SHEIKH NABEEL text (no color class specified) */
+.light footer h2 {
+  color: #ffffff !important;
+}
+
+/* Fix for EMAIL text */
+.light footer .text-gray-200 {
+  color: #e5e7eb !important;
+}
+
+/* Fix any other footer text that might be affected */
+.light footer {
+  color: #ffffff !important;
+}
+
+
+/* Hero section should keep white text in both themes */
+.light section .text-gray-200 {
+  color: #e5e7eb !important;
+}
+
+/* More specific for hero section if needed */
+.light .min-h-screen .text-gray-200 {
+  color: #e5e7eb !important;
+}
+
+.light section .text-white {
+  color: #e5e7eb !important;
+}
+
+/* More specific for hero section if needed */
+.light .min-h-screen .text-white {
+  color: #e5e7eb !important;
+}
+
+/* Keep hero section overlay dark in both themes */
+.light section.min-h-screen .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Alternative - target any hero section overlay */
+.light .min-h-screen .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Category buttons should have black text in light mode */
+.light .py-8.px-6 button {
+  color: #000000 !important;
+}
+
+/* Ensure all states are black in light mode */
+.light .py-8.px-6 button:hover {
+  color: #000000 !important;
+}
+
+.light .py-8.px-6 button:focus {
+  color: #000000 !important;
+}
+
+/* More specific targeting if needed */
+.light button[style*="color"] {
+  color: #000000 !important;
+}
