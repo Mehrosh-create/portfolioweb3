@@ -55,7 +55,7 @@ export const SlidingHighlight = ({ text }: { text: string }) => {
       <span
         className="relative z-10 text-black font-bold tracking-wider uppercase whitespace-nowrap px-3 sm:px-4 py-1 sm:py-2 inline-block text-sm sm:text-base"
         style={{
-          fontFamily: '"Bebas Neue", sans-serif',
+          fontFamily: '"Century Gothic", sans-serif',
           fontWeight: 700,
           letterSpacing: "0.08em",
         }}
