@@ -323,8 +323,8 @@ const GlobalReach: React.FC = () => {
 
   const stats: StatItem[] = [
     { label: "Countries Reached", value: "50+", color: "#0fb8af" },
-    { label: "Global Clients", value: "100+", color: "#1fc8db" },
-    { label: "Years Experience", value: "30+", color: "#2af598" },
+    { label: "Global Clients", value: "20+", color: "#0fb8af" },
+    { label: "Years Experience", value: "7+", color: "#0fb8af" },
   ];
 
   return (
@@ -345,37 +345,9 @@ const GlobalReach: React.FC = () => {
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-          {/* Left Column - Globe (moved to left side) */}
-          <FadeSlide delay={0.1}>
-            <div className="w-full lg:w-1/2 flex justify-center lg:justify-start relative">
-              <div className="relative">
-                <GlobeCard />
-                {/* Animated rings around globe */}
-                <div className="absolute inset-0 rounded-full border-3 border-[#0fb8af]/20 animate-ping" style={{top: '-10px', left: '-10px', right: '-10px', bottom: '-10px'}}></div>
-                <div 
-                  className="absolute inset-0 rounded-full border-3 border-[#0fb8af]/10 animate-ping" 
-                  style={{ animationDelay: '0.5s', top: '-10px', left: '-10px', right: '-10px', bottom: '-10px' }}
-                />
-                
-                {/* Background color behind the globe */}
-                <div 
-                  className="absolute -z-10 rounded-full"
-                  style={{
-                    top: '-80px',
-                    left: '-80px',
-                    right: '-80px',
-                    bottom: '-80px',
-                    background: `radial-gradient(circle, rgba(15, 184, 175, 0.2) 0%, rgba(15, 184, 175, 0.08) 40%, transparent 70%)`,
-                    filter: 'blur(30px)',
-                  }}
-                />
-              </div>
-            </div>
-          </FadeSlide>
-
-          {/* Right Column - Content (moved to right side) */}
-          <div className="w-full lg:w-1/2 lg:pl-12">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-32">
+          {/* Left Column - Content - Taking 45% width */}
+          <div className="w-full lg:w-[45%] lg:pr-4">
             <FadeSlide delay={0.3}>
               {/* Rounded capsule for "Global Reach" */}
               <div className="inline-flex items-center mb-6">
@@ -455,6 +427,34 @@ const GlobalReach: React.FC = () => {
               </FadeSlide>
             </FadeSlide>
           </div>
+
+          {/* Right Column - Globe - Taking 55% width and positioned to the far right */}
+          <FadeSlide delay={0.1}>
+            <div className="w-full lg:w-[55%] flex justify-center lg:justify-end relative">
+              <div className="relative lg:-mr-32 lg:ml-16">
+                <GlobeCard />
+                {/* Animated rings around globe */}
+                <div className="absolute inset-0 rounded-full border-3 border-[#0fb8af]/20 animate-ping" style={{top: '-10px', left: '-10px', right: '-10px', bottom: '-10px'}}></div>
+                <div 
+                  className="absolute inset-0 rounded-full border-3 border-[#0fb8af]/10 animate-ping" 
+                  style={{ animationDelay: '0.5s', top: '-10px', left: '-10px', right: '-10px', bottom: '-10px' }}
+                />
+                
+                {/* Background color behind the globe */}
+                <div 
+                  className="absolute -z-10 rounded-full"
+                  style={{
+                    top: '-80px',
+                    left: '-80px',
+                    right: '-80px',
+                    bottom: '-80px',
+                    background: `radial-gradient(circle, rgba(15, 184, 175, 0.2) 0%, rgba(15, 184, 175, 0.08) 40%, transparent 70%)`,
+                    filter: 'blur(30px)',
+                  }}
+                />
+              </div>
+            </div>
+          </FadeSlide>
         </div>
       </div>
 

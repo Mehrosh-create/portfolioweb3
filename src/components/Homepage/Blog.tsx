@@ -7,7 +7,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { blogArticles } from "@/data/blogArticles";
 
-
 // Fade + Slide Animation
 const FadeSlide = ({
   children,
@@ -32,7 +31,6 @@ const Blog = () => {
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [likeCounts, setLikeCounts] = useState<{ [key: string]: number }>({});
 
-  // Initialize likes from data
   useEffect(() => {
     const initial: { [key: string]: number } = {};
     blogArticles.forEach((a) => {
@@ -64,11 +62,9 @@ const Blog = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <FadeSlide>
-            <h2 
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black uppercase mb-5"
+            <h2
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black uppercase mb-5 font-century-gothic-bold"
               style={{
-                fontFamily: '"Bebas Neue", sans-serif',
-                fontWeight: 100,
                 letterSpacing: "0.02em",
               }}
             >
@@ -76,7 +72,7 @@ const Blog = () => {
             </h2>
           </FadeSlide>
           <FadeSlide delay={0.2}>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto font-inter">
               Explore expert perspectives on digital transformation, leadership, CRM systems, and business innovation.
             </p>
           </FadeSlide>
@@ -88,10 +84,7 @@ const Blog = () => {
             <FadeSlide key={article.slug}>
               <Link href={`/blog/${article.slug}`} className="group block h-full">
                 <article className="relative h-full bg-card rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-[#0fb8af]/20">
-                  {/* Glowing border */}
                   <div className="absolute inset-0 rounded-2xl border border-[#0fb8af]/10 group-hover:border-[#0fb8af]/40 transition-all duration-500 pointer-events-none" />
-
-                  {/* Image */}
                   <div className="relative h-56 overflow-hidden">
                     <Image
                       src={article.image}
@@ -101,12 +94,9 @@ const Blog = () => {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60" />
-                    {/* NO BADGES ON IMAGE ANYMORE */}
                   </div>
 
-                  {/* Content */}
                   <div className="p-6">
-                    {/* Date + Like Button */}
                     <div className="flex items-center justify-between text-sm text-foreground/70 mb-4">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-[#0fb8af]" />
@@ -124,19 +114,17 @@ const Blog = () => {
                               : "text-foreground/50 hover:text-red-500"
                           }`}
                         />
-                        <span className="text-sm font-medium">
-                          {likeCounts[article.slug] || 0}
-                        </span>
+                        <span className="text-sm font-medium">{likeCounts[article.slug] || 0}</span>
                       </button>
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-[#0fb8af] transition-colors duration-300">
+                    <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-[#0fb8af] transition-colors duration-300 font-century-gothic-bold">
                       {article.title}
                     </h3>
 
                     {/* Excerpt */}
-                    <p className="text-foreground/70 text-sm mb-6 line-clamp-3">
+                    <p className="text-foreground/70 text-sm mb-6 line-clamp-3 font-inter">
                       {article.excerpt}
                     </p>
 
@@ -146,7 +134,7 @@ const Blog = () => {
                         {article.tags?.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="px-3 py-1 bg-[#0fb8af]/10 text-[#0fb8af] text-xs font-medium rounded-full"
+                            className="px-3 py-1 bg-[#0fb8af]/10 text-[#0fb8af] text-xs font-medium rounded-full font-inter"
                           >
                             {tag}
                           </span>
@@ -159,7 +147,6 @@ const Blog = () => {
                     </div>
                   </div>
 
-                  {/* Bottom Bar – Only your brand color */}
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#0fb8af] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
                 </article>
               </Link>
@@ -172,7 +159,7 @@ const Blog = () => {
           <FadeSlide delay={0.4}>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0fb8af] text-black font-bold uppercase tracking-wider rounded-lg hover:bg-[#00a89a] transition-all duration-300"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0fb8af] text-black font-bold uppercase tracking-wider rounded-lg hover:bg-[#00a89a] transition-all duration-300 font-inter"
             >
               View All Articles <ArrowRight className="w-5 h-5" />
             </Link>

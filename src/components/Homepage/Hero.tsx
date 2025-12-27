@@ -1,57 +1,156 @@
-// src/components/Homepage/Hero.tsx
 "use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useTheme } from "@/contexts/ThemeContext";
+import FadeSlide from "@/components/Common/FadeSlide";
 
-const HeroSection = () => {
+interface FeatureItem {
+  id: number;
+  text: string;
+}
+
+/* 🔁 NEW TITLES TO LOOP */
+const TITLES = [
+  "Empowering Executive Decision-Making",
+  "Shaping Future-Ready Organizations",
+  "Driving Strategic Innovation",
+  "Transforming Vision into Impact",
+];
+
+const HeroSection: React.FC = () => {
+  const themeContext = useTheme();
+  const theme = themeContext?.theme ?? "light";
+
+  /* 🔤 TYPEWRITER STATES */
+  const [text, setText] = useState("");
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  /* ✨ TYPE + ERASE EFFECT */
+  useEffect(() => {
+    const currentTitle = TITLES[titleIndex];
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting && charIndex < currentTitle.length) {
+      timeout = setTimeout(() => {
+        setText(currentTitle.slice(0, charIndex + 1));
+        setCharIndex((prev) => prev + 1);
+      }, 70);
+    } else if (!isDeleting && charIndex === currentTitle.length) {
+      timeout = setTimeout(() => setIsDeleting(true), 1200);
+    } else if (isDeleting && charIndex > 0) {
+      timeout = setTimeout(() => {
+        setText(currentTitle.slice(0, charIndex - 1));
+        setCharIndex((prev) => prev - 1);
+      }, 40);
+    } else if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setTitleIndex((prev) => (prev + 1) % TITLES.length);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [charIndex, isDeleting, titleIndex]);
+
+  const features: FeatureItem[] = [
+    { id: 1, text: "7+ Years Leadership Experience" },
+    { id: 2, text: "Board & C-Suite Advisory" },
+    { id: 3, text: "Digital Transformation Expert" },
+  ];
+
+  const trustedBy = [
+    { id: 1, text: "Fortune 500 Companies" },
+    { id: 2, text: "Global Enterprises" },
+  ];
+
   return (
-    <section className="min-h-screen relative overflow-hidden">
-      {/* Background Image – Full cover on all devices, slightly right of center */}
-      <div className="absolute inset-0 w-full h-full">
-        <Image
-          src="/images/ceo.png"
-          alt="Sheikh Nabeel"
-          fill
-          className="object-cover"
-          priority
-          quality={100}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
-          style={{ objectPosition: "65% center" }}
-        />
-      </div>
-
-      {/* Gradient overlay for better text readability on mobile */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:from-black/40"></div>
-
-      {/* Description Text – Bottom Left */}
-      <div className="relative z-10 min-h-screen flex items-end w-full pb-8 sm:pb-10 md:pb-12 lg:pb-14 xl:pb-16">
-        <div className="w-full">
-          <div className="flex flex-col items-start text-left w-full">
-            <div className="w-full">
-              <div
-                className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl
-                           text-white font-bold
-                           space-y-1 drop-shadow-[0_6px_20px_rgba(0,0,0,1)]
-                           max-w-3xl leading-tight
-                           pl-2 xs:pl-3 sm:pl-4 md:pl-6 lg:pl-8"
-                style={{ 
-                  fontFamily: '"Bebas Neue", sans-serif',
-                  textShadow: '0 3px 6px rgba(0,0,0,0.85), 0 6px 12px rgba(0,0,0,0.75)'
-                }}
+    <section
+      className={`relative py-16 sm:py-20 lg:py-24 ${
+        theme === "dark" ? "bg-[#151515]" : "bg-gray-50"
+      } overflow-hidden`}
+    >
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <div className="space-y-8 text-center lg:text-left">
+            <FadeSlide delay={0.3}>
+              <h1
+                className={`text-4xl md:text-5xl lg:text-6xl font-light min-h-[3.5rem] md:min-h-[4.5rem] ${
+                  theme === "dark" ? "text-white" : "text-gray-900"
+                }`}
               >
-                <p className="lowercase tracking-wider">serial entrepreneur, founder & ceo of</p>
-                <p className="lowercase tracking-wider">euroshub, business strategist,</p>
-                <p className="lowercase tracking-wider">& digital transformation expert</p>
+                {text}
+                <span className="inline-block ml-1 animate-pulse">|</span>
+              </h1>
+            </FadeSlide>
+
+            <p
+              className={`max-w-xl mx-auto lg:mx-0 ${
+                theme === "dark" ? "text-white/60" : "text-gray-600"
+              }`}
+            >
+              Navigating digital transformation, AI governance, and strategic
+              growth for sustainable success.
+            </p>
+
+            {/* Features */}
+            <div className="space-y-3">
+              {features.map((f, i) => (
+                <FadeSlide key={f.id} delay={0.5 + i * 0.1}>
+                  <div className="flex items-center gap-2 justify-center lg:justify-start">
+                    {/* ✅ Tick color updated to #0FB8AF */}
+                    <span className="text-[#0FB8AF]">✔</span>
+                    <span
+                      className={`text-sm ${
+                        theme === "dark"
+                          ? "text-white/70"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {f.text}
+                    </span>
+                  </div>
+                </FadeSlide>
+              ))}
+            </div>
+
+            {/* Trusted By */}
+            <FadeSlide delay={1}>
+              <div className="flex gap-6 justify-center lg:justify-start text-xs uppercase tracking-widest">
+                {trustedBy.map((t) => (
+                  <span
+                    key={t.id}
+                    className={
+                      theme === "dark" ? "text-white/60" : "text-gray-600"
+                    }
+                  >
+                    {t.text}
+                  </span>
+                ))}
+              </div>
+            </FadeSlide>
+          </div>
+
+          {/* Image */}
+          <FadeSlide delay={0.1}>
+            <div className="relative max-w-lg mx-auto w-full">
+              <div className="relative h-[520px] w-full rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/images/sn.png"
+                  alt="Sheikh Nabeel"
+                  fill
+                  priority
+                  quality={100}
+                  sizes="100vw"
+                  className="object-cover"
+                  style={{ objectPosition: "65% center" }}
+                />
               </div>
             </div>
-          </div>
+          </FadeSlide>
         </div>
       </div>
-
-      {/* Decorative dots */}
-      <div className="absolute top-3 xs:top-4 sm:top-6 md:top-8 left-3 xs:left-4 sm:left-6 md:left-8 w-1 xs:w-2 h-1 xs:h-2 bg-white rounded-full opacity-30"></div>
-      <div className="absolute bottom-12 xs:bottom-14 sm:bottom-16 md:bottom-20 left-6 xs:left-8 sm:left-12 md:left-16 lg:left-20 w-2 xs:w-3 h-2 xs:h-3 bg-white rounded-full opacity-20"></div>
-      <div className="absolute top-12 xs:top-14 sm:top-16 md:top-20 right-6 xs:right-8 sm:right-12 md:right-16 lg:right-20 w-1 xs:w-2 h-1 xs:h-2 bg-white rounded-full opacity-40"></div>
-      <div className="absolute bottom-3 xs:bottom-4 sm:bottom-6 md:bottom-8 right-3 xs:right-4 sm:right-6 md:right-8 w-1 xs:w-2 h-1 xs:h-2 bg-white rounded-full opacity-25"></div>
     </section>
   );
 };

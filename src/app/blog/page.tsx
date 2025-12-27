@@ -115,7 +115,7 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground font-inter">
       {/* Featured Post */}
       <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -137,17 +137,17 @@ export default function BlogPage() {
                 </div>
 
                 <div className="p-8 lg:p-12 flex flex-col justify-center">
-                  <span className="px-4 py-1.5 bg-[#0fb8af] text-black text-xs font-bold uppercase rounded-full inline-block mb-4">
+                  <span className="px-4 py-1.5 bg-[#0fb8af] text-black text-xs font-bold uppercase rounded-full inline-block mb-4 font-inter">
                     {featuredPost.category}
                   </span>
-                  <h1 className="text-3xl lg:text-5xl font-bold mb-6 group-hover:text-[#0fb8af] transition-colors duration-300">
+                  <h1 className="text-3xl lg:text-5xl font-century-gothic-bold font-bold mb-6 group-hover:text-[#0fb8af] transition-colors duration-300">
                     {featuredPost.title}
                   </h1>
-                  <p className="text-foreground/70 text-lg mb-8 line-clamp-3">
+                  <p className="text-foreground/70 text-lg mb-8 line-clamp-3 font-inter">
                     {featuredPost.excerpt}
                   </p>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-sm text-foreground/70">
+                    <div className="flex items-center gap-4 text-sm text-foreground/70 font-inter">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-5 h-5 text-[#0fb8af]" />
                         {featuredPost.date}
@@ -173,7 +173,7 @@ export default function BlogPage() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
+              className={`px-6 py-2 rounded-full font-medium text-sm transition-all font-inter ${
                 selectedCategory === cat
                   ? "bg-[#0fb8af] text-black"
                   : "bg-transparent border border-gray-600 text-gray-400 hover:border-[#0fb8af] hover:text-[#0fb8af]"
@@ -205,32 +205,31 @@ export default function BlogPage() {
                 </div>
 
                 <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <div className="flex items-center justify-between mb-4 text-sm font-inter text-foreground/70">
+                    <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-[#0fb8af]" />
                       <span>{article.date}</span>
                     </div>
                     <button
                       onClick={(e) => handleLike(article.slug, e)}
-                      className="flex items-center gap-2 hover:scale-110 transition-transform"
+                      className="flex items-center gap-1.5 transition-all hover:scale-110"
                     >
                       <Heart
                         className={`w-5 h-5 transition-all duration-300 ${
                           likedPosts.has(article.slug)
-                            ? "fill-red-500 text-red-500"
-                            : "text-foreground/50"
+                            ? "fill-red-500 text-red-500 scale-110"
+                            : "text-foreground/50 hover:text-red-500"
                         }`}
                       />
-                      <span className="text-sm font-medium">
-                        {likeCounts[article.slug] || 0}
-                      </span>
+                      <span className="text-sm font-medium">{likeCounts[article.slug] || 0}</span>
                     </button>
                   </div>
 
-                  <h3 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-[#0fb8af] transition-colors duration-300">
+                  <h3 className="text-xl font-century-gothic-bold font-bold mb-3 line-clamp-2 group-hover:text-[#0fb8af] transition-colors duration-300">
                     {article.title}
                   </h3>
-                  <p className="text-foreground/70 text-sm line-clamp-3 mb-6">
+
+                  <p className="text-foreground/70 text-sm mb-6 line-clamp-3 font-inter">
                     {article.excerpt}
                   </p>
 
@@ -239,7 +238,7 @@ export default function BlogPage() {
                       {article.tags?.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 bg-[#0fb8af]/10 text-[#0fb8af] text-xs font-medium rounded-full"
+                          className="px-3 py-1 bg-[#0fb8af]/10 text-[#0fb8af] text-xs font-medium rounded-full font-inter"
                         >
                           {tag}
                         </span>
