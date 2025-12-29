@@ -5,85 +5,82 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowRight, Heart } from "lucide-react";
 
-// Articles Data
 const articles = [
   {
     slug: "rise-of-digital-transformation",
-    title: "Sheikh Nabeel on the Rise of Digital Transformation",
+    title: "The Rise of Digital Transformation",
     category: "DIGITAL TRANSFORMATION",
     readTime: "8 min read",
     date: "March 15, 2025",
     image: "/images/featured-post.jpg",
-    excerpt: "Digital transformation is reshaping industries globally with AI, automation, and innovation.",
+    excerpt:
+      "Digital transformation is reshaping modern industries through automation, artificial intelligence, and innovative technology-driven.",
     likes: "892",
-    tags: ["Digital", "AI", "Innovation", "Strategy"]
+    tags: ["Digital", "AI", "Innovation"]
   },
   {
     slug: "future-of-crm-systems",
-    title: "The Future of CRM Systems in Global Markets",
+    title: "The Future of CRM Systems",
     category: "CRM SYSTEMS",
     readTime: "6 min read",
     date: "March 12, 2025",
     image: "/images/crm-future.jpg",
-    excerpt: "CRM systems are becoming more intelligent with AI-driven insights.",
+    excerpt:
+      "Customer relationship platforms are evolving with intelligent automation, data insights, and smarter decision-making capabilities for teams.",
     likes: "443",
-    tags: ["CRM", "Automation", "Sales", "AI"]
+    tags: ["CRM", "Automation", "AI"]
   },
   {
     slug: "authentic-leadership-digital",
-    title: "Building Authentic Leadership in Digital Organizations",
+    title: "Authentic Leadership in Digital Era",
     category: "LEADERSHIP",
     readTime: "5 min read",
     date: "March 10, 2025",
     image: "/images/digital-leadership.jpg",
-    excerpt: "Leadership in the digital age requires adaptability and empathy.",
+    excerpt:
+      "Leadership today requires adaptability, trust, and emotional intelligence to guide distributed teams in digital-first environments.",
     likes: "678",
-    tags: ["Leadership", "Culture", "Remote Work", "Trust"]
+    tags: ["Leadership", "Culture", "Trust"]
   },
   {
     slug: "automation-business-transformation",
-    title: "Automation: Beyond Efficiency to Business Transformation",
+    title: "Automation in Business Strategy",
     category: "AUTOMATION",
     readTime: "7 min read",
     date: "March 8, 2025",
     image: "/images/automation.jpg",
-    excerpt: "Automation drives efficiency and creates new business opportunities.",
+    excerpt:
+      "Automation extends beyond efficiency by enabling scalable growth, operational clarity, and new value creation opportunities.",
     likes: "521",
-    tags: ["RPA", "Automation", "Efficiency", "AI"]
+    tags: ["Automation", "Efficiency", "AI"]
   },
   {
     slug: "technology-ethics-business",
-    title: "Technology Ethics Through Business Lens",
+    title: "Technology Ethics in Business",
     category: "TECHNOLOGY",
     readTime: "9 min read",
     date: "March 5, 2025",
     image: "/images/tech.jpg",
-    excerpt: "Ethical considerations are critical in AI and blockchain adoption.",
+    excerpt:
+      "Ethical responsibility is becoming critical as organizations adopt artificial intelligence, blockchain, and emerging technologies.",
     likes: "634",
-    tags: ["Ethics", "AI", "Blockchain", "Responsibility"]
+    tags: ["Ethics", "AI", "Responsibility"]
   },
   {
     slug: "growth-strategies-for-startups",
-    title: "Growth Strategies for Startups in 2025",
+    title: "Growth Strategies for Startups",
     category: "BUSINESS STRATEGY",
     readTime: "5 min read",
     date: "March 2, 2025",
     image: "/images/startup-growth.jpg",
-    excerpt: "Startups must focus on product-market fit and scalability.",
+    excerpt:
+      "Startups succeed by focusing on product-market fit, scalable systems, and sustainable long-term business growth strategies.",
     likes: "421",
-    tags: ["Startup", "Growth", "Strategy", "Marketing"]
+    tags: ["Startup", "Growth", "Strategy"]
   }
 ];
 
-const categories = [
-  "ALL",
-  "DIGITAL TRANSFORMATION",
-  "CRM SYSTEMS",
-  "LEADERSHIP",
-  "AUTOMATION",
-  "TECHNOLOGY",
-  "BUSINESS STRATEGY"
-];
+const categories = ["ALL", "DIGITAL TRANSFORMATION", "CRM SYSTEMS", "LEADERSHIP", "AUTOMATION", "TECHNOLOGY", "BUSINESS STRATEGY"];
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("ALL");
