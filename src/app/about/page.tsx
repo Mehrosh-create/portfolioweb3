@@ -14,7 +14,6 @@ import Image from "next/image";
 const LogosSection = () => {
   const { theme } = useTheme();
 
-
   const logos = [
     { id: 1, src: "/Logo/logo-2.png", alt: "Logo 2", width: 300, height: 115 },
     { id: 2, src: "/Logo/logo-5-1.png", alt: "Logo 5", width: 300, height: 115 },
@@ -22,17 +21,22 @@ const LogosSection = () => {
     { id: 4, src: "/Logo/logo-7.png", alt: "Logo 7", width: 515, height: 186 },
   ];
 
-
   return (
-    <section className="logos-section py-8 sm:py-12 md:py-16 lg:py-20 bg-background relative overflow-hidden">
-      {/* TRUE FULL-WIDTH SLIM #0fb8af — ZERO LEFT/RIGHT GAPS */}
+    <section className="logos-section py-8 sm:py-12 md:py-16 lg:py-20 relative overflow-hidden">
+      {/* UPDATED GRADIENT BACKGROUND FOR LIGHT MODE */}
       {theme === "light" && (
-        <>
-          <div className="fixed inset-x-0 top-1/2 -translate-y-1/2 h-10 sm:h-12 md:h-14 lg:h-16 bg-[#0fb8af] -z-10 pointer-events-none"></div>
-          <div className="fixed inset-x-0 top-1/2 -translate-y-1/2 h-16 sm:h-20 md:h-24 lg:h-28 bg-[#0fb8af]/40 blur-3xl -z-20 pointer-events-none"></div>
-        </>
+        <div className="absolute inset-0 -z-20">
+          <div className="w-full h-full bg-gradient-to-br from-[#0fb8af] via-[#0ea59d] to-[#0d928a]">
+            {/* Optional subtle pattern overlay */}
+            <div 
+              className="absolute inset-0 opacity-10"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}
+            />
+          </div>
+        </div>
       )}
-
 
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
@@ -46,8 +50,7 @@ const LogosSection = () => {
             </p>
           </div>
 
-
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-center justify-center">
+         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-center justify-center">
             {logos.map((logo, index) => (
               <motion.div
                 key={logo.id}
@@ -58,17 +61,16 @@ const LogosSection = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.08 }}
               >
-                <div className="relative w-full max-w-[110px] xs:max-w-[120px] sm:max-w-[140px] md:max-w-[160px] lg:max-w-[180px] h-auto">
-                  {theme === "light" && (
-                    <div className="absolute inset-0 -m-3 sm:-m-4 md:-m-5 lg:-m-6 bg-[#0fb8af]/70 rounded-xl sm:rounded-2xl blur-lg sm:blur-xl -z-10"></div>
-                  )}
+               <div className="relative w-full max-w-[110px] xs:max-w-[120px] sm:max-w-[140px] md:max-w-[160px] lg:max-w-[180px] h-auto">
                   <div className="relative w-full h-auto aspect-[300/115]">
                     <Image
                       src={logo.src}
                       alt={logo.alt}
                       fill
                       className={`object-contain transition-all duration-500 drop-shadow-md sm:drop-shadow-lg hover:drop-shadow-xl ${
-                        theme === "light" ? "brightness-0 invert" : "grayscale hover:grayscale-0"
+                        theme === "light" 
+                          ? "brightness-0 invert-0"  // Changed from "invert" to "invert-0"
+                          : "grayscale hover:grayscale-0"
                       }`}
                       sizes="(max-width: 280px) 40vw, (max-width: 640px) 45vw, (max-width: 768px) 45vw, 22vw"
                       quality={95}
@@ -283,37 +285,36 @@ export default function About2() {
 
 
           {/* PROFILE IMAGE CARD - WITH HOVER REVEAL EFFECT */}
-          <FadeSlide direction="left" delay={0.3}>
-            <div className="order-1 lg:order-2 flex justify-center items-center px-1 sm:px-2 md:px-3">
-              <div className="w-full flex justify-center">
-                <div
-                  ref={profileImageRef}
-                  className="tc-elementor-card group"
-                  style={{
-                    backgroundImage: `url('/images/about-profile.jpg')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center top 25%",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                >
-                  {/* Fade overlay - only visible on hover */}
-                  <div className="tc-elementor-fade-overlay"></div>
+         <FadeSlide direction="left" delay={0.3}>
+  <div className="order-1 lg:order-2 flex justify-center items-center px-1 sm:px-2 md:px-3">
+    <div className="w-full flex justify-center">
+      <div
+        ref={profileImageRef}
+        className="tc-elementor-card group"
+        style={{
+          minHeight: "280px",
+        }}
+      >
+        {/* Use Image component instead of background-image */}
+        <Image
+          src="/images/about-profile.jpg" // <-- updated image path
+          alt="Profile Image"
+          fill
+          className="object-cover w-full h-full rounded-xl sm:rounded-2xl"
+          sizes="(max-width: 768px) 90vw, 500px"
+          quality={95}
+          loading="lazy"
+        />
 
 
-                  {/* Content container - hidden initially, shows on hover */}
-                  <div className="tc-elementor-content">
-                    <div className="tc-elementor-resting-content">
-                      <div className="tc-elementor-speaker-name">
-                        SHEIKH
-                        <br />
-                        NABEEL
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </FadeSlide>
+        {/* Content container - shows on hover */}
+        <div className="tc-elementor-content">
+       
+        </div>
+      </div>
+    </div>
+  </div>
+</FadeSlide>
         </div>
 
 
@@ -798,15 +799,3 @@ export default function About2() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-

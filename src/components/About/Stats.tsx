@@ -257,33 +257,40 @@ const StatsCounter = () => {
             </div>
           </div>
 
+{/* Main Title */}
+<h1
+  className={`text-xl sm:text-3xl md:text-3xl lg:text-4xl font-bold mb-3 leading-tight text-center relative ${themeColors.foreground}`}
+  style={{ fontFamily: '"Century Gothic", Inter, sans-serif' }}
+>
+  <span>Numbers That</span>{' '}
+  <span className="bg-gradient-to-r from-[#0fb8af] to-[#0da39a] bg-clip-text text-transparent">
+    Define Excellence
+  </span>
 
-          {/* Main Title */}
-          <h1 className={`text-xl sm:text-3xl md:text-3xl lg:text-4xl font-bold mb-3 leading-tight text-center relative ${themeColors.foreground}`}>
-            <span>Numbers That</span>
-            {' '}
-            <span className="bg-gradient-to-r from-[#0fb8af] to-[#0da39a] bg-clip-text text-transparent">
-              Define Excellence
-            </span>
-            {/* Title glow effect */}
-            <span className={`absolute -inset-4 ${
-              theme === 'dark'
-                ? 'bg-gradient-to-r from-[#0fb8af]/20 to-[#0da39a]/20'
-                : 'bg-gradient-to-r from-[#0fb8af]/10 to-[#0da39a]/10'
-            } blur-xl opacity-30 -z-10`}></span>
-          </h1>
+  {/* Title glow effect */}
+  <span
+    className={`absolute -inset-4 ${
+      theme === 'dark'
+        ? 'bg-gradient-to-r from-[#0fb8af]/20 to-[#0da39a]/20'
+        : 'bg-gradient-to-r from-[#0fb8af]/10 to-[#0da39a]/10'
+    } blur-xl opacity-30 -z-10`}
+  ></span>
+</h1>
 
-
-          {/* Description Text */}
-          <p className={`text-sm sm:text-base ${themeColors.mutedForeground} leading-relaxed mb-6 max-w-xl text-center relative`}>
-            Every milestone tells a story of dedication, innovation, and the relentless pursuit of perfection.
-            <span className={`absolute -inset-2 ${
-              theme === 'dark'
-                ? 'bg-gradient-to-r from-[#0fb8af]/5 to-transparent'
-                : 'bg-gradient-to-r from-[#0fb8af]/10 to-transparent'
-            } blur-md opacity-20 -z-10 rounded-full`}></span>
-          </p>
-
+{/* Description Text */}
+<p
+  className={`text-sm sm:text-base ${themeColors.mutedForeground} leading-relaxed mb-6 max-w-xl text-center relative`}
+  style={{ fontFamily: 'Inter, sans-serif' }}
+>
+  Every milestone tells a story of dedication, innovation, and the relentless pursuit of perfection.
+  <span
+    className={`absolute -inset-2 ${
+      theme === 'dark'
+        ? 'bg-gradient-to-r from-[#0fb8af]/5 to-transparent'
+        : 'bg-gradient-to-r from-[#0fb8af]/10 to-transparent'
+    } blur-md opacity-20 -z-10 rounded-full`}
+  ></span>
+</p>
 
           {/* Stats Grid Container with Animated Border */}
           <div className="relative w-full max-w-4xl">
@@ -527,6 +534,7 @@ const StatsCounter = () => {
               <h2
                 className="text-sm sm:text-base lg:text-lg font-bold mb-1.5"
                 style={{
+                   fontFamily: "Inter, sans-serif",
                   color: theme === 'dark' ? '#ffffff' : themeColors.foreground
                 }}
               >
@@ -535,6 +543,7 @@ const StatsCounter = () => {
               <p
                 className="text-xs sm:text-sm leading-relaxed"
                 style={{
+                  fontFamily: '"Century Gothic", Inter, sans-serif',
                   color: theme === 'dark' ? 'rgb(209 213 219)' : 'rgb(75 85 99)'
                 }}
               >
