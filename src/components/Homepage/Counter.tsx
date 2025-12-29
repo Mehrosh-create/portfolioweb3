@@ -32,28 +32,28 @@ const CounterSection: React.FC = () => {
   }, []);
 
   const cards: Card[] = [
-    {
-      name: "VICE",
-      description: "builds businesses",
-      fullDescription:
-        "I streamline and optimize business operations for maximum efficiency, scalability, and sustainable growth through strategic planning.",
-      img: "/images/card1.jpeg",
-    },
-    {
-      name: "FRIENDS",
-      description: "creates meaningful IP",
-      fullDescription:
-        "I implement intelligent automation systems and create valuable intellectual property that drives innovation.",
-      img: "/images/card2.jpeg",
-    },
-    {
-      name: "ACT",
-      description: "day trades attention",
-      fullDescription:
-        "From platform strategy to digital marketing, I help businesses dominate where attention actually lives.",
-      img: "/images/card3.jpg",
-    },
-  ];
+  {
+    name: "EXECUTE",
+    description: "move fast with focus",
+    fullDescription:
+      "I use proven frameworks and automation tools to deliver fast, reliable outcomes while maintaining quality, clarity, and long-term strategic direction.",
+    img: "/images/card1.jpeg",
+  },
+  {
+    name: "COLLAB",
+    description: "work as one team",
+    fullDescription:
+      "I work directly with your team to ensure smooth collaboration, clear communication, and practical knowledge transfer for lasting success.",
+    img: "/images/card2.jpeg",
+  },
+  {
+    name: "RESULTS",
+    description: "experience that delivers",
+    fullDescription:
+      "With years of hands-on experience and many successful projects, I bring consistent expertise across industries and business stages.",
+    img: "/images/card3.jpg",
+  },
+];
 
   return (
     <section
@@ -134,7 +134,7 @@ const CounterSection: React.FC = () => {
               <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
                 <div className="mb-4">
                   <h3
-                    className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2 uppercase tracking-wide group-hover:text-[#0fb8af] transition-colors duration-300"
+  className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 uppercase tracking-wide group-hover:text-[#0fb8af] transition-colors duration-300"
                     style={{
                       fontFamily: "'Century Gothic', sans-serif",
                       fontWeight: 900,
