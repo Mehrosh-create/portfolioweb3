@@ -112,9 +112,9 @@ const Testimonials = () => {
                 {/* Header */}
                 <div className="text-center mb-8 sm:mb-12 lg:mb-16">
                     <h1
-                        className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase text-foreground mb-4 sm:mb-6 lg:mb-8 leading-tight"
+                        className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black uppercase text-foreground mb-4 sm:mb-6 lg:mb-8 leading-tight"
                         style={{
-                            fontFamily: '"Bebas Neue", Arial, sans-serif',
+                            fontFamily: '"Century Gothic", Inter, sans-serif',
                             letterSpacing: "0.02em",
                         }}
                     >
@@ -131,9 +131,9 @@ const Testimonials = () => {
                             }}
                         ></span>
                         <span
-                            className="relative z-10 text-black text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-bold uppercase px-3 sm:px-4 lg:px-6 py-1 sm:py-2 inline-block"
+                            className="relative z-10 text-black text-xs xs:text-xs sm:text-sm md:text-base lg:text-lg font-bold uppercase px-3 sm:px-4 lg:px-6 py-1 sm:py-2 inline-block"
                             style={{
-                                fontFamily: '"Bebas Neue", Arial, sans-serif',
+                                fontFamily: '"Century Gothic", Inter, sans-serif',
                                 letterSpacing: "0.05em",
                             }}
                         >
@@ -173,7 +173,7 @@ const Testimonials = () => {
                             <p
                                 className="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-light italic leading-relaxed px-2 sm:px-4"
                                 style={{
-                                    fontFamily: 'Arial, "Helvetica Neue", Helvetica, sans-serif',
+                                    fontFamily: 'Inter, "Helvetica Neue", Helvetica, sans-serif',
                                 }}
                             >
                                 &ldquo;{testimonials[currentIndex].content}&rdquo;
@@ -237,9 +237,9 @@ const Testimonials = () => {
                 {/* All Testimonials Grid */}
                 <div className="mb-8 sm:mb-12 lg:mb-16">
                     <h2
-                        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-6 sm:mb-8 lg:mb-12 text-center uppercase"
+                        className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6 sm:mb-8 lg:mb-12 text-center uppercase"
                         style={{
-                            fontFamily: '"Bebas Neue", Arial, sans-serif',
+                            fontFamily: '"Century Gothic", Inter, sans-serif',
                             letterSpacing: "0.05em",
                         }}
                     >
@@ -298,32 +298,48 @@ const Testimonials = () => {
                     </div>
                 </div>
 
-                {/* CTA Section */}
-                <div className="py-16 px-6 bg-gray-dark">
-                    <div className="max-w-7xl mx-auto">
-                        <div className="bg-background border border-gray-600 rounded-lg p-8 lg:p-12 text-center">
-                            <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-4 uppercase">
-                                Ready to Join Our Success Stories?
-                            </h2>
-                            <p className="text-gray-light text-base mb-6 max-w-2xl mx-auto">
-                                Transform your business like our satisfied clients. Let&apos;s discuss
-                                your project and create your success story.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                                <Link href="/contact">
-                                    <button
-                                        className="relative px-6 py-3 border-2 border-[#0fb8af] text-[#0fb8af] font-semibold 
-                                         transition-all duration-300 ease-in-out
-                                         hover:bg-[#0fb8af] hover:text-black
-                                         active:bg-[#0fb8af] active:text-black"
-                                    >
-                                        Contact Me
-                                    </button>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               {/* CTA Section */}
+<div className="py-16 px-6 bg-gray-dark">
+  <div className="max-w-7xl mx-auto">
+    <div className="bg-background border border-gray-600 rounded-lg p-8 lg:p-12 text-center">
+      <h2
+        className="text-xl lg:text-2xl font-bold text-foreground mb-4 uppercase"
+        style={{
+          fontFamily: '"Century Gothic", Inter, sans-serif',
+          letterSpacing: "0.05em",
+        }}
+      >
+        Ready to Join Our Success Stories?
+      </h2>
+
+      <p
+        className="text-gray-light text-base mb-6 max-w-2xl mx-auto"
+        style={{
+          fontFamily: "Inter, sans-serif",
+        }}
+      >
+        Transform your business like our satisfied clients. Let&apos;s discuss
+        your project and create your success story.
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <Link href="/contact">
+          <button
+            className="relative px-6 py-3 border-2 border-[#0fb8af] text-[#0fb8af] font-semibold 
+            transition-all duration-300 ease-in-out
+            hover:bg-[#0fb8af] hover:text-black
+            active:bg-[#0fb8af] active:text-black"
+            style={{
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Contact Me
+          </button>
+        </Link>
+      </div>
+    </div>
+  </div>
+</div>
             </div>
 
             <style>

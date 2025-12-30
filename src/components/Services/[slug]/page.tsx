@@ -331,7 +331,7 @@ const serviceData: Record<string, Service> = {
       { name: "Medium Migration", price: "$5,000+", features: ["Up to 100GB data", "Advanced validation", "Priority support"], cta: "Start Migration" },
       { name: "Enterprise Migration", price: "Custom", features: ["Unlimited data", "Custom solutions", "24/7 support"], cta: "Contact Sales" }
     ],
-    technologies: ["ETL Tools", "SQL", "Python", "AWS DMS", "Apache Kafka"]
+    technologies: ["ETL ToCreate detailed roadmaps, wireframes, and architecture for your solution.ols", "SQL", "Python", "AWS DMS", "Apache Kafka"]
   },
   
   "staff-augmentation": {
