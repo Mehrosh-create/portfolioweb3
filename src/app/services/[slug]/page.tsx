@@ -40,7 +40,6 @@ import ServiceHero from '@/components/Services/[slug]/ServiceHero';
 import ServiceDetails from '@/components/Services/[slug]/ServiceDetails';
 import ServiceFeatures from '@/components/Services/[slug]/ServiceFeatures';
 import ServiceWorkflow from '@/components/Services/[slug]/ServiceWorkflow';
-import ServicePricing from '@/components/Services/[slug]/ServicePricing';
 import ServicesCTA from '@/components/Services/ServicesCTA';
 
 // Service data type
@@ -767,7 +766,6 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       <ServiceDetails service={service} />
       <ServiceFeatures service={service} />
       <ServiceWorkflow service={service} />
-      <ServicePricing service={service} />
       <ServicesCTA />
     </main>
   );
