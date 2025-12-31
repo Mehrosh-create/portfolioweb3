@@ -2,15 +2,46 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
-import FadeSlide from "@/components/Common/FadeSlide";
+import { motion, Variants } from "framer-motion";
 
-interface FeatureItem {
-  id: number;
-  text: string;
+/* ---------------------- FadeSlide Component ---------------------- */
+interface FadeSlideProps {
+  children: React.ReactNode;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right";
 }
 
-/* 🔁 NEW TITLES TO LOOP */
+const fadeVariants: Variants = {
+  hidden: (direction: string) => {
+    switch (direction) {
+      case "up": return { opacity: 0, y: 40 };
+      case "down": return { opacity: 0, y: -40 };
+      case "left": return { opacity: 0, x: 40 };
+      case "right": return { opacity: 0, x: -40 };
+      default: return { opacity: 0, y: 40 };
+    }
+  },
+  visible: { opacity: 1, x: 0, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } },
+};
+
+const FadeSlide: React.FC<FadeSlideProps> = ({ children, delay = 0, direction = "up" }) => (
+  <motion.div
+    custom={direction}
+    variants={fadeVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ delay, duration: 0.6, ease: "easeOut" }}
+  >
+    {children}
+  </motion.div>
+);
+
+/* ---------------------- HeroSection ---------------------- */
+interface FeatureItem { id: number; text: string; }
+
 const TITLES = [
   "Empowering Executive Decision-Making",
   "Shaping Future-Ready Organizations",
@@ -18,17 +49,23 @@ const TITLES = [
   "Transforming Vision into Impact",
 ];
 
+const HIGHLIGHT_WORDS = ["Empowering", "Future-Ready", "Strategic", "Impact"];
+
+const features: FeatureItem[] = [
+  { id: 1, text: "7+ Years Leadership Experience" },
+  { id: 2, text: "Board & C-Suite Advisory" },
+  { id: 3, text: "Digital Transformation Expert" },
+];
+
 const HeroSection: React.FC = () => {
   const themeContext = useTheme();
   const theme = themeContext?.theme ?? "light";
 
-  /* 🔤 TYPEWRITER STATES */
   const [text, setText] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  /* ✨ TYPE + ERASE EFFECT */
   useEffect(() => {
     const currentTitle = TITLES[titleIndex];
     let timeout: NodeJS.Timeout;
@@ -53,102 +90,97 @@ const HeroSection: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, titleIndex]);
 
-  const features: FeatureItem[] = [
-    { id: 1, text: "7+ Years Leadership Experience" },
-    { id: 2, text: "Board & C-Suite Advisory" },
-    { id: 3, text: "Digital Transformation Expert" },
-  ];
-
-  const trustedBy = [
-    { id: 1, text: "Fortune 500 Companies" },
-    { id: 2, text: "Global Enterprises" },
-  ];
-
   return (
-    <section
-      className={`relative py-16 sm:py-20 lg:py-24 ${
-        theme === "dark" ? "bg-[#151515]" : "bg-gray-50"
-      } overflow-hidden`}
-    >
+    <section className={`relative py-16 sm:py-20 lg:py-24 overflow-hidden ${theme === "dark" ? "bg-[#151515]" : "bg-gray-50"}`}>
+      {/* Background floating shapes */}
+      <div className="absolute -top-20 -left-20 w-96 h-96 bg-[#0FB8AF]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -right-24 w-[450px] h-[450px] bg-[#0FB8AF]/5 rounded-full blur-2xl pointer-events-none" />
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div className="space-y-8 text-center lg:text-left">
+            {/* Headline */}
             <FadeSlide delay={0.3}>
               <h1
-                className={`text-4xl md:text-5xl lg:text-6xl font-light min-h-[3.5rem] md:min-h-[4.5rem] ${
-                  theme === "dark" ? "text-white" : "text-gray-900"
-                }`}
+                className={`text-4xl md:text-5xl lg:text-6xl font-light min-h-[3.5rem] md:min-h-[4.5rem] ${theme === "dark" ? "text-white" : "text-gray-900"}`}
+                style={{ fontFamily: "'Century Gothic', sans-serif" }}
               >
-                {text}
+                {text.split(" ").map((word, idx) => (
+                  <span key={idx} className={`${HIGHLIGHT_WORDS.some(hw => word.includes(hw)) ? "text-[#0FB8AF]" : ""}`}>{word} </span>
+                ))}
                 <span className="inline-block ml-1 animate-pulse">|</span>
               </h1>
             </FadeSlide>
 
-            <p
-              className={`max-w-xl mx-auto lg:mx-0 ${
-                theme === "dark" ? "text-white/60" : "text-gray-600"
-              }`}
-            >
-              Navigating digital transformation, AI governance, and strategic
-              growth for sustainable success.
-            </p>
+            {/* Subheading */}
+            <FadeSlide delay={0.5}>
+              <p
+                className={`max-w-xl mx-auto lg:mx-0 text-lg ${theme === "dark" ? "text-white/60" : "text-gray-600"}`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Navigating digital transformation, AI governance, and board-level strategic growth for sustainable success.
+              </p>
+            </FadeSlide>
+
+            {/* CTA Buttons */}
+            <FadeSlide delay={0.7}>
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <a
+                  href="#contact"
+                  className="px-6 py-3 bg-[#0FB8AF] text-white rounded-xl font-medium text-sm sm:text-base shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Book a Consultation
+                </a>
+                <Link
+                  href="/about"
+                  className="px-6 py-3 border border-[#0FB8AF] text-[#0FB8AF] rounded-xl font-medium text-sm sm:text-base hover:bg-[#0FB8AF]/10 hover:scale-105 transition-all duration-300"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  View Experience
+                </Link>
+              </div>
+            </FadeSlide>
 
             {/* Features */}
-            <div className="space-y-3">
+            <div className="space-y-3 mt-6">
               {features.map((f, i) => (
-                <FadeSlide key={f.id} delay={0.5 + i * 0.1}>
-                  <div className="flex items-center gap-2 justify-center lg:justify-start">
-                    {/* ✅ Tick color updated to #0FB8AF */}
-                    <span className="text-[#0FB8AF]">✔</span>
-                    <span
-                      className={`text-sm ${
-                        theme === "dark"
-                          ? "text-white/70"
-                          : "text-gray-600"
-                      }`}
+                <FadeSlide key={f.id} delay={0.9 + i * 0.15} direction="up">
+                  <div className="flex items-center gap-3 justify-center lg:justify-start bg-white/5 dark:bg-black/10 px-4 py-2 rounded-full shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300">
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2 + i * 0.1, type: "spring" }}
+                      className="text-[#0FB8AF] text-lg"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
                     >
+                      ✔
+                    </motion.span>
+                    <span className={`text-sm ${theme === "dark" ? "text-white/70" : "text-gray-600"}`} style={{ fontFamily: "'Inter', sans-serif" }}>
                       {f.text}
                     </span>
                   </div>
                 </FadeSlide>
               ))}
             </div>
-
-            {/* Trusted By */}
-            <FadeSlide delay={1}>
-              <div className="flex gap-6 justify-center lg:justify-start text-xs uppercase tracking-widest">
-                {trustedBy.map((t) => (
-                  <span
-                    key={t.id}
-                    className={
-                      theme === "dark" ? "text-white/60" : "text-gray-600"
-                    }
-                  >
-                    {t.text}
-                  </span>
-                ))}
-              </div>
-            </FadeSlide>
           </div>
 
-          {/* Image */}
-          <FadeSlide delay={0.1}>
-            <div className="relative max-w-lg mx-auto w-full">
-              <div className="relative h-[520px] w-full rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="/images/sn.png"
-                  alt="Sheikh Nabeel"
-                  fill
-                  priority
-                  quality={100}
-                  sizes="100vw"
-                  className="object-cover"
-                  style={{ objectPosition: "65% center" }}
-                />
-              </div>
+          {/* Hero Image (Static, no animation, no gradient) */}
+          <div className="relative max-w-lg mx-auto w-full rounded-2xl overflow-hidden">
+            <div className="relative h-[520px] w-full rounded-2xl overflow-hidden">
+              <Image
+                src="/images/sn.png"
+                alt="Sheikh Nabeel"
+                fill
+                priority
+                quality={100}
+                sizes="100vw"
+                className="object-cover"
+                style={{ objectPosition: "65% center" }}
+              />
             </div>
-          </FadeSlide>
+          </div>
         </div>
       </div>
     </section>

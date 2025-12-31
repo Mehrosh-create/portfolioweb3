@@ -112,11 +112,12 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
     }
   };
 
+  // Slightly smaller nav link text sizes
   const getFontSize = () => {
     switch (screenSize) {
-      case "mobile": return "1rem";
-      case "tablet": return "1.1rem";
-      default: return "1.2rem";
+      case "mobile": return "0.95rem";
+      case "tablet": return "1rem";
+      default: return "1.1rem";
     }
   };
 
@@ -198,7 +199,7 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
             <ul
               className={`${screenSize === "mobile" ? "space-y-1" : screenSize === "tablet" ? "space-y-1.5" : "space-y-2"} w-full`}
             >
-              {[
+              {[ 
                 { href: "/", label: "HOME" },
                 { href: "/about", label: "ABOUT" },
                 { href: "/services", label: "SERVICES" },
@@ -206,7 +207,6 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
                 { href: "/contact", label: "CONTACT" },
               ].map((item) => {
                 const isActive = pathname === item.href;
-                // Show highlight if: currently hovering this item OR (this is active page AND nothing is being hovered)
                 const shouldHighlight = hoveredNav === item.href || (isActive && hoveredNav === null);
                 
                 return (
@@ -222,13 +222,11 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
                       className={`block px-4 ${screenSize === "mobile" ? "py-1.5" : "py-2"} relative transition-colors duration-300 ${currentTheme.navText}`}
                       onMouseEnter={() => setHoveredNav(item.href)}
                       onMouseLeave={() => setHoveredNav(null)}
-                      onClick={() => {
-                        if (screenSize !== "desktop") setIsOpen(false);
-                      }}
+                      onClick={() => { if (screenSize !== "desktop") setIsOpen(false); }}
                       style={{
-                        fontFamily: '"Bebas Neue", sans-serif',
+                        fontFamily: 'Century Gothic, sans-serif', // nav items
                         fontWeight: 100,
-                        fontSize: getFontSize(),
+                        fontSize: getFontSize(),                  // slightly smaller
                         letterSpacing: "0.02em",
                       }}
                     >
@@ -266,6 +264,7 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
                         rel="noopener noreferrer"
                         aria-label={social.label}
                         className={`relative ${screenSize === "mobile" ? "w-6 h-6" : "w-10 h-10"} overflow-hidden group block flex items-center justify-center`}
+                        style={{ fontFamily: 'Inter, sans-serif' }} // social icons/text
                       >
                         <span
                           className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0"

@@ -4,8 +4,13 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    
-    qualities: [25, 50, 75, 95, 100], 
+    qualities: [25, 50, 75, 95, 100],
+    domains: [
+      "images.unsplash.com",
+      "plus.unsplash.com",
+      "source.unsplash.com",
+      "cdn.prod.website-files.com",
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -29,8 +34,6 @@ const nextConfig = {
       },
     ],
   },
-  // In Next.js 15+, eslint config is moved to a separate top-level handling
-  // or handled via the CLI. To ignore it during builds now:
   typescript: {
     ignoreBuildErrors: true,
   },

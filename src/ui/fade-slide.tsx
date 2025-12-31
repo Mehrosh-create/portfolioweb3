@@ -1,8 +1,7 @@
-
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface FadeSlideProps {
   children: React.ReactNode;
@@ -10,37 +9,46 @@ interface FadeSlideProps {
   direction?: "up" | "down" | "left" | "right";
 }
 
-export const FadeSlide: React.FC<FadeSlideProps> = ({ 
-  children, 
-  delay = 0, 
-  direction = "up" 
+const FadeSlide: React.FC<FadeSlideProps> = ({
+  children,
+  delay = 0,
+  direction = "up",
 }) => {
-  const variants = {
-    hidden: { 
-      opacity: 0, 
-      y: direction === "up" ? 20 : direction === "down" ? -20 : 0, 
-      x: direction === "left" ? 20 : direction === "right" ? -20 : 0 
+  const variants: Variants = {
+    hidden: (dir: string) => {
+      switch (dir) {
+        case "up":
+          return { opacity: 0, y: 40 };
+        case "down":
+          return { opacity: 0, y: -40 };
+        case "left":
+          return { opacity: 0, x: 40 };
+        case "right":
+          return { opacity: 0, x: -40 };
+        default:
+          return { opacity: 0, y: 40 };
+      }
     },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      x: 0 
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: { type: "spring", stiffness: 100, damping: 20 },
     },
   };
-  
+
   return (
     <motion.div
+      custom={direction}
       variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ 
-        duration: 0.6, 
-        delay, 
-        ease: "easeOut" 
-      }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay, duration: 0.6, ease: "easeOut" }}
     >
       {children}
     </motion.div>
   );
 };
+
+export default FadeSlide;
