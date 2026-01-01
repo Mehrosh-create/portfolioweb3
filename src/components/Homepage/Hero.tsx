@@ -1,10 +1,12 @@
 "use client";
 
+
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, Variants } from "framer-motion";
+
 
 /* ---------------------- FadeSlide Component ---------------------- */
 interface FadeSlideProps {
@@ -12,6 +14,7 @@ interface FadeSlideProps {
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
 }
+
 
 const fadeVariants: Variants = {
   hidden: (direction: string) => {
@@ -26,6 +29,7 @@ const fadeVariants: Variants = {
   visible: { opacity: 1, x: 0, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } },
 };
 
+
 const FadeSlide: React.FC<FadeSlideProps> = ({ children, delay = 0, direction = "up" }) => (
   <motion.div
     custom={direction}
@@ -39,8 +43,10 @@ const FadeSlide: React.FC<FadeSlideProps> = ({ children, delay = 0, direction = 
   </motion.div>
 );
 
+
 /* ---------------------- HeroSection ---------------------- */
 interface FeatureItem { id: number; text: string; }
+
 
 const TITLES = [
   "Empowering Executive Decision-Making",
@@ -49,7 +55,9 @@ const TITLES = [
   "Transforming Vision into Impact",
 ];
 
+
 const HIGHLIGHT_WORDS = ["Empowering", "Future-Ready", "Strategic", "Impact"];
+
 
 const features: FeatureItem[] = [
   { id: 1, text: "7+ Years Leadership Experience" },
@@ -57,18 +65,22 @@ const features: FeatureItem[] = [
   { id: 3, text: "Digital Transformation Expert" },
 ];
 
+
 const HeroSection: React.FC = () => {
   const themeContext = useTheme();
   const theme = themeContext?.theme ?? "light";
+
 
   const [text, setText] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+
   useEffect(() => {
     const currentTitle = TITLES[titleIndex];
     let timeout: NodeJS.Timeout;
+
 
     if (!isDeleting && charIndex < currentTitle.length) {
       timeout = setTimeout(() => {
@@ -87,8 +99,10 @@ const HeroSection: React.FC = () => {
       setTitleIndex((prev) => (prev + 1) % TITLES.length);
     }
 
+
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, titleIndex]);
+
 
   return (
     <section className={`relative py-16 sm:py-20 lg:py-24 overflow-hidden ${theme === "dark" ? "bg-[#0A0C0C]" : "bg-white"}`}>
@@ -100,17 +114,19 @@ const HeroSection: React.FC = () => {
         theme === "dark" ? "bg-[#0FB8AF]/5" : "bg-[#0FB8AF]/3"
       }`} />
 
+
       {/* Top fade blend for light mode */}
       {theme === "light" && (
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-white to-transparent z-10 pointer-events-none" />
       )}
-      
+     
       {/* Bottom fade blend - different for light/dark mode */}
       <div className={`absolute bottom-0 left-0 right-0 h-32 z-10 pointer-events-none ${
-        theme === "dark" 
-          ? "bg-gradient-to-t from-[#0A0C0C] to-transparent" 
+        theme === "dark"
+          ? "bg-gradient-to-t from-[#0A0C0C] to-transparent"
           : "bg-gradient-to-t from-white to-transparent"
       }`} />
+
 
       <div className="container mx-auto px-4 relative z-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -133,6 +149,7 @@ const HeroSection: React.FC = () => {
               </h1>
             </FadeSlide>
 
+
             {/* Subheading */}
             <FadeSlide delay={0.5}>
               <p
@@ -144,6 +161,7 @@ const HeroSection: React.FC = () => {
                 Navigating digital transformation, AI governance, and board-level strategic growth for sustainable success.
               </p>
             </FadeSlide>
+
 
             {/* CTA Buttons */}
             <FadeSlide delay={0.7}>
@@ -165,13 +183,14 @@ const HeroSection: React.FC = () => {
               </div>
             </FadeSlide>
 
+
             {/* Features */}
             <div className="space-y-3 mt-6">
               {features.map((f, i) => (
                 <FadeSlide key={f.id} delay={0.9 + i * 0.15} direction="up">
                   <div className={`flex items-center gap-3 justify-center lg:justify-start px-4 py-2 rounded-full shadow-sm hover:shadow-lg hover:scale-105 transition-all duration-300 ${
-                    theme === "dark" 
-                      ? "bg-black/20 border border-white/5" 
+                    theme === "dark"
+                      ? "bg-black/20 border border-white/5"
                       : "bg-gray-50 border border-gray-100"
                   }`}>
                     <motion.span
@@ -194,15 +213,16 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
+
           {/* Hero Image with fade blend overlay */}
           <div className="relative max-w-lg mx-auto w-full rounded-2xl overflow-hidden">
             {/* Image fade blend overlay */}
             <div className={`absolute bottom-0 left-0 right-0 h-32 z-10 ${
-              theme === "dark" 
-                ? "bg-gradient-to-t from-[#0A0C0C] to-transparent" 
+              theme === "dark"
+                ? "bg-gradient-to-t from-[#0A0C0C] to-transparent"
                 : "bg-gradient-to-t from-white to-transparent"
             }`} />
-            
+           
             {/* Image container */}
             <div className="relative h-[520px] w-full rounded-2xl overflow-hidden">
               <Image
@@ -220,14 +240,18 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
+
       {/* Additional fade blend at the very bottom of the section */}
       <div className={`absolute bottom-0 left-0 right-0 h-32 pointer-events-none ${
-        theme === "dark" 
-          ? "bg-gradient-to-t from-[#0A0C0C] via-[#0A0C0C]/70 to-transparent" 
+        theme === "dark"
+          ? "bg-gradient-to-t from-[#0A0C0C] via-[#0A0C0C]/70 to-transparent"
           : "bg-gradient-to-t from-white via-white/70 to-transparent"
       }`} />
     </section>
   );
 };
 
+
 export default HeroSection;
+
+

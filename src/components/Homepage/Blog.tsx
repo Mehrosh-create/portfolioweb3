@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { blogArticles } from "@/data/blogArticles";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // Fade + Slide Animation
 const FadeSlide = ({
@@ -28,6 +29,7 @@ const FadeSlide = ({
 };
 
 const Blog = () => {
+  const { theme } = useTheme();
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [likeCounts, setLikeCounts] = useState<{ [key: string]: number }>({});
 
@@ -57,13 +59,13 @@ const Blog = () => {
   };
 
   return (
-    <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-background text-foreground">
+    <section className={`py-16 lg:py-24 px-4 sm:px-6 lg:px-8 ${theme === 'dark' ? 'bg-[#0A0C0C]' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <FadeSlide>
             <h2
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black uppercase mb-5 font-century-gothic-bold"
+              className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black uppercase mb-5 font-century-gothic-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
               style={{
                 letterSpacing: "0.02em",
               }}
@@ -72,7 +74,7 @@ const Blog = () => {
             </h2>
           </FadeSlide>
           <FadeSlide delay={0.2}>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto font-inter">
+            <p className={`text-lg lg:text-xl max-w-2xl mx-auto font-inter ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               Explore expert perspectives on digital transformation, leadership, CRM systems, and business innovation.
             </p>
           </FadeSlide>
@@ -83,7 +85,7 @@ const Blog = () => {
           {blogArticles.map((article) => (
             <FadeSlide key={article.slug}>
               <Link href={`/blog/${article.slug}`} className="group block h-full">
-                <article className="relative h-full bg-card rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-[#0fb8af]/20">
+                <article className={`relative h-full rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-[#0fb8af]/20 ${theme === 'dark' ? 'bg-[#1a1a1a] border border-gray-800' : 'bg-gray-50 border border-gray-200'}`}>
                   <div className="absolute inset-0 rounded-2xl border border-[#0fb8af]/10 group-hover:border-[#0fb8af]/40 transition-all duration-500 pointer-events-none" />
                   <div className="relative h-56 overflow-hidden">
                     <Image
@@ -97,7 +99,7 @@ const Blog = () => {
                   </div>
 
                   <div className="p-6">
-                    <div className="flex items-center justify-between text-sm text-foreground/70 mb-4">
+                    <div className={`flex items-center justify-between text-sm mb-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-[#0fb8af]" />
                         <span>{article.date}</span>
@@ -111,20 +113,22 @@ const Blog = () => {
                           className={`w-5 h-5 transition-all duration-300 ${
                             likedPosts.has(article.slug)
                               ? "fill-red-500 text-red-500 scale-110"
-                              : "text-foreground/50 hover:text-red-500"
+                              : `${theme === 'dark' ? 'text-gray-400 hover:text-red-500' : 'text-gray-500 hover:text-red-500'}`
                           }`}
                         />
-                        <span className="text-sm font-medium">{likeCounts[article.slug] || 0}</span>
+                        <span className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                          {likeCounts[article.slug] || 0}
+                        </span>
                       </button>
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-[#0fb8af] transition-colors duration-300 font-century-gothic-bold">
+                    <h3 className={`text-xl font-bold mb-3 line-clamp-2 group-hover:text-[#0fb8af] transition-colors duration-300 font-century-gothic-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                       {article.title}
                     </h3>
 
                     {/* Excerpt */}
-                    <p className="text-foreground/70 text-sm mb-6 line-clamp-3 font-inter">
+                    <p className={`text-sm mb-6 line-clamp-3 font-inter ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                       {article.excerpt}
                     </p>
 
@@ -142,7 +146,7 @@ const Blog = () => {
                       </div>
 
                       <div className="w-11 h-11 rounded-full bg-[#0fb8af]/10 flex items-center justify-center group-hover:bg-[#0fb8af] transition-all duration-300">
-                        <ArrowRight className="w-5 h-5 text-[#0fb8af] group-hover:text-black transition-all duration-300 group-hover:translate-x-1" />
+                        <ArrowRight className="w-5 h-5 text-[#0fb8af] group-hover:text-white transition-all duration-300 group-hover:translate-x-1" />
                       </div>
                     </div>
                   </div>
@@ -159,7 +163,7 @@ const Blog = () => {
           <FadeSlide delay={0.4}>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0fb8af] text-black font-bold uppercase tracking-wider rounded-lg hover:bg-[#00a89a] transition-all duration-300 font-inter"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[#0fb8af] text-white font-bold uppercase tracking-wider rounded-lg hover:bg-[#00a89a] transition-all duration-300 font-inter"
             >
               View All Articles <ArrowRight className="w-5 h-5" />
             </Link>

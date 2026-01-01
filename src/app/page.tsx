@@ -12,6 +12,10 @@ export default function Home() {
         <section id="home">
           <Hero />
         </section>
+{/* THIN DIVIDER LINE */}
+        <div className="w-full">
+          <div className="h-px w-full bg-[#0fb8af]/70"></div>
+        </div>
 
         <section id="counter">
           <CounterSection />
