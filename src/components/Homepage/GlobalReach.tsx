@@ -329,10 +329,24 @@ const GlobalReach: React.FC = () => {
 
   return (
     <section 
-      className={`py-16 sm:py-20 lg:py-24 ${
-        theme === 'dark' ? 'bg-[#151515]' : 'bg-white'
-      } relative overflow-hidden`}
+      className={`relative py-16 sm:py-20 lg:py-24 overflow-hidden ${
+        theme === 'dark' ? 'bg-[#0A0C0C]' : 'bg-white'
+      }`}
     >
+      {/* Top fade blend */}
+      <div className={`absolute top-0 left-0 right-0 h-32 z-10 pointer-events-none ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-b from-[#0A0C0C] to-transparent' 
+          : 'bg-gradient-to-b from-white to-transparent'
+      }`} />
+      
+      {/* Bottom fade blend */}
+      <div className={`absolute bottom-0 left-0 right-0 h-32 z-10 pointer-events-none ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-t from-[#0A0C0C] to-transparent' 
+          : 'bg-gradient-to-t from-white to-transparent'
+      }`} />
+      
       {/* Background pattern */}
       <div
         className="absolute inset-0 opacity-10"
@@ -344,7 +358,7 @@ const GlobalReach: React.FC = () => {
         }}
       />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-32">
           {/* Left Column - Content - Taking 45% width */}
           <div className="w-full lg:w-[45%] lg:pr-4">
@@ -387,7 +401,7 @@ const GlobalReach: React.FC = () => {
                     <div 
                       className={`${
                         theme === 'dark' 
-                          ? 'bg-[#1e1e1e] border-gray-800' 
+                          ? 'bg-[#1a1a1a] border-gray-800' 
                           : 'bg-gray-50 border-gray-200'
                       } rounded-xl p-6 sm:p-8 border transition-all duration-300 hover:shadow-lg hover:scale-[1.02]`}
                     >
@@ -431,7 +445,14 @@ const GlobalReach: React.FC = () => {
           {/* Right Column - Globe - Taking 55% width and positioned to the far right */}
           <FadeSlide delay={0.1}>
             <div className="w-full lg:w-[55%] flex justify-center lg:justify-end relative">
-              <div className="relative lg:-mr-32 lg:ml-16">
+              {/* Background fade blend for globe area */}
+              <div className={`absolute -left-16 right-0 top-1/2 -translate-y-1/2 h-96 w-[120%] z-0 pointer-events-none ${
+                theme === 'dark' 
+                  ? 'bg-gradient-to-l from-[#0A0C0C] via-[#0A0C0C]/90 to-transparent' 
+                  : 'bg-gradient-to-l from-white via-white/90 to-transparent'
+              }`} />
+              
+              <div className="relative lg:-mr-32 lg:ml-16 z-10">
                 <GlobeCard />
                 {/* Animated rings around globe */}
                 <div className="absolute inset-0 rounded-full border-3 border-[#0fb8af]/20 animate-ping" style={{top: '-10px', left: '-10px', right: '-10px', bottom: '-10px'}}></div>
@@ -448,7 +469,9 @@ const GlobalReach: React.FC = () => {
                     left: '-80px',
                     right: '-80px',
                     bottom: '-80px',
-                    background: `radial-gradient(circle, rgba(15, 184, 175, 0.2) 0%, rgba(15, 184, 175, 0.08) 40%, transparent 70%)`,
+                    background: theme === 'dark'
+                      ? 'radial-gradient(circle, rgba(15, 184, 175, 0.2) 0%, rgba(15, 184, 175, 0.08) 40%, transparent 70%)'
+                      : 'radial-gradient(circle, rgba(15, 184, 175, 0.15) 0%, rgba(15, 184, 175, 0.05) 40%, transparent 70%)',
                     filter: 'blur(30px)',
                   }}
                 />
@@ -459,11 +482,24 @@ const GlobalReach: React.FC = () => {
       </div>
 
       {/* Decorative elements - adjusted positions */}
-      <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-r from-[#0fb8af]/10 to-[#1fc8db]/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 left-10 w-40 h-40 bg-gradient-to-r from-[#0fb8af]/5 to-[#2af598]/5 rounded-full blur-3xl" />
+      <div className={`absolute top-10 right-10 w-32 h-32 rounded-full blur-3xl ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-r from-[#0fb8af]/10 to-[#1fc8db]/10' 
+          : 'bg-gradient-to-r from-[#0fb8af]/5 to-[#1fc8db]/5'
+      }`} />
+      
+      <div className={`absolute bottom-10 left-10 w-40 h-40 rounded-full blur-3xl ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-r from-[#0fb8af]/5 to-[#2af598]/5' 
+          : 'bg-gradient-to-r from-[#0fb8af]/3 to-[#2af598]/3'
+      }`} />
       
       {/* Additional decorative element for balance */}
-      <div className="absolute top-1/2 left-5 w-20 h-20 bg-gradient-to-r from-transparent to-[#0fb8af]/10 rounded-full blur-2xl" />
+      <div className={`absolute top-1/2 left-5 w-20 h-20 rounded-full blur-2xl ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-r from-transparent to-[#0fb8af]/10' 
+          : 'bg-gradient-to-r from-transparent to-[#0fb8af]/5'
+      }`} />
     </section>
   );
 };
