@@ -117,14 +117,14 @@ const HeroSection: React.FC = () => {
 
       {/* Top fade blend for light mode */}
       {theme === "light" && (
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/90 via-white/50 to-transparent z-10 pointer-events-none" />
       )}
      
       {/* Bottom fade blend - different for light/dark mode */}
       <div className={`absolute bottom-0 left-0 right-0 h-32 z-10 pointer-events-none ${
         theme === "dark"
           ? "bg-gradient-to-t from-[#0A0C0C] to-transparent"
-          : "bg-gradient-to-t from-white to-transparent"
+          : "bg-gradient-to-t from-white/80 via-white/40 to-transparent"
       }`} />
 
 
@@ -135,7 +135,7 @@ const HeroSection: React.FC = () => {
             {/* Headline */}
             <FadeSlide delay={0.3}>
               <h1
-                className={`text-4xl md:text-5xl lg:text-6xl font-light min-h-[3.5rem] md:min-h-[4.5rem] ${
+                className={`text-4xl md:text-5xl lg:text-6xl font-light h-[8rem] md:h-[9rem] lg:h-[10rem] ${
                   theme === "dark" ? "text-white" : "text-gray-900"
                 }`}
                 style={{ fontFamily: "'Century Gothic', sans-serif" }}
@@ -220,7 +220,7 @@ const HeroSection: React.FC = () => {
             <div className={`absolute bottom-0 left-0 right-0 h-32 z-10 ${
               theme === "dark"
                 ? "bg-gradient-to-t from-[#0A0C0C] to-transparent"
-                : "bg-gradient-to-t from-white to-transparent"
+                : "bg-gradient-to-t from-white/70 via-white/30 to-transparent"
             }`} />
            
             {/* Image container */}
@@ -245,7 +245,7 @@ const HeroSection: React.FC = () => {
       <div className={`absolute bottom-0 left-0 right-0 h-32 pointer-events-none ${
         theme === "dark"
           ? "bg-gradient-to-t from-[#0A0C0C] via-[#0A0C0C]/70 to-transparent"
-          : "bg-gradient-to-t from-white via-white/70 to-transparent"
+          : "bg-gradient-to-t from-white/70 via-white/40 to-transparent"
       }`} />
     </section>
   );
@@ -253,5 +253,3 @@ const HeroSection: React.FC = () => {
 
 
 export default HeroSection;
-
-
