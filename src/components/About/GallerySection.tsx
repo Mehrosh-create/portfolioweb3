@@ -1,38 +1,28 @@
-// components/About/GallerySection.tsx
 'use client';
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-// FadeSlide animation component
+/* ---------------------- FadeSlide ---------------------- */
 export const FadeSlide = ({
   children,
   delay = 0,
-  direction = "up",
 }: {
   children: React.ReactNode;
   delay?: number;
-  direction?: "up" | "down" | "left" | "right";
 }) => {
-  const variants = {
-    hidden: {
-      opacity: 0,
-      y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
-      x: direction === "left" ? 40 : direction === "right" ? -40 : 0,
-    },
-    visible: { opacity: 1, x: 0, y: 0 },
-  };
   return (
     <motion.div
-      variants={variants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
       transition={{
-        duration: 0.6,
+        duration: 0.9,
         delay,
-        ease: "easeOut",
+        ease: [0.16, 1, 0.3, 1],
       }}
     >
       {children}
@@ -40,237 +30,185 @@ export const FadeSlide = ({
   );
 };
 
-// Sliding highlights labels with animation behind text
+/* ---------------------- Professional Capsule Badge ---------------------- */
 const SlidingHighlight = ({ text }: { text: string }) => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
+
   return (
-    <div
-      ref={ref}
-      className="relative inline-block mx-auto mb-4 sm:mb-6 overflow-hidden"
-    >
-      <span
-        className={`absolute top-0 left-0 h-full w-0 bg-[#0fb8af] transition-all duration-700 ease-out ${
-          inView ? "w-full" : "w-0"
-        }`}
-      ></span>
-      <span
-        className="relative z-10 text-black dark:text-white font-bold tracking-wider uppercase whitespace-nowrap px-3 sm:px-4 py-1 sm:py-2 inline-block text-sm sm:text-base"
+    <div ref={ref} className="relative inline-block mx-auto mb-8">
+      {/* Solid #0FB8AF Capsule Background */}
+      <div className="absolute inset-0 bg-[#0FB8AF] rounded-full" />
+
+      {/* Sliding Reveal (white to teal) */}
+      <div
+        className="absolute inset-0 bg-white rounded-full origin-left transition-transform duration-1000 ease-out"
         style={{
-          fontFamily: '"Century Gothic", sans-serif',
-          fontWeight: 700,
-          letterSpacing: "0.08em",
+          transform: inView ? "scaleX(0)" : "scaleX(1)",
         }}
-      >
+      />
+
+      {/* Text */}
+      <span className="relative z-10 block px-8 py-3 text-sm font-bold tracking-widest uppercase text-white font-['Century_Gothic',sans-serif]">
         {text}
       </span>
     </div>
   );
 };
 
-// HoveredNav state with 65% width adjustment
-const HoveredNav = () => {
-  const [hovered, setHovered] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, width: 0 });
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
-    const element = e.currentTarget;
-    const rect = element.getBoundingClientRect();
-    setHovered(true);
-    setMousePosition({
-      x: rect.left,
-      width: rect.width * 0.65, // 65% width adjustment
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-  };
-
-  return (
-    <nav className="relative">
-      <ul className="flex space-x-8">
-        {["Home", "About", "Services", "Portfolio", "Contact"].map((item) => (
-          <li
-            key={item}
-            className="relative py-2 px-4 cursor-pointer text-foreground"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            {item}
-            {hovered && (
-              <motion.div
-                className="absolute bottom-0 left-0 h-1 bg-[#0fb8af]"
-                initial={{ width: 0 }}
-                animate={{ width: mousePosition.width }}
-                transition={{ duration: 0.3 }}
-              />
-            )}
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-};
-
+/* ---------------------- Types & Data ---------------------- */
 interface GalleryItem {
   id: number;
-  href: string;
   title: string;
+  description: string;
   src: string;
-  width: number;
-  height: number;
 }
 
 const galleryItems: GalleryItem[] = [
-  {
-    id: 1,
-    href: "/images/Business-Strategy-Brand-Consulting-1.jpg",
-    title: "BUSINESS STRATEGY",
-    src: "/images/Business-Strategy-Brand-Consulting-1.jpg",
-    width: 900,
-    height: 900,
-  },
-  {
-    id: 2,
-    href: "/images/CRM-Client-Experience.jpg",
-    title: "CRM CLIENT EXPERIENCE",
-    src: "/images/CRM-Client-Experience.jpg",
-    width: 900,
-    height: 900,
-  },
-  {
-    id: 3,
-    href: "/images/Business-Systems-Operations.jpg",
-    title: "BUSINESS SYSTEMS OPERATIONS",
-    src: "/images/Business-Systems-Operations.jpg",
-    width: 900,
-    height: 900,
-  },
-  {
-    id: 4,
-    href: "/images/Account-Team-Management1-scaled.jpg",
-    title: "ACCOUNT TEAM MANAGEMENT",
-    src: "/images/Account-Team-Management1-scaled.jpg",
-    width: 2560,
-    height: 2560,
-  },
-  {
-    id: 5,
-    href: "/images/CRM-Client-Experience1-scaled.jpg",
-    title: "CRM CLIENT",
-    src: "/images/CRM-Client-Experience1-scaled.jpg",
-    width: 2560,
-    height: 2560,
-  },
-  {
-    id: 6,
-    href: "/images/digital-markiting-3.jpg",
-    title: "DIGITAL MARKETING",
-    src: "/images/digital-markiting-3.jpg",
-    width: 900,
-    height: 900,
-  },
+  { id: 1, title: "Business Strategy", description: "Strategic consulting & brand development", src: "/images/Business-Strategy-Brand-Consulting-1.jpg" },
+  { id: 2, title: "CRM Client Experience", description: "Customer relationship management", src: "/images/CRM-Client-Experience.jpg" },
+  { id: 3, title: "Business Systems", description: "Operations & system optimization", src: "/images/Business-Systems-Operations.jpg" },
+  { id: 4, title: "Team Management", description: "Account & team coordination", src: "/images/Account-Team-Management1-scaled.jpg" },
+  { id: 5, title: "Client Solutions", description: "Comprehensive CRM solutions", src: "/images/CRM-Client-Experience1-scaled.jpg" },
+  { id: 6, title: "Digital Marketing", description: "Modern marketing strategies", src: "/images/digital-markiting-3.jpg" },
 ];
 
-const GallerySection = () => {
-  const openLightbox = (index: number) => {
-    console.log("Open lightbox for item:", index);
-  };
+/* ---------------------- Split into two columns ---------------------- */
+const leftColumn = galleryItems.filter((_, i) => i % 2 === 0);
+const rightColumn = galleryItems.filter((_, i) => i % 2 === 1);
+const duplicatedLeft = [...leftColumn, ...leftColumn, ...leftColumn];
+const duplicatedRight = [...rightColumn, ...rightColumn, ...rightColumn];
+
+/* ---------------------- Component ---------------------- */
+const InsightsSection = () => {
+  const [hoveredCol, setHoveredCol] = useState<number | null>(null);
 
   return (
-    <FadeSlide direction="up" delay={0.5}>
-      <section className="gallery-section py-12 md:py-16 lg:py-20 bg-background">
-        <div className="text-center mb-12">
-          <SlidingHighlight text="OUR EXPERTISE" />
-          <h2
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4"
-            style={{ fontFamily: '"Century Gothic", sans-serif' }}
-          >
-            Visual Showcase of Our Work
-          </h2>
-          <p
-            className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto"
-            style={{ fontFamily: '"Inter", sans-serif' }}
-          >
-            Explore our portfolio of successful projects and business
-            transformations
-          </p>
-        </div>
+    <section className="py-24 bg-background font-['Inter',sans-serif]">
+      <div className="max-w-[1600px] mx-auto px-4">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* Left: Text Content */}
+          <div className="text-left space-y-8 lg:sticky lg:top-24">
+            <FadeSlide>
+              <SlidingHighlight text="Featured Insights" />
+            </FadeSlide>
 
-        <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
-          {/* Left Column - Single Large Image */}
-          <motion.div
-            className="lg:w-1/2"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div
-              className="relative overflow-hidden rounded-lg group cursor-pointer"
-              onClick={() => openLightbox(0)}
-            >
-              <div
-                className="aspect-square bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                style={{
-                  backgroundImage: `url('${galleryItems[0].src}')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3
-                    className="text-xl font-bold mb-2"
-                    style={{ fontFamily: '"Century Gothic", sans-serif' }}
-                  >
-                    {galleryItems[0].title}
-                  </h3>
-                  <div className="w-12 h-1 bg-[#0fb8af] mb-3"></div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+            <FadeSlide delay={0.2}>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground font-['Century_Gothic',sans-serif]">
+                Stories of our{" "}
+                <span className="text-[#0FB8AF]">transformations</span> across Services and Industries
+              </h2>
+            </FadeSlide>
 
-          {/* Right Column - 2x2 Grid */}
-          <div className="lg:w-1/2 grid grid-cols-2 gap-4 md:gap-6">
-            {galleryItems.slice(1, 5).map((item, index) => (
-              <motion.div
-                key={item.id}
-                className="relative overflow-hidden rounded-lg group cursor-pointer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={() => openLightbox(index + 1)}
+            <FadeSlide delay={0.4}>
+              <p className="text-xl text-muted-foreground">
+                From Concept to Completion
+              </p>
+            </FadeSlide>
+
+            <FadeSlide delay={0.6}>
+              <Link
+                href="/learning"
+                className="inline-block px-8 py-4 bg-[#0FB8AF] text-white font-medium rounded-xl hover:scale-105 transition-transform duration-300 font-['Century_Gothic',sans-serif]"
               >
-                <div
-                  className="aspect-square bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                  style={{
-                    backgroundImage: `url('${item.src}')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <h3
-                      className="text-base font-bold mb-1"
-                      style={{ fontFamily: '"Century Gothic", sans-serif' }}
-                    >
-                      {item.title}
-                    </h3>
-                    <div className="w-8 h-1 bg-[#0fb8af]"></div>
+                Explore More
+              </Link>
+            </FadeSlide>
+          </div>
+
+          {/* Right: Scrolling Gallery Columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {/* Left Column - Scrolls Down */}
+            <div
+              className="relative overflow-hidden h-[800px]"
+              onMouseEnter={() => setHoveredCol(0)}
+              onMouseLeave={() => setHoveredCol(null)}
+            >
+              <motion.div
+                animate={{ y: ["0%", "-33.33%"] }}
+                transition={{
+                  y: {
+                    duration: hoveredCol === 0 ? 80 : 40,
+                    repeat: Infinity,
+                    ease: "linear",
+                  },
+                }}
+                className="flex flex-col gap-8"
+              >
+                {duplicatedLeft.map((item, idx) => (
+                  <div
+                    key={`${item.id}-left-${idx}`}
+                    className="relative group rounded-3xl overflow-hidden bg-card text-card-foreground shadow-lg h-[420px]"
+                  >
+                    <div className="relative h-[280px] overflow-hidden">
+                      <Image
+                        src={item.src}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold mb-2 font-['Century_Gothic',sans-serif]">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                ))}
               </motion.div>
-            ))}
+            </div>
+
+            {/* Right Column - Scrolls Up */}
+            <div
+              className="relative overflow-hidden h-[800px]"
+              onMouseEnter={() => setHoveredCol(1)}
+              onMouseLeave={() => setHoveredCol(null)}
+            >
+              <motion.div
+                animate={{ y: ["-33.33%", "0%"] }}
+                transition={{
+                  y: {
+                    duration: hoveredCol === 1 ? 90 : 45,
+                    repeat: Infinity,
+                    ease: "linear",
+                  },
+                }}
+                className="flex flex-col gap-8"
+              >
+                {duplicatedRight.map((item, idx) => (
+                  <div
+                    key={`${item.id}-right-${idx}`}
+                    className="relative group rounded-3xl overflow-hidden bg-card text-card-foreground shadow-lg h-[420px]"
+                  >
+                    <div className="relative h-[280px] overflow-hidden">
+                      <Image
+                        src={item.src}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold mb-2 font-['Century_Gothic',sans-serif]">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </div>
-      </section>
-    </FadeSlide>
+      </div>
+    </section>
   );
 };
 
-export default GallerySection;
-export { HoveredNav, SlidingHighlight };
+export default InsightsSection;
