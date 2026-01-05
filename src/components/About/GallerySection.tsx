@@ -94,14 +94,14 @@ const InsightsSection = () => {
 
             <FadeSlide delay={0.2}>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground font-['Century_Gothic',sans-serif]">
-                Stories of our{" "}
-                <span className="text-[#0FB8AF]">transformations</span> across Services and Industries
+                From{" "}
+                <span className="text-[#0FB8AF]">Concept </span>to Completion
               </h2>
             </FadeSlide>
 
             <FadeSlide delay={0.4}>
               <p className="text-xl text-muted-foreground">
-                From Concept to Completion
+                Explore our portfolio of successful projects and business transformations
               </p>
             </FadeSlide>
 
