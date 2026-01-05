@@ -1,11 +1,10 @@
-
 "use client";
 
 import { useState, useEffect, createContext, useContext } from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Footer from "@/components/Global/Footer";
 import ScrollToTop from "@/components/Global/ScrollToTop";
-import CustomCursor from "@/components/Global/CustomCursor";
+import CustomCursor from "@/components/Global/CustomCursor"; // ← Already added
 import { X } from "lucide-react";
 import { blogArticles, BlogArticle } from "@/data/blogArticles";
 import StyledComponentsRegistry from "@/lib/registry";
@@ -82,10 +81,10 @@ export default function ClientLayout({
     <StyledComponentsRegistry>
       <SearchContext.Provider value={{ showSearch, setShowSearch }}>
         <div className="flex min-h-screen flex-col">
-          {/* Custom Cursor */}
+          {/* Custom Cursor - Active on ALL pages */}
           <CustomCursor />
 
-          {/* Sidebar - Fixed on desktop */}
+          {/* Sidebar */}
           <Sidebar onSearchClick={handleSearchClick} />
 
           {/* Search Overlay */}
@@ -105,7 +104,9 @@ export default function ClientLayout({
                     autoFocus
                     className="w-full bg-transparent text-foreground border-0 text-3xl font-black tracking-widest focus:outline-none pr-16"
                   />
+
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-[#0FB8AF]" />
+
                   <button
                     type="button"
                     onClick={handleSearchClose}
@@ -132,6 +133,7 @@ export default function ClientLayout({
                               className="object-cover w-full h-full"
                             />
                           </div>
+
                           <div className="p-4">
                             <h4 className="font-bold text-lg group-hover:text-[#0fb8af] transition">
                               {article.title}
@@ -146,19 +148,13 @@ export default function ClientLayout({
             </div>
           )}
 
-          {/* Main Content - Reduced, balanced spacing */}
-          <main className="flex-1 ml-0 lg:ml-64">
-            <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-10">
-              {children}
-            </div>
-          </main>
+          {/* Page Content */}
+          <main className="flex-1 ml-0 lg:ml-64">{children}</main>
 
-          {/* Footer - Same reduced spacing */}
-          <div className="mx-auto w-full max-w-7xl px-4 md:px-8 lg:px-10">
-            <Footer />
-          </div>
+          {/* Footer */}
+          <Footer />
 
-          {/* Scroll To Top */}
+          {/* Scroll To Top Button */}
           <ScrollToTop />
         </div>
       </SearchContext.Provider>
