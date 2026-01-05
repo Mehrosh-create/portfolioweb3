@@ -4,9 +4,8 @@ import { useState, useEffect, createContext, useContext } from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Footer from "@/components/Global/Footer";
 import ScrollToTop from "@/components/Global/ScrollToTop";
-import { X, Calendar, Heart, MessageCircle } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import CustomCursor from "@/components/Global/CustomCursor"; // ← Already added
+import { X } from "lucide-react";
 import { blogArticles, BlogArticle } from "@/data/blogArticles";
 import StyledComponentsRegistry from "@/lib/registry";
 
@@ -82,6 +81,9 @@ export default function ClientLayout({
     <StyledComponentsRegistry>
       <SearchContext.Provider value={{ showSearch, setShowSearch }}>
         <div className="flex min-h-screen flex-col">
+          {/* Custom Cursor - Active on ALL pages */}
+          <CustomCursor />
+
           {/* Sidebar */}
           <Sidebar onSearchClick={handleSearchClick} />
 
@@ -117,7 +119,7 @@ export default function ClientLayout({
                 {filteredArticles.length > 0 && (
                   <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredArticles.map((article) => (
-                      <Link
+                      <a
                         key={article.slug}
                         href={`/blog/${article.slug}`}
                         onClick={handleSearchClose}
@@ -125,11 +127,10 @@ export default function ClientLayout({
                       >
                         <div className="border border-gray-800 hover:border-[#0fb8af] transition">
                           <div className="relative h-48">
-                            <Image
+                            <img
                               src={article.image}
                               alt={article.title}
-                              fill
-                              className="object-cover"
+                              className="object-cover w-full h-full"
                             />
                           </div>
 
@@ -139,7 +140,7 @@ export default function ClientLayout({
                             </h4>
                           </div>
                         </div>
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 )}
