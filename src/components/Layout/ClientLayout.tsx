@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useState, useEffect, createContext, useContext } from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Footer from "@/components/Global/Footer";
-import ScrollToTop from "@/components/Global/ScrollToTop";
-import CustomCursor from "@/components/Global/CustomCursor"; // ← Already added
+import CustomCursor from "@/components/Global/CustomCursor";
+import GlobalElements from "@/components/Global/GlobalElements"; // ← Add this
 import { X } from "lucide-react";
 import { blogArticles, BlogArticle } from "@/data/blogArticles";
 import StyledComponentsRegistry from "@/lib/registry";
@@ -44,6 +45,7 @@ export default function ClientLayout({
       setShowSearch(false);
       setIsClosing(false);
       setSearchQuery("");
+      setFilteredArticles([]);
     }, 400);
   };
 
@@ -72,7 +74,6 @@ export default function ClientLayout({
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") handleSearchClose();
     };
-
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
@@ -80,8 +81,8 @@ export default function ClientLayout({
   return (
     <StyledComponentsRegistry>
       <SearchContext.Provider value={{ showSearch, setShowSearch }}>
-        <div className="flex min-h-screen flex-col">
-          {/* Custom Cursor - Active on ALL pages */}
+        <div className="flex min-h-screen flex-col relative">
+          {/* Custom Cursor - Global */}
           <CustomCursor />
 
           {/* Sidebar */}
@@ -90,9 +91,9 @@ export default function ClientLayout({
           {/* Search Overlay */}
           {showSearch && (
             <div
-              className={`fixed top-0 left-0 lg:left-64 right-0 bg-background py-16 px-8 z-40 ${
+              className={`fixed inset-x-0 top-0 bg-background py-16 px-8 z-50 ${
                 isClosing ? "animate-slideUp" : "animate-slideDown"
-              }`}
+              } lg:left-64`}
             >
               <div className="max-w-7xl mx-auto">
                 <form onSubmit={handleSearchSubmit} className="relative mt-6">
@@ -104,9 +105,7 @@ export default function ClientLayout({
                     autoFocus
                     className="w-full bg-transparent text-foreground border-0 text-3xl font-black tracking-widest focus:outline-none pr-16"
                   />
-
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-[#0FB8AF]" />
-
                   <button
                     type="button"
                     onClick={handleSearchClose}
@@ -126,14 +125,13 @@ export default function ClientLayout({
                         className="group"
                       >
                         <div className="border border-gray-800 hover:border-[#0fb8af] transition">
-                          <div className="relative h-48">
+                          <div className="relative h-48 overflow-hidden">
                             <img
                               src={article.image}
                               alt={article.title}
-                              className="object-cover w-full h-full"
+                              className="object-cover w-full h-full group-hover:scale-105 transition"
                             />
                           </div>
-
                           <div className="p-4">
                             <h4 className="font-bold text-lg group-hover:text-[#0fb8af] transition">
                               {article.title}
@@ -148,14 +146,15 @@ export default function ClientLayout({
             </div>
           )}
 
-          {/* Page Content */}
+          {/* Main Content */}
           <main className="flex-1 ml-0 lg:ml-64">{children}</main>
 
           {/* Footer */}
           <Footer />
 
-          {/* Scroll To Top Button */}
-          <ScrollToTop />
+          {/* Global Floating Elements: Messenger + ScrollToTop */}
+          {/* These are outside the main flow → always visible, even over sidebar on desktop */}
+          <GlobalElements />
         </div>
       </SearchContext.Provider>
     </StyledComponentsRegistry>
