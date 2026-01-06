@@ -1,4 +1,3 @@
-// components/services/[slug]/ServiceDetails.tsx
 "use client";
 
 import { motion } from 'framer-motion';
@@ -26,37 +25,44 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
         ? "bg-gradient-to-b from-gray-900 to-black" 
         : "bg-gradient-to-b from-gray-50 to-white"
     }`}>
+      <style jsx>{`
+        .heading-font {
+          font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        }
+        .body-font {
+          font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+      `}</style>
+
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left Column - Detailed Description */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0fb8af]/10 border border-[#0fb8af]/20 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0fb8af]/10 border border-[#0fb8af]/20 mb-8 body-font">
               <FileText className="w-4 h-4 text-[#0fb8af]" />
               <span className="text-[#0fb8af] text-sm font-medium">Service Details</span>
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 heading-font">
               About Our <span className="text-[#0fb8af]">{service.title}</span>
             </h2>
 
-            <p className={`text-lg leading-relaxed mb-6 ${
+            <p className={`text-lg leading-relaxed mb-6 body-font ${
               isDark ? "text-gray-300" : "text-gray-600"
             }`}>
               {service.longDescription}
             </p>
 
-            {/* Key Highlights */}
             <div className={`p-6 rounded-xl mb-8 ${
               isDark 
                 ? "bg-gray-900/50 border border-gray-800" 
                 : "bg-white border border-gray-200"
             }`}>
-              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2 heading-font">
                 <BarChart className="w-5 h-5 text-[#0fb8af]" />
                 Key Highlights
               </h3>
@@ -64,7 +70,7 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
                 {service.deliverables?.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-[#0fb8af] mt-0.5 flex-shrink-0" />
-                    <span className={isDark ? "text-gray-300" : "text-gray-700"}>
+                    <span className={`body-font ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                       {item}
                     </span>
                   </li>
@@ -73,7 +79,6 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
             </div>
           </motion.div>
 
-          {/* Right Column - Technologies */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -85,7 +90,7 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
                 ? "bg-gray-900/50 border border-gray-800" 
                 : "bg-white border border-gray-200 shadow-xl"
             }`}>
-              <h3 className="text-2xl font-bold mb-8">
+              <h3 className="text-2xl font-bold mb-8 heading-font">
                 <span className="text-[#0fb8af]">Technologies</span> We Use
               </h3>
 
@@ -97,7 +102,7 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className={`px-4 py-3 rounded-lg text-center ${
+                    className={`px-4 py-3 rounded-lg text-center body-font ${
                       isDark 
                         ? "bg-gray-800 hover:bg-gray-700" 
                         : "bg-gray-100 hover:bg-gray-200"
@@ -108,7 +113,6 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
                 ))}
               </div>
 
-              {/* Security Badge */}
               <div className={`p-6 rounded-xl ${
                 isDark 
                   ? "bg-gray-800/50 border border-gray-700" 
@@ -116,9 +120,9 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
               }`}>
                 <div className="flex items-center gap-3 mb-4">
                   <Shield className="w-6 h-6 text-[#0fb8af]" />
-                  <h4 className="text-lg font-bold">Security & Compliance</h4>
+                  <h4 className="text-lg font-bold heading-font">Security & Compliance</h4>
                 </div>
-                <p className={`text-sm ${
+                <p className={`text-sm body-font ${
                   isDark ? "text-gray-400" : "text-gray-600"
                 }`}>
                   All our services include enterprise-grade security measures, regular audits, and compliance with industry standards including GDPR, SOC 2, and ISO 27001.

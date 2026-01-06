@@ -1,4 +1,3 @@
-// components/services/[slug]/ServiceFeatures.tsx
 "use client";
 
 import { motion } from 'framer-motion';
@@ -24,8 +23,16 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
         ? "bg-gradient-to-b from-black to-gray-900" 
         : "bg-gradient-to-b from-white to-gray-50"
     }`}>
+      <style jsx>{`
+        .heading-font {
+          font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        }
+        .body-font {
+          font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+      `}</style>
+
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -33,23 +40,22 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0fb8af]/10 border border-[#0fb8af]/20 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0fb8af]/10 border border-[#0fb8af]/20 mb-6 body-font">
             <Check className="w-4 h-4 text-[#0fb8af]" />
             <span className="text-[#0fb8af] text-sm font-medium">Key Features</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 heading-font">
             {service.title} <span className="text-[#0fb8af]">Features</span>
           </h2>
           
-          <p className={`text-lg max-w-3xl mx-auto ${
+          <p className={`text-lg max-w-3xl mx-auto body-font ${
             isDark ? "text-gray-400" : "text-gray-600"
           }`}>
             Comprehensive features designed to address your specific needs and drive business growth
           </p>
         </motion.div>
 
-        {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {service.features.map((feature, index) => {
             const Icon = featureIcons[index] || Check;
@@ -71,17 +77,16 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
                   <Icon className="w-7 h-7 text-white" />
                 </div>
                 
-                <h3 className="text-xl font-bold mb-4">Feature {index + 1}</h3>
+                <h3 className="text-xl font-bold mb-4 heading-font">Feature {index + 1}</h3>
                 
-                <p className={`leading-relaxed ${
+                <p className={`leading-relaxed body-font ${
                   isDark ? "text-gray-300" : "text-gray-600"
                 }`}>
                   {feature}
                 </p>
 
-                {/* Hover Indicator */}
                 <div className="mt-6 pt-6 border-t border-gray-800/30">
-                  <div className="flex items-center text-[#0fb8af] text-sm font-medium">
+                  <div className="flex items-center text-[#0fb8af] text-sm font-medium body-font">
                     <span>Learn More</span>
                     <div className="w-8 h-0.5 bg-[#0fb8af] ml-2 group-hover:w-16 transition-all duration-300" />
                   </div>
@@ -91,7 +96,6 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
           })}
         </div>
 
-        {/* Bottom Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -116,7 +120,7 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
                   <div className="text-3xl font-bold text-[#0fb8af] mb-2">
                     {stat.value}
                   </div>
-                  <div className={`text-sm font-medium ${
+                  <div className={`text-sm font-medium body-font ${
                     isDark ? "text-gray-400" : "text-gray-600"
                   }`}>
                     {stat.label}

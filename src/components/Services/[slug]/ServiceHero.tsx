@@ -1,8 +1,7 @@
-// components/services/[slug]/ServiceHero.tsx
 "use client";
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, Clock, Users, Target, Zap, Star } from 'lucide-react';
+import { ArrowRight, Check, Clock } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import Image from 'next/image';
 
@@ -19,7 +18,6 @@ const ServiceHero = ({ service }: ServiceHeroProps) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  // Service-specific background images
   const serviceImages: Record<string, string> = {
     "accuracy-verification": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
     "ecommerce-solutions": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
@@ -39,10 +37,18 @@ const ServiceHero = ({ service }: ServiceHeroProps) => {
         ? "bg-gradient-to-b from-black via-gray-900 to-black" 
         : "bg-gradient-to-b from-white via-gray-50 to-white"
     }`}>
-      {/* Background Image */}
+      <style jsx>{`
+        .heading-font {
+          font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        }
+        .body-font {
+          font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+      `}</style>
+
       <div className="absolute inset-0">
         <Image
-          src={serviceImages[service.title.toLowerCase().replace(/\s+/g, '-').replace('solutions', 'solutions')] || defaultImage}
+          src={serviceImages[service.title.toLowerCase().replace(/\s+/g, '-')] || defaultImage}
           alt={service.title}
           fill
           className="object-cover opacity-10"
@@ -53,72 +59,39 @@ const ServiceHero = ({ service }: ServiceHeroProps) => {
 
       <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0fb8af]/10 border border-[#0fb8af]/20 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0fb8af]/10 border border-[#0fb8af]/20 mb-8 body-font">
               {service.icon}
               <span className="text-[#0fb8af] text-sm font-medium">{service.title}</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight heading-font">
               {service.title}
             </h1>
 
-            <p className={`text-xl mb-8 leading-relaxed ${
+            <p className={`text-xl mb-8 leading-relaxed body-font ${
               isDark ? "text-gray-300" : "text-gray-600"
             }`}>
               {service.longDescription}
             </p>
 
-            {/* Quick Stats */}
-            <div className="flex flex-wrap gap-6 mb-8">
-              {[
-                { icon: Clock, value: "24/7", label: "Support" },
-                { icon: Target, value: "99.9%", label: "Uptime" },
-                { icon: Users, value: "Expert", label: "Team" },
-                { icon: Zap, value: "Fast", label: "Delivery" }
-              ].map((stat, index) => {
-                const Icon = stat.icon;
-                return (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.2 + index * 0.1 }}
-                    className="flex items-center gap-3"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-[#0fb8af]/10 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-[#0fb8af]" />
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold">{stat.value}</div>
-                      <div className="text-sm text-gray-500">{stat.label}</div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-[#0fb8af] hover:bg-[#0da39a] text-black font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                className={`px-8 py-4 bg-[#0fb8af] text-black font-semibold rounded-full transition-all flex items-center justify-center gap-3 body-font`}
               >
                 Get Started
                 <ArrowRight className="w-5 h-5" />
               </motion.button>
-              
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-8 py-4 border-2 font-semibold rounded-full transition-all flex items-center justify-center gap-3 ${
+                className={`px-8 py-4 border-2 font-semibold rounded-full transition-all flex items-center justify-center gap-3 body-font ${
                   isDark 
                     ? "border-white text-white hover:bg-white hover:text-black" 
                     : "border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
@@ -130,7 +103,6 @@ const ServiceHero = ({ service }: ServiceHeroProps) => {
             </div>
           </motion.div>
 
-          {/* Right Content - Key Benefits */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -142,7 +114,7 @@ const ServiceHero = ({ service }: ServiceHeroProps) => {
                 ? "bg-gray-900/80 border border-gray-800 backdrop-blur-sm" 
                 : "bg-white/80 border border-gray-200 shadow-xl backdrop-blur-sm"
             }`}>
-              <h3 className="text-2xl font-bold mb-8">
+              <h3 className="text-2xl font-bold mb-8 heading-font">
                 Key <span className="text-[#0fb8af]">Benefits</span>
               </h3>
 
@@ -165,27 +137,26 @@ const ServiceHero = ({ service }: ServiceHeroProps) => {
                     <div className="w-6 h-6 rounded-full bg-[#0fb8af]/20 flex items-center justify-center flex-shrink-0 mt-1">
                       <Check className="w-4 h-4 text-[#0fb8af]" />
                     </div>
-                    <span className={isDark ? "text-gray-300" : "text-gray-700"}>
+                    <span className={`body-font ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                       {benefit}
                     </span>
                   </motion.li>
                 ))}
               </ul>
 
-              {/* Stats Bar */}
               <div className="mt-8 pt-8 border-t border-gray-800/30">
                 <div className="flex justify-between items-center">
                   <div>
                     <div className="text-3xl font-bold text-[#0fb8af]">100+</div>
-                    <div className="text-sm text-gray-500">Projects Delivered</div>
+                    <div className="text-sm text-gray-500 body-font">Projects Delivered</div>
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-[#0fb8af]">4.9/5</div>
-                    <div className="text-sm text-gray-500">Client Rating</div>
+                    <div className="text-sm text-gray-500 body-font">Client Rating</div>
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-[#0fb8af]">48h</div>
-                    <div className="text-sm text-gray-500">Average Delivery</div>
+                    <div className="text-sm text-gray-500 body-font">Average Delivery</div>
                   </div>
                 </div>
               </div>
