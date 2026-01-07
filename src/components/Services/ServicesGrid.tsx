@@ -1,10 +1,10 @@
 // components/services/ServicesGrid.tsx
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { 
   ChevronDown, 
   ArrowRight
@@ -27,6 +27,15 @@ const ServicesGrid = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [showAllServices, setShowAllServices] = useState(false);
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   const serviceCards = [
     { 
@@ -201,10 +210,25 @@ const ServicesGrid = () => {
 
   return (
     <StyledWrapper>
-      <section className={`py-16 px-4 sm:px-6 lg:px-8 ${
-        isDark ? "bg-gradient-to-b from-gray-950 to-gray-900" : "bg-gradient-to-b from-white to-gray-50"
-      }`}>
-        <div className="max-w-7xl mx-auto">
+      <section
+        ref={sectionRef}
+        className={`relative overflow-hidden py-16 px-4 sm:px-6 lg:px-8 ${
+          isDark ? "bg-[#0a0a0a]" : "bg-white"
+        }`}
+      >
+        {/* Background gradient blur effect - same as ServicesProcess and CounterSection */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            style={{ y: y1 }}
+            className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#0fb8af]/10 rounded-full blur-[120px]"
+          />
+          <motion.div
+            style={{ y: y2 }}
+            className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#1fc8db]/10 rounded-full blur-[100px]"
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <FadeSlide delay={0}>
             <div className="text-center mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0fb8af]/10 border border-[#0fb8af]/20 mb-6">
