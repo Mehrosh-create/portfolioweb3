@@ -1,168 +1,190 @@
 "use client";
 
-import { X } from "lucide-react";
-import { useState } from "react";
+import { X, Send } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+
+interface Message {
+  id: string;
+  text: string;
+  sender: "user" | "bot";
+  timestamp: Date;
+}
 
 export default function MessengerPanel() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null;
-    message: string;
-  }>({ type: null, message: "" });
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: "1",
+      text: "Hi! I'm Grok, built by xAI. Ask me anything — I'm here to help with honest, insightful answers.",
+      sender: "bot",
+      timestamp: new Date(),
+    },
+  ]);
+  const [inputText, setInputText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus({ type: null, message: "" });
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSend = async () => {
+    if (!inputText.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: inputText.trim(),
+      sender: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInputText("");
+    setIsTyping(true);
+    setError(null);
+
+    const apiMessages = [
+      {
+        role: "system",
+        content: "You are Grok, a maximally truth-seeking AI built by xAI. Be helpful, witty, and concise.",
+      },
+      ...messages.map((m) => ({
+        role: m.sender === "user" ? "user" : "assistant",
+        content: m.text,
+      })),
+      { role: "user", content: userMessage.text },
+    ];
 
     try {
-      const response = await fetch("/api/send-email", {
+      const response = await fetch("/api/grok", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "grok-4-1-fast-reasoning", // ← Fixed: correct valid model name (January 2026)
+          messages: apiMessages,
+          temperature: 0.7,
+          max_tokens: 2048,
+        }),
       });
+
+      if (!response.ok) {
+        let errMsg = `API error: ${response.status}`;
+        try {
+          const errData = await response.json();
+          errMsg = errData.error || errMsg;
+        } catch {}
+        throw new Error(errMsg);
+      }
 
       const data = await response.json();
+      const botText =
+        data.choices?.[0]?.message?.content?.trim() || "Sorry, no response received.";
 
-      if (response.ok) {
-        setSubmitStatus({
-          type: "success",
-          message: "Message sent successfully! I'll get back to you soon.",
-        });
-        setFormData({ name: "", email: "", message: "" });
-        
-        // Auto close after 3 seconds
-        setTimeout(() => {
-          const checkbox = document.getElementById(
-            "messenger-toggle"
-          ) as HTMLInputElement;
-          if (checkbox) checkbox.checked = false;
-          setSubmitStatus({ type: null, message: "" });
-        }, 3000);
-      } else {
-        setSubmitStatus({
-          type: "error",
-          message: data.error || "Failed to send message. Please try again.",
-        });
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: botText,
+        sender: "bot",
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (err: unknown) {
+      let msg = "Failed to reach Grok.";
+      if (err instanceof Error) {
+        msg = err.message;
       }
-    } catch (error) {
-      setSubmitStatus({
-        type: "error",
-        message: "An error occurred. Please try again later.",
-      });
+      setError(`Error: ${msg}`);
+      console.error("Grok API error:", err);
     } finally {
-      setIsSubmitting(false);
+      setIsTyping(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
     }
   };
 
   const handleClose = () => {
-    const checkbox = document.getElementById(
-      "messenger-toggle"
-    ) as HTMLInputElement;
+    const checkbox = document.getElementById("messenger-toggle") as HTMLInputElement;
     if (checkbox) checkbox.checked = false;
-    setSubmitStatus({ type: null, message: "" });
   };
 
   return (
     <>
-      {/* Hidden checkbox for toggle */}
       <input type="checkbox" id="messenger-toggle" className="hidden peer" />
+      <label htmlFor="messenger-toggle" className="fixed inset-0 z-40 hidden bg-black/50 backdrop-blur-sm peer-checked:block" />
 
-      {/* Backdrop - closes when clicked */}
-      <label
-        htmlFor="messenger-toggle"
-        className="fixed inset-0 z-40 hidden bg-black/50 backdrop-blur-sm peer-checked:block"
-      />
-
-      {/* Chat Panel */}
-      <div className="wrapper fixed bottom-32 right-6 z-50 hidden w-96 max-w-[calc(100vw-2rem)] rounded-2xl bg-[#252525] p-6 shadow-2xl peer-checked:block">
-        {/* Close Button - Top Right Corner with X icon */}
-        <button
-          onClick={handleClose}
-          className="absolute right-4 top-4 cursor-pointer text-gray-400 hover:text-white transition-all hover:rotate-90 duration-300 z-10"
-          aria-label="Close messenger"
-        >
-          <X className="w-6 h-6" strokeWidth={2.5} />
-        </button>
-
-        <div className="head-text mb-4 text-center text-lg font-semibold text-white">
-          Let&apos;s chat with me? - Online
+      <div className="fixed bottom-32 right-6 z-50 hidden w-96 max-w-[calc(100vw-2rem)] flex flex-col rounded-2xl bg-[#252525] shadow-2xl peer-checked:block">
+        <div className="flex items-center justify-between border-b border-gray-700 px-6 py-4">
+          <div>
+            <div className="text-lg font-semibold text-white">Chat with Grok</div>
+            <div className="text-xs text-green-400">● Powered by xAI</div>
+          </div>
+          <button onClick={handleClose} className="text-gray-400 hover:text-white transition-all hover:rotate-90 duration-300" aria-label="Close">
+            <X className="w-6 h-6" strokeWidth={2.5} />
+          </button>
         </div>
 
-        <div className="chat-box">
-          <div className="desc-text mb-6 text-center text-sm text-gray-300">
-            Please fill out the form below to start chatting with me directly.
-          </div>
-
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <input
-              className="input-field w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white placeholder-gray-400 focus:border-[#0FB8AF] focus:outline-none transition"
-              name="name"
-              placeholder="Your Name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              disabled={isSubmitting}
-            />
-            <input
-              className="input-field w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white placeholder-gray-400 focus:border-[#0FB8AF] focus:outline-none transition"
-              name="email"
-              placeholder="Your Email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              disabled={isSubmitting}
-            />
-            <textarea
-              className="input-field w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-4 text-white placeholder-gray-400 focus:border-[#0FB8AF] focus:outline-none transition resize-none"
-              placeholder="Your Message"
-              name="message"
-              rows={4}
-              value={formData.message}
-              onChange={handleChange}
-              required
-              disabled={isSubmitting}
-            />
-
-            {/* Status Messages */}
-            {submitStatus.type && (
-              <div
-                className={`rounded-lg p-3 text-sm ${
-                  submitStatus.type === "success"
-                    ? "bg-green-900/50 text-green-200 border border-green-700"
-                    : "bg-red-900/50 text-red-200 border border-red-700"
-                }`}
-              >
-                {submitStatus.message}
+        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+          {messages.map((msg) => (
+            <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+              <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${msg.sender === "user" ? "bg-[#0FB8AF] text-black" : "bg-gray-700 text-white"}`}>
+                <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                <p className={`text-xs mt-1 ${msg.sender === "user" ? "text-black/70" : "text-gray-400"}`}>
+                  {mounted ? msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""}
+                </p>
               </div>
-            )}
+            </div>
+          ))}
 
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-gray-700 rounded-2xl px-4 py-3">
+                <div className="flex space-x-2">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></span>
+                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="text-red-400 text-sm bg-red-900/30 rounded-lg p-3 text-center">
+              {error}
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        <div className="border-t border-gray-700 px-6 py-4">
+          <div className="flex items-center gap-3">
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask Grok anything..."
+              disabled={isTyping}
+              className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white placeholder-gray-400 focus:border-[#0FB8AF] focus:outline-none transition"
+            />
             <button
-              type="submit"
-              disabled={isSubmitting}
-              className="messenger-send-btn w-full rounded-lg bg-[#0FB8AF] py-3 font-semibold text-black transition hover:bg-[#0fb8afdd] disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={handleSend}
+              disabled={!inputText.trim() || isTyping}
+              className="rounded-lg bg-[#0FB8AF] p-3 text-black transition hover:bg-[#0fb8afdd] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              <Send className="w-5 h-5" />
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </>
