@@ -49,7 +49,7 @@ interface FeatureItem { id: number; text: string; }
 
 
 const TITLES = [
-  "Empowering Executive Decision-Making",
+  "Strategic Decision Power",
   "Shaping Future-Ready Organizations",
   "Driving Strategic Innovation",
   "Transforming Vision into Impact",
