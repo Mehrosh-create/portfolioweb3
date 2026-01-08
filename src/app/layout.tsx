@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono, Bebas_Neue } from "next/font/google";
+import { Inter, Roboto_Mono, Bebas_Neue, Montserrat } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/Layout/ClientLayout";
 import ThemeToggle from "@/components/Global/ThemeToggle";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-// Remove StyledComponentsRegistry import from here
 
-// Fonts
+// Fonts from next/font (optimized - use this instead of <link> tags)
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -26,6 +25,14 @@ const bebasNeue = Bebas_Neue({
   display: 'swap',
 });
 
+// Add Montserrat font using next/font
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  display: 'swap',
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
 export const metadata: Metadata = {
   title: "Sheikh Nabeel - Entrepreneur & Digital Growth Expert",
   description: "Serial Entrepreneur, Founder & CEO of Euroshub, Business Strategist, & Digital Transformation Expert",
@@ -37,52 +44,45 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${robotoMono.variable} ${bebasNeue.variable} ${montserrat.variable}`}>
       <head>
-        {/* Preconnect for Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* REMOVE ALL <link> FONT IMPORTS FROM HERE */}
+        {/* Only keep metadata and other essential tags */}
         
-        {/* Century Gothic Font (using Montserrat as a modern alternative) */}
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-        
-        {/* Inter font is already loaded from next/font, but adding for consistency */}
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        
-        {/* Font fallback styles */}
+        {/* Font fallback styles - inline styles only */}
         <style>{`
-          /* Century Gothic font classes */
+          /* Century Gothic font classes with fallbacks */
           .font-century-gothic {
-            font-family: 'Montserrat', 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Futura', 'Trebuchet MS', sans-serif;
+            font-family: var(--font-montserrat), 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Futura', 'Trebuchet MS', sans-serif;
           }
           
           .font-century-gothic-bold {
-            font-family: 'Montserrat', 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Futura', 'Trebuchet MS', sans-serif;
+            font-family: var(--font-montserrat), 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Futura', 'Trebuchet MS', sans-serif;
             font-weight: 700;
           }
           
           /* Inter font classes */
           .font-inter {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
           }
           
-          /* If you want to use actual Century Gothic from CDN */
-          @import url('https://fonts.cdnfonts.com/css/century-gothic');
+          /* Montserrat font class */
+          .font-montserrat {
+            font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+          }
           
-          /* Override if Century Gothic CDN is loaded */
-          @supports (font-family: 'Century Gothic') {
-            .font-century-gothic {
-              font-family: 'Century Gothic', 'Montserrat', 'CenturyGothic', 'AppleGothic', 'Futura', 'Trebuchet MS', sans-serif;
-            }
-            
-            .font-century-gothic-bold {
-              font-family: 'Century Gothic', 'Montserrat', 'CenturyGothic', 'AppleGothic', 'Futura', 'Trebuchet MS', sans-serif;
-              font-weight: 700;
-            }
+          /* Bebas Neue font class */
+          .font-bebas-neue {
+            font-family: var(--font-bebas-neue), 'Bebas Neue', sans-serif;
+          }
+          
+          /* Roboto Mono font class */
+          .font-roboto-mono {
+            font-family: var(--font-roboto-mono), 'Roboto Mono', monospace;
           }
         `}</style>
       </head>
-      <body className={`${inter.variable} ${robotoMono.variable} ${bebasNeue.variable} antialiased overflow-x-hidden`}>
+      <body className="antialiased overflow-x-hidden">
         {/* ThemeProvider MUST be the first thing after body */}
         <ThemeProvider>
           {/* Theme Toggle */}

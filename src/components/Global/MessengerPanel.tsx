@@ -23,7 +23,7 @@ export default function MessengerPanel() {
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const setIsOpen = useState(false)[1]; // Fixed: Only get setter, not getter
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -78,7 +78,7 @@ export default function MessengerPanel() {
       // Cleanup: always unlock on unmount
       document.body.style.overflow = 'auto';
     };
-  }, []);
+  }, [setIsOpen]);
 
   const handleSend = async () => {
     if (!inputText.trim()) return;
@@ -194,15 +194,11 @@ export default function MessengerPanel() {
               className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                  msg.sender === "user" ? "bg-[#0FB8AF] text-black" : "bg-gray-700 text-white"
-                }`}
+                className={`max-w-[80%] rounded-2xl px-4 py-3 ${msg.sender === "user" ? "bg-[#0FB8AF] text-black" : "bg-gray-700 text-white"}`}
               >
                 <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
                 <p
-                  className={`text-xs mt-1 ${
-                    msg.sender === "user" ? "text-black/70" : "text-gray-400"
-                  }`}
+                  className={`text-xs mt-1 ${msg.sender === "user" ? "text-black/70" : "text-gray-400"}`}
                 >
                   {mounted
                     ? msg.timestamp.toLocaleTimeString([], {

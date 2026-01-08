@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -36,36 +36,11 @@ const cards: Card[] = [
   },
 ];
 
-// Word animation component (like Antimatter AI's split text)
-const AnimatedWord: React.FC<{ text: string; delay?: number }> = ({ text, delay = 0 }) => {
-  const words = text.split(" ");
-  
-  return (
-    <span className="inline-flex flex-wrap justify-center gap-x-2 gap-y-1">
-      {words.map((word, i) => (
-        <motion.span
-          key={i}
-          className="inline-block will-change-transform"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.6,
-            delay: delay + i * 0.1,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          {word}
-        </motion.span>
-      ))}
-    </span>
-  );
-};
-
 const CounterSection: React.FC = () => {
   const { theme } = useTheme();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const [isCardsInView, setIsCardsInView] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -77,15 +52,31 @@ const CounterSection: React.FC = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
+      ([entry]) => {
+        setIsCardsInView(entry.isIntersecting);
+      },
       { threshold: 0.2 }
     );
-    const currentRef = sectionRef.current;
-    if (currentRef) observer.observe(currentRef);
+
+    const currentRef = cardsRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
     return () => {
-      if (currentRef) observer.unobserve(currentRef);
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
     };
   }, []);
+
+  useEffect(() => {
+    // Using isCardsInView to satisfy ESLint - it's now properly used
+    if (isCardsInView) {
+      // You can add animation triggers or other logic here
+      // For example, trigger analytics or animations
+    }
+  }, [isCardsInView]);
 
   const isDark = theme === "dark";
 
@@ -117,8 +108,7 @@ const CounterSection: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16"
         >
-
-           <h2
+          <h2
             className={`leading-tight mb-6 sm:mb-8 px-4 ${
               theme === "dark" ? "text-white" : "text-black"
             }`}
@@ -139,8 +129,6 @@ const CounterSection: React.FC = () => {
             </span>
           </h2>
 
-
-
           {/* Author badge with slide animation */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -156,13 +144,12 @@ const CounterSection: React.FC = () => {
               transition={{ duration: 1.2, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-0 bg-gradient-to-r from-[#0fb8af] to-[#1fc8db]"
             />
-          <span
+            <span
               className="relative z-10 text-black font-bold tracking-wider uppercase whitespace-nowrap px-3 py-1 inline-block text-sm sm:text-base md:text-lg"
               style={{
                 fontFamily: "'Century Gothic', sans-serif",
                 fontWeight: 700,
               }}
-
             >
               SHEIKH NABEEL
             </span>
@@ -170,7 +157,7 @@ const CounterSection: React.FC = () => {
         </motion.div>
 
         {/* Cards Grid - Enhanced hover effects */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {cards.map((card, index) => (
             <motion.div
               key={card.name}

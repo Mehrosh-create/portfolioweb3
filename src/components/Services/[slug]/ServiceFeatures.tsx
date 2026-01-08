@@ -57,15 +57,15 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {service.features.map((feature, index) => {
-            const Icon = featureIcons[index] || Check;
+          {service.features.map((feature, _index) => {
+            const IconComponent = featureIcons[_index] || Check;
             return (
               <motion.div
                 key={feature}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: _index * 0.1 }}
                 whileHover={{ y: -5 }}
                 className={`p-8 rounded-2xl transition-all duration-300 group ${
                   isDark 
@@ -74,10 +74,10 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
                 }`}
               >
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#0fb8af] to-[#0da39a] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="w-7 h-7 text-white" />
+                  <IconComponent className="w-7 h-7 text-white" />
                 </div>
                 
-                <h3 className="text-xl font-bold mb-4 heading-font">Feature {index + 1}</h3>
+                <h3 className="text-xl font-bold mb-4 heading-font">Feature {_index + 1}</h3>
                 
                 <p className={`leading-relaxed body-font ${
                   isDark ? "text-gray-300" : "text-gray-600"
@@ -109,25 +109,22 @@ const ServiceFeatures = ({ service }: ServiceFeaturesProps) => {
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: "99.9%", label: "Uptime Guarantee", icon: Shield },
-              { value: "24/7", label: "Support Available", icon: Clock },
-              { value: "48h", label: "Avg. Response Time", icon: TrendingUp },
-              { value: "100%", label: "Client Satisfaction", icon: Users }
-            ].map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div key={stat.label} className="text-center">
-                  <div className="text-3xl font-bold text-[#0fb8af] mb-2">
-                    {stat.value}
-                  </div>
-                  <div className={`text-sm font-medium body-font ${
-                    isDark ? "text-gray-400" : "text-gray-600"
-                  }`}>
-                    {stat.label}
-                  </div>
+              { value: "99.9%", label: "Uptime Guarantee" },
+              { value: "24/7", label: "Support Available" },
+              { value: "48h", label: "Avg. Response Time" },
+              { value: "100%", label: "Client Satisfaction" }
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-3xl font-bold text-[#0fb8af] mb-2">
+                  {stat.value}
                 </div>
-              );
-            })}
+                <div className={`text-sm font-medium body-font ${
+                  isDark ? "text-gray-400" : "text-gray-600"
+                }`}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

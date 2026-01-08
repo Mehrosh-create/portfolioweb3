@@ -164,7 +164,6 @@ export default function About2() {
     let isDown = false;
     let startX = 0;
     let scrollLeftStart = 0;
-    let velocity = 0;
     const speed = 0.5; // Auto-scroll speed
 
     // Auto-scroll animation
@@ -188,7 +187,6 @@ export default function About2() {
       setIsDragging(true);
       startX = e.pageX - container.offsetLeft;
       scrollLeftStart = container.scrollLeft;
-      velocity = 0;
       container.style.cursor = "grabbing";
       container.style.scrollBehavior = "auto"; // Smooth drag
     };

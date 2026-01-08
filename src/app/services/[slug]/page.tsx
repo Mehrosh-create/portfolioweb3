@@ -20,13 +20,11 @@ import {
   Database,
   Zap,
   Globe,
-  Lock,
   Headphones,
   FileText,
   Settings,
   Monitor,
   Server,
-  Package,
   ClipboardCheck,
   Calendar,
   FolderOpen,
@@ -131,7 +129,7 @@ const serviceData: Record<string, Service> = {
   },
   
   "ecommerce-solutions": {
-    title: "Ecommerce Solutionss",
+    title: "Ecommerce Solutions",
     description: "Complete online store development and optimization",
     longDescription: "End-to-end ecommerce solutions from platform selection to launch. We build scalable online stores with seamless payment integrations, inventory management, and marketing automation.",
     icon: serviceIcons["ecommerce-solutions"],

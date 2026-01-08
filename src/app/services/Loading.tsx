@@ -2,7 +2,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Loader2, Grid3X3, BarChart3, Users, Shield } from 'lucide-react';
+import { Loader2, Grid3X3, BarChart3, Users } from 'lucide-react';
 
 export default function ServicesLoading() {
   return (

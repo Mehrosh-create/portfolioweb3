@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { CheckCircle, FileText, BarChart, Shield } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
-import Image from 'next/image';
 
 interface ServiceDetailsProps {
   service: {

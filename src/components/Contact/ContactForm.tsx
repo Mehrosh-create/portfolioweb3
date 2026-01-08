@@ -105,7 +105,7 @@ const ContactForm = () => {
       <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
         {/* Name Fields */}
         <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6">
-          {["firstName", "lastName"].map((field, idx) => (
+         {["firstName", "lastName"].map((field) => (
             <div key={field}>
               <label
                 className="block text-foreground font-semibold mb-3 uppercase text-sm"

@@ -1,11 +1,11 @@
-
 "use client";
 
 import { useState, useEffect, createContext, useContext } from "react";
+import Image from "next/image"; // Added Image import
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Footer from "@/components/Global/Footer";
 import CustomCursor from "@/components/Global/CustomCursor";
-import GlobalElements from "@/components/Global/GlobalElements"; // ← Add this
+import GlobalElements from "@/components/Global/GlobalElements";
 import { X } from "lucide-react";
 import { blogArticles, BlogArticle } from "@/data/blogArticles";
 import StyledComponentsRegistry from "@/lib/registry";
@@ -126,10 +126,16 @@ export default function ClientLayout({
                       >
                         <div className="border border-gray-800 hover:border-[#0fb8af] transition">
                           <div className="relative h-48 overflow-hidden">
-                            <img
+                            {/* Replaced img with Next.js Image component */}
+                            <Image
                               src={article.image}
                               alt={article.title}
+                              width={400}
+                              height={300}
                               className="object-cover w-full h-full group-hover:scale-105 transition"
+                              style={{ width: '100%', height: '100%' }}
+                              sizes="(max-width: 768px) 100vw, 400px"
+                              priority={false}
                             />
                           </div>
                           <div className="p-4">
