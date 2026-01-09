@@ -1,14 +1,14 @@
 "use client";
+
 import Stats from "@/components/About/Stats";
 import GallerySection from "@/components/About/GallerySection";
-import { FadeSlide, SlidingHighlight } from "@/components/About/ReusableComponents";
+import { FadeSlide } from "@/components/About/ReusableComponents";
 import Cursor from "@/components/Global/CursorEffect";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
-import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
-// LOGOS SECTION (Fixed image paths & loading)
 const LogosSection = () => {
   const { theme } = useTheme();
 
@@ -37,7 +37,6 @@ const LogosSection = () => {
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8 md:mb-10">
-            <SlidingHighlight text="TRUSTED BY INDUSTRY LEADERS" />
             <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground mb-2 sm:mb-3">
               Featured Partnerships & Collaborations
             </h2>
@@ -47,16 +46,8 @@ const LogosSection = () => {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-center justify-center">
-            {logos.map((logo, index) => (
-              <motion.div
-                key={logo.id}
-                className="flex justify-center items-center group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.08 }}
-              >
+            {logos.map((logo) => (
+              <div key={logo.id} className="flex justify-center items-center group">
                 <div className="relative w-full max-w-[110px] xs:max-w-[120px] sm:max-w-[140px] md:max-w-[160px] lg:max-w-[180px] h-auto">
                   <div className="relative w-full h-auto aspect-[300/115]">
                     <Image
@@ -64,17 +55,14 @@ const LogosSection = () => {
                       alt={logo.alt}
                       fill
                       className={`object-contain transition-all duration-500 drop-shadow-md sm:drop-shadow-lg hover:drop-shadow-xl ${
-                        theme === "light"
-                          ? "brightness-0 invert-0"
-                          : "grayscale hover:grayscale-0"
+                        theme === "light" ? "brightness-0 invert-0" : "grayscale hover:grayscale-0"
                       }`}
                       sizes="(max-width: 280px) 40vw, (max-width: 640px) 45vw, (max-width: 768px) 45vw, 22vw"
-                      priority={index < 2} // Priority for first 2 logos
                       quality={95}
                     />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -84,7 +72,7 @@ const LogosSection = () => {
 };
 
 export default function About2() {
-  // ✅ FIXED: Corrected all image paths (was /imagess/ → /images/)
+  // Using your exact image paths with /imagess/
   const services = [
     { name: "Business Operations & Process Optimization", img: "/imagess/process-optimization.jpg" },
     { name: "Automated Workflow Systems", img: "/imagess/automated-workflow.jpg" },
@@ -100,22 +88,45 @@ export default function About2() {
     { name: "Account Management & Client Relations", img: "/imagess/client-relations.jpg" },
     { name: "CRM Automation & Integration", img: "/imagess/crm-automation.jpg" },
   ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [showCursor, setShowCursor] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+
   const profileImageRef = useRef<HTMLDivElement>(null);
   const textContentRef = useRef<HTMLDivElement>(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number | null>(null); 
 
-  // Mouse position tracking
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  const nextService = () => {
+    setCurrentIndex((prev) => (prev + 3 >= services.length ? 0 : prev + 3));
+  };
+
+  const prevService = () => {
+    setCurrentIndex((prev) => (prev - 3 < 0 ? Math.max(services.length - 3, 0) : prev - 3));
+  };
+
+  // Auto-rotate every 2 seconds
+  useEffect(() => {
+    if (!isPaused) {
+      const interval = setInterval(nextService, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [isPaused]);
+
+  // Mouse tracking
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Global drag state for cursor
+  // Drag state
   useEffect(() => {
     const handleMouseDown = () => setIsDragging(true);
     const handleMouseUp = () => setIsDragging(false);
@@ -154,103 +165,6 @@ export default function About2() {
     updateHeights();
     window.addEventListener('resize', updateHeights);
     return () => window.removeEventListener('resize', updateHeights);
-  }, []);
-
-  // Auto-scroll + Manual Drag Logic (IMPROVED)
-  useEffect(() => {
-    const container = marqueeRef.current;
-    if (!container) return;
-
-    let isDown = false;
-    let startX = 0;
-    let scrollLeftStart = 0;
-    const speed = 0.5; // Auto-scroll speed
-
-    // Auto-scroll animation
-    const autoScroll = () => {
-      if (!isDown && container) {
-        container.scrollLeft += speed;
-        // Seamless loop: reset when reaching half (duplicated content)
-        if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft = 0;
-        }
-      }
-      animationFrameRef.current = requestAnimationFrame(autoScroll);
-    };
-
-    // Start auto-scroll
-    animationFrameRef.current = requestAnimationFrame(autoScroll);
-
-    // Mouse events
-    const handleMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      setIsDragging(true);
-      startX = e.pageX - container.offsetLeft;
-      scrollLeftStart = container.scrollLeft;
-      container.style.cursor = "grabbing";
-      container.style.scrollBehavior = "auto"; // Smooth drag
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 2;
-      container.scrollLeft = scrollLeftStart - walk;
-    };
-
-    const handleMouseUpOrLeave = () => {
-      isDown = false;
-      setIsDragging(false);
-      container.style.cursor = "grab";
-      container.style.scrollBehavior = "smooth";
-    };
-
-    container.addEventListener("mousedown", handleMouseDown);
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseup", handleMouseUpOrLeave);
-    container.addEventListener("mouseleave", handleMouseUpOrLeave);
-
-    // Touch support for mobile
-    let startTouchX = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      isDown = true;
-      setIsDragging(true);
-      startTouchX = e.touches[0].clientX - container.offsetLeft;
-      scrollLeftStart = container.scrollLeft;
-      container.style.cursor = "grabbing";
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.touches[0].clientX - container.offsetLeft;
-      const walk = (x - startTouchX) * 2;
-      container.scrollLeft = scrollLeftStart - walk;
-    };
-
-    const handleTouchEnd = () => {
-      isDown = false;
-      setIsDragging(false);
-      container.style.cursor = "grab";
-    };
-
-    container.addEventListener("touchstart", handleTouchStart, { passive: false });
-    container.addEventListener("touchmove", handleTouchMove, { passive: false });
-    container.addEventListener("touchend", handleTouchEnd);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      container.removeEventListener("mousedown", handleMouseDown);
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseup", handleMouseUpOrLeave);
-      container.removeEventListener("mouseleave", handleMouseUpOrLeave);
-      container.removeEventListener("touchstart", handleTouchStart);
-      container.removeEventListener("touchmove", handleTouchMove);
-      container.removeEventListener("touchend", handleTouchEnd);
-    };
   }, []);
 
   return (
@@ -301,16 +215,15 @@ export default function About2() {
           <FadeSlide direction="left" delay={0.3}>
             <div className="order-1 lg:order-2 flex justify-center items-center px-1 sm:px-2 md:px-3">
               <div className="w-full flex justify-center">
-                {/* ✅ FIXED: Added priority & proper positioning */}
                 <div ref={profileImageRef} className="tc-elementor-card group relative" style={{ minHeight: "280px" }}>
-                  <Image 
-                    src="/images/about-profile.jpg" 
-                    alt="Sheikh Nabeel - Digital Transformation Expert" 
+                  <Image
+                    src="/images/about-profile.jpg"
+                    alt="Sheikh Nabeel - Digital Transformation Expert"
                     fill
                     className="object-cover w-full h-full rounded-xl sm:rounded-2xl"
-                    sizes="(max-width: 768px) 90vw, 500px" 
-                    priority 
-                    quality={95} 
+                    sizes="(max-width: 768px) 90vw, 500px"
+                    priority
+                    quality={95}
                   />
                   <div className="tc-elementor-content"></div>
                 </div>
@@ -327,55 +240,105 @@ export default function About2() {
           <div className="mb-8 sm:mb-10 md:mb-12"><GallerySection /></div>
         </FadeSlide>
 
-        {/* ✅ FIXED MARQUEE: position: relative on glass-card + proper images */}
+        {/* TECHNOLOGIES & PLATFORMS - Full Carousel (matching Testimonials page) */}
         <FadeSlide direction="up" delay={0.5}>
-          <div className="relative mb-8 sm:mb-10 md:mb-12 py-8">
-            <div className="px-4 sm:px-6 md:px-8 lg:px-10 mb-8">
-              <h2 className="font-bold text-foreground text-center uppercase leading-tight text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
-                style={{ fontFamily: '"Century Gothic", Inter, sans-serif', letterSpacing: "0.05em" }}>
-                TECHNOLOGIES & PLATFORMS
+          <div className="relative py-12">
+            {/* Header with sliding teal bar */}
+            <div className="text-center mb-12 lg:mb-16">
+              <h2
+                className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black uppercase text-foreground mb-6 leading-tight"
+                style={{ fontFamily: '"Century Gothic", Inter, sans-serif', letterSpacing: "0.02em" }}
+              >
+                TECHNOLOGIES & <span className="text-[#0fb8af]">PLATFORMS</span>
               </h2>
-            </div>
 
-            <div
-              ref={marqueeRef}
-              className="glass-cards-container relative overflow-hidden mx-1 sm:mx-2 md:mx-3 lg:mx-4 cursor-grab scrollbar-hide"
-              onMouseEnter={() => setShowCursor(true)}
-              onMouseLeave={() => {
-                setShowCursor(false);
-                setIsDragging(false);
-              }}
-            >
-              {/* Fade gradients */}
-              <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-              <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-
-              {/* ✅ DUPLICATED CONTENT FOR SEAMLESS LOOP */}
-              <div className="flex gap-4 sm:gap-6 md:gap-8">
-                {[...services, ...services].map((service, index) => (
-                  <div
-                    key={`${service.name}-${index}`}
-                    className="glass-card-wrapper flex-shrink-0"
-                    style={{ '--r': index % 3 === 0 ? -15 : index % 3 === 1 ? 5 : 25 } as React.CSSProperties}
-                  >
-                    {/* ✅ FIXED: position: relative + proper Image fill */}
-                    <div className="glass-card relative" data-text={service.name}>
-                      <Image
-                        src={service.img}
-                        alt={service.name}
-                        fill
-                        className="object-cover brightness-75 contrast-110 rounded-[inherit]"
-                        sizes="(max-width: 640px) 200px, (max-width: 768px) 220px, 240px"
-                        quality={95}
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                ))}
+              <div className="relative inline-block mx-auto">
+                <span
+                  className="absolute top-0 left-0 h-full bg-[#0fb8af] inline-block"
+                  style={{ width: "0%", animation: "slideRight 2s forwards" }}
+                ></span>
+                <span
+                  className="relative z-10 text-black text-xs sm:text-sm md:text-base lg:text-lg font-bold uppercase px-3 sm:px-4 lg:px-6 py-1 sm:py-2"
+                  style={{ fontFamily: '"Century Gothic", Inter, sans-serif', letterSpacing: "0.05em" }}
+                >
+                  MY EXPERTISE TOOLKIT
+                </span>
               </div>
             </div>
 
-            {showCursor && <Cursor mousePos={mousePos} isDragging={isDragging} showCursor={showCursor} />}
+            {/* Carousel */}
+            <div
+              className="relative max-w-5xl mx-auto"
+              onMouseEnter={() => !isTouchDevice && setIsPaused(true)}
+              onMouseLeave={() => !isTouchDevice && setIsPaused(false)}
+            >
+              <div className="bg-gray-dark rounded-lg p-6 sm:p-8 lg:p-12 relative border border-gray-600 hover:border-[#0fb8af] transition-all duration-300 overflow-hidden">
+                {/* Subtle background pattern */}
+                <div
+                  className="absolute inset-0 opacity-5"
+                  style={{
+                    backgroundImage:
+                      'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/svg%3E")',
+                    backgroundSize: "60px 60px",
+                  }}
+                ></div>
+
+                {/* Responsive grid: 1–3 cards - INFINITE LOOP (no end point) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
+                  {/* Always show 3 cards by wrapping around */}
+                  {[
+                    services[(currentIndex + 0) % services.length],
+                    services[(currentIndex + 1) % services.length],
+                    services[(currentIndex + 2) % services.length],
+                  ].map((service, idx) => (
+                    <div key={idx} className="glass-card-wrapper">
+                      <div className="glass-card relative rounded-lg overflow-hidden" data-text={service.name}>
+                        <Image
+                          src={service.img}
+                          alt={service.name}
+                          fill
+                          className="object-cover brightness-75 contrast-110"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          quality={95}
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Navigation buttons - grow 10% on hover */}
+                <button
+                  onClick={prevService}
+                  className="absolute left-4 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 bg-[#0fb8af] p-2 sm:p-3 rounded-full hover:scale-110 transition-all duration-300 z-20"
+                  aria-label="Previous"
+                >
+                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                </button>
+                <button
+                  onClick={nextService}
+                  className="absolute right-4 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 bg-[#0fb8af] p-2 sm:p-3 rounded-full hover:scale-110 transition-all duration-300 z-20"
+                  aria-label="Next"
+                >
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                </button>
+
+                {/* Dot indicators - grouped by 3, infinite loop */}
+                <div className="flex justify-center mt-6 sm:mt-8 gap-2 relative z-10">
+                  {Array(Math.ceil(services.length / 3)).fill(null).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentIndex(index * 3)}
+                      className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                        index === Math.floor(currentIndex / 3)
+                          ? "bg-[#0fb8af] scale-125"
+                          : "bg-gray-500 hover:bg-[#0fb8af]"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </FadeSlide>
 
@@ -386,14 +349,14 @@ export default function About2() {
         </FadeSlide>
       </div>
 
-      {/* ✅ FIXED GLOBAL STYLES: Added position: relative to .glass-card */}
+      {/* Global Styles */}
       <style jsx global>{`
         .glass-card-wrapper {
           padding: 0 8px;
         }
-        
+
         .glass-card {
-          position: relative !important; /* ✅ CRITICAL FIX: Makes Image fill work */
+          position: relative !important;
           width: 240px;
           height: 280px;
           background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
@@ -403,10 +366,9 @@ export default function About2() {
           border-radius: 16px;
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          transform: rotate(calc(var(--r) * 1deg));
           overflow: hidden;
         }
-        
+
         .glass-card::before {
           content: attr(data-text);
           position: absolute;
@@ -431,17 +393,9 @@ export default function About2() {
           pointer-events: none;
         }
 
-        .glass-cards-container:hover .glass-card {
-          transform: rotate(0deg) !important;
-        }
-
-        /* Hide scrollbar */
-        .glass-cards-container::-webkit-scrollbar {
-          display: none;
-        }
-        .glass-cards-container {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+        @keyframes slideRight {
+          from { width: 0%; }
+          to { width: 100%; }
         }
 
         @media (max-width: 640px) {
@@ -450,11 +404,6 @@ export default function About2() {
         }
         @media (min-width: 641px) and (max-width: 768px) {
           .glass-card { width: 220px; height: 260px; }
-        }
-
-        @keyframes slideRight {
-          from { width: 0%; }
-          to { width: 100%; }
         }
       `}</style>
 
