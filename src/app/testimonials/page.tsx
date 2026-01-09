@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 
 const Testimonials = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
-    const [isTouchDevice, setIsTouchDevice] = useState(false);
 
     useEffect(() => {
-        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+        // Reserved for future touch enhancements if needed
     }, []);
 
     const testimonials = [
@@ -83,28 +81,17 @@ const Testimonials = () => {
         },
     ];
 
-    const nextTestimonial = useCallback(() => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-        );
-    }, [testimonials.length]);
-
-    const prevTestimonial = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+    const nextTestimonial = () => {
+        setCurrentIndex((prev) =>
+            prev === testimonials.length - 1 ? 0 : prev + 1
         );
     };
 
-    // Auto-rotate testimonials
-    useEffect(() => {
-        if (!isPaused) {
-            const interval = setInterval(() => {
-                nextTestimonial();
-            }, 2000); // Change every 2 seconds
-
-            return () => clearInterval(interval);
-        }
-    }, [currentIndex, isPaused, nextTestimonial]);
+    const prevTestimonial = () => {
+        setCurrentIndex((prev) =>
+            prev === 0 ? testimonials.length - 1 : prev - 1
+        );
+    };
 
     return (
         <div className="min-h-screen pt-16 sm:pt-20 px-4 sm:px-6 lg:px-8 xl:px-4 pb-8 sm:pb-12 lg:pb-16 bg-background flex flex-col">
@@ -121,7 +108,6 @@ const Testimonials = () => {
                         CLIENT <span className="text-[#0fb8af]">TESTIMONIALS</span>
                     </h1>
 
-                    {/* Sliding background highlight */}
                     <div className="relative inline-block mx-auto mb-4 sm:mb-6">
                         <span
                             className="absolute top-0 left-0 h-full bg-[#0fb8af] inline-block"
@@ -129,7 +115,7 @@ const Testimonials = () => {
                                 width: "0%",
                                 animation: "slideRight 2s forwards",
                             }}
-                        ></span>
+                        />
                         <span
                             className="relative z-10 text-black text-xs xs:text-xs sm:text-sm md:text-base lg:text-lg font-bold uppercase px-3 sm:px-4 lg:px-6 py-1 sm:py-2 inline-block"
                             style={{
@@ -142,99 +128,8 @@ const Testimonials = () => {
                     </div>
                 </div>
 
-                {/* Testimonial Carousel */}
-                <div
-                    className="relative max-w-4xl mx-auto mb-8 sm:mb-12 lg:mb-16"
-                    onMouseEnter={() => !isTouchDevice && setIsPaused(true)}
-                    onMouseLeave={() => !isTouchDevice && setIsPaused(false)}
-                >
-                    <div className="bg-gray-dark rounded-lg p-4 sm:p-6 lg:p-8 xl:p-12 relative border border-gray-600 hover:border-[#0fb8af] transition-all duration-300 overflow-hidden">
-                        {/* Background pattern */}
-                        <div
-                            className="absolute inset-0 opacity-5"
-                            style={{
-                                backgroundImage:
-                                    'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/svg%3E")',
-                                backgroundSize: "60px 60px",
-                            }}
-                        ></div>
-
-                        <Quote className="absolute top-3 sm:top-4 lg:top-6 left-3 sm:left-4 lg:left-6 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-[#0fb8af]/20 z-10" />
-
-                        <div className="text-center mb-4 sm:mb-6 lg:mb-8 relative z-10">
-                            <div className="flex justify-center mb-3 sm:mb-4">
-                                {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                                    <Star
-                                        key={i}
-                                        className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#0fb8af] fill-current"
-                                    />
-                                ))}
-                            </div>
-                            <p
-                                className="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-light italic leading-relaxed px-2 sm:px-4"
-                                style={{
-                                    fontFamily: 'Inter, "Helvetica Neue", Helvetica, sans-serif',
-                                }}
-                            >
-                                &ldquo;{testimonials[currentIndex].content}&rdquo;
-                            </p>
-                        </div>
-
-                        <div className="flex items-center justify-center gap-3 sm:gap-4 relative z-10">
-                            <div className="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full overflow-hidden border-2 border-[#0fb8af]">
-                                <Image
-                                    src={testimonials[currentIndex].image}
-                                    alt={testimonials[currentIndex].name}
-                                    fill
-                                    className="object-cover"
-                                    sizes="(max-width: 640px) 48px, (max-width: 768px) 56px, 64px"
-                                />
-                            </div>
-                            <div>
-                                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-foreground">
-                                    {testimonials[currentIndex].name}
-                                </h3>
-                                <p className="text-[#0fb8af] text-sm sm:text-base">
-                                    {testimonials[currentIndex].role},{" "}
-                                    {testimonials[currentIndex].company}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Navigation */}
-                        <button
-                            onClick={prevTestimonial}
-                            className="absolute left-2 sm:left-3 lg:left-4 top-1/2 transform -translate-y-1/2 bg-[#0fb8af] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
-                            aria-label="Previous testimonial"
-                        >
-                            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
-                        </button>
-                        <button
-                            onClick={nextTestimonial}
-                            className="absolute right-2 sm:right-3 lg:right-4 top-1/2 transform -translate-y-1/2 bg-[#0fb8af] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
-                            aria-label="Next testimonial"
-                        >
-                            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
-                        </button>
-
-                        {/* Carousel indicators */}
-                        <div className="flex justify-center mt-4 sm:mt-5 lg:mt-6 gap-1.5 sm:gap-2 relative z-10">
-                            {testimonials.map((_, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setCurrentIndex(index)}
-                                    className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                                        ? "bg-[#0fb8af] scale-125"
-                                        : "bg-gray-500 hover:bg-[#0fb8af]"
-                                        }`}
-                                    aria-label={`Go to testimonial ${index + 1}`}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* All Testimonials Grid */}
+            
+                {/* Grid of All Testimonials */}
                 <div className="mb-8 sm:mb-12 lg:mb-16">
                     <h2
                         className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6 sm:mb-8 lg:mb-12 text-center uppercase"
@@ -252,7 +147,7 @@ const Testimonials = () => {
                                 key={testimonial.id}
                                 className="relative bg-gray-dark rounded-lg border border-gray-600 hover:border-[#0fb8af] transition-all duration-200 group cursor-pointer overflow-hidden h-64 sm:h-72 lg:h-80 shadow-lg hover:shadow-xl"
                             >
-                                {/* Default State */}
+                                {/* Default View */}
                                 <div className="absolute inset-0 p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center text-center transition-all duration-300 ease-out group-hover:-translate-y-full group-hover:opacity-0">
                                     <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full overflow-hidden border-2 border-gray-500 hover:border-[#0fb8af] transition-all duration-500 mb-4 sm:mb-5 lg:mb-6">
                                         <Image
@@ -274,7 +169,7 @@ const Testimonials = () => {
                                     </p>
                                 </div>
 
-                                {/* Hover State */}
+                                {/* Hover View */}
                                 <div className={`absolute inset-0 bg-gradient-to-br ${testimonial.hoverBg} p-4 sm:p-5 lg:p-6 transition-all duration-300 ease-out transform translate-y-full group-hover:translate-y-0 flex flex-col justify-center`}>
                                     <div className="text-center">
                                         <div className="flex justify-center mb-3 sm:mb-4">
@@ -292,72 +187,63 @@ const Testimonials = () => {
                                     </div>
                                 </div>
 
-                                <div className="absolute bottom-0 left-0 w-0 h-1 bg-[#0fb8af] group-hover:w-full transition-all duration-700 delay-200"></div>
+                                <div className="absolute bottom-0 left-0 w-0 h-1 bg-[#0fb8af] group-hover:w-full transition-all duration-700 delay-200" />
                             </div>
                         ))}
                     </div>
                 </div>
 
-               {/* CTA Section */}
-<div className="py-16 px-6 bg-gray-dark">
-  <div className="max-w-7xl mx-auto">
-    <div className="bg-background border border-gray-600 rounded-lg p-8 lg:p-12 text-center">
-      <h2
-        className="text-xl lg:text-2xl font-bold text-foreground mb-4 uppercase"
-        style={{
-          fontFamily: '"Century Gothic", Inter, sans-serif',
-          letterSpacing: "0.05em",
-        }}
-      >
-        Ready to Join Our Success Stories?
-      </h2>
+                {/* CTA Section */}
+                <div className="py-16 px-6 bg-gray-dark">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="bg-background border border-gray-600 rounded-lg p-8 lg:p-12 text-center">
+                            <h2
+                                className="text-xl lg:text-2xl font-bold text-foreground mb-4 uppercase"
+                                style={{
+                                    fontFamily: '"Century Gothic", Inter, sans-serif',
+                                    letterSpacing: "0.05em",
+                                }}
+                            >
+                                Ready to Join Our Success Stories?
+                            </h2>
 
-      <p
-        className="text-gray-light text-base mb-6 max-w-2xl mx-auto"
-        style={{
-          fontFamily: "Inter, sans-serif",
-        }}
-      >
-        Transform your business like our satisfied clients. Let&apos;s discuss
-        your project and create your success story.
-      </p>
+                            <p
+                                className="text-gray-light text-base mb-6 max-w-2xl mx-auto"
+                                style={{ fontFamily: "Inter, sans-serif" }}
+                            >
+                                Transform your business like our satisfied clients. Let&apos;s discuss
+                                your project and create your success story.
+                            </p>
 
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <Link href="/contact">
-          <button
-            className="relative px-6 py-3 border-2 border-[#0fb8af] text-[#0fb8af] font-semibold 
-            transition-all duration-300 ease-in-out
-            hover:bg-[#0fb8af] hover:text-black
-            active:bg-[#0fb8af] active:text-black"
-            style={{
-              fontFamily: "Inter, sans-serif",
-            }}
-          >
-            Contact Me
-          </button>
-        </Link>
-      </div>
-    </div>
-  </div>
-</div>
+                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                <Link href="/contact">
+                                    <button
+                                        className="relative px-6 py-3 border-2 border-[#0fb8af] text-[#0fb8af] font-semibold transition-all duration-300 ease-in-out hover:bg-[#0fb8af] hover:text-black active:bg-[#0fb8af] active:text-black"
+                                        style={{ fontFamily: "Inter, sans-serif" }}
+                                    >
+                                        Contact Me
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <style>
-                {`
-          @keyframes slideRight {
-            0% { width: 0%; }
-            100% { width: 100%; }
-          }
-          
-          .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-          }
-        `}
-            </style>
+            <style jsx>{`
+                @keyframes slideRight {
+                    0% { width: 0%; }
+                    100% { width: 100%; }
+                }
+                
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+            `}</style>
         </div>
     );
 };

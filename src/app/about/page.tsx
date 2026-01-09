@@ -307,21 +307,21 @@ export default function About2() {
                   ))}
                 </div>
 
-                {/* Navigation buttons - grow 10% on hover */}
-                <button
-                  onClick={prevService}
-                  className="absolute left-4 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 bg-[#0fb8af] p-2 sm:p-3 rounded-full hover:scale-110 transition-all duration-300 z-20"
-                  aria-label="Previous"
-                >
-                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </button>
-                <button
-                  onClick={nextService}
-                  className="absolute right-4 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 bg-[#0fb8af] p-2 sm:p-3 rounded-full hover:scale-110 transition-all duration-300 z-20"
-                  aria-label="Next"
-                >
-                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </button>
+               {/* Navigation Arrows */}
+                        <button
+                            onClick={prevService}
+                            className="absolute left-2 sm:left-3 lg:left-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
+                            aria-label="Previous Service"
+                        >
+                            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
+                        </button>
+                        <button
+                            onClick={nextService}
+                            className="absolute right-2 sm:right-3 lg:right-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
+                            aria-label="Next Service"
+                        >
+                            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
+                        </button>
 
                 {/* Dot indicators - grouped by 3, infinite loop */}
                 <div className="flex justify-center mt-6 sm:mt-8 gap-2 relative z-10">
