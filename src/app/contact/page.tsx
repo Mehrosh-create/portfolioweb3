@@ -9,7 +9,6 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 const Contact = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Adjusted outer padding to zero at top for no gap */}
       <div className="flex-grow max-w-7xl xl:max-w-8xl 2xl:max-w-9xl mx-auto w-full px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pb-6 sm:pb-12 md:pb-16 lg:pb-20">
 
         {/* Hero Section - Kept exactly as is */}
@@ -67,117 +66,129 @@ const Contact = () => {
             <ContactForm />
           </div>
 
-          {/* Right: Map on top + Contact Info Cards below (same layout as before, but with exact card content & sizes) */}
+          {/* Right: Map on top + Contact Info below */}
           <div className="flex flex-col gap-8 sm:gap-10">
-            {/* Google Map */}
-            <div className="bg-card p-6 sm:p-8 rounded-lg border border-border hover:border-[#0fb8af] transition-all flex-1 flex flex-col">
-              <h3
-                className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6 sm:mb-8 lg:mb-12 uppercase"
-                style={{
-                  fontFamily: '"Century Gothic", sans-serif',
-                  letterSpacing: "0.05em",
-                }}
-              >
-                VISIT OUR OFFICE
-              </h3>
-              <div className="rounded-lg overflow-hidden flex-1">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.2671625831645!2d73.0432365749624!3d33.59837194156107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df95237c77a5a1%3A0x3f4c08bddd97bf2b!2sEurosHub!5e0!3m2!1sen!2s!4v1762231799960!5m2!1sen!2s"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0, minHeight: "250px" }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="rounded-lg"
-                  title="Google Maps - EurosHub Rawalpindi"
-                />
+            {/* Google Map Container - Enhanced for better content visibility & brand match */}
+            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl">
+              {/* Premium abstract teal waves background (perfect #0fb8af match, dark base with glow) */}
+              <Image
+                src="https://images.unsplash.com/photo-1727283274675-BNfRWhuUw8E?auto=format&fit=crop&w=1920&q=80"
+                alt="Abstract teal waves background"
+                fill
+                className="object-cover"
+                priority={false}
+              />
+              {/* Stronger brand teal tint + reduced dark overlay for clearer content visibility */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0fb8af]/60 via-[#0fb8af]/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-black/35 backdrop-blur-md"></div>
+
+              {/* Content */}
+              <div className="relative p-6 sm:p-8">
+                <h3
+                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-6 sm:mb-8 lg:mb-12 uppercase drop-shadow-2xl"
+                  style={{
+                    fontFamily: '"Century Gothic", sans-serif',
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  VISIT OUR OFFICE
+                </h3>
+                <div className="rounded-xl overflow-hidden shadow-2xl border border-white/30">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.2671625831645!2d73.0432365749624!3d33.59837194156107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df95237c77a5a1%3A0x3f4c08bddd97bf2b!2sEurosHub!5e0!3m2!1sen!2s!4v1762231799960!5m2!1sen!2s"
+                    width="100%"
+                    height="400"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="rounded-xl"
+                    title="Google Maps - EurosHub Rawalpindi"
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Contact Info Cards - Exact content & text sizes from your cards section, placed below map on the right */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {/* Office */}
-              <div className="bg-card p-5 sm:p-6 rounded-lg border border-border hover:border-[#0fb8af] transition-all duration-300 group">
-                <div className="text-center">
-                  <div className="flex justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
-                    <MapPin className="w-7 h-7 sm:w-8 sm:h-8 text-[#0fb8af]" />
-                  </div>
+            {/* Contact Info Container - Same enhancements */}
+            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl">
+              <Image
+                src="https://images.unsplash.com/photo-1727283274675-BNfRWhuUw8E?auto=format&fit=crop&w=1920&q=80"
+                alt="Abstract teal waves background"
+                fill
+                className="object-cover"
+                priority={false}
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0fb8af]/60 via-[#0fb8af]/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-black/35 backdrop-blur-md"></div>
+
+              {/* Content */}
+              <div className="relative p-6 sm:p-8">
+                <div className="text-center mb-8 sm:mb-10">
                   <h3
-                    className="text-base sm:text-lg font-bold text-foreground mb-3 sm:mb-4 uppercase tracking-wider"
-                    style={{ fontFamily: '"Century Gothic", sans-serif' }}
+                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-3 sm:mb-4 uppercase drop-shadow-2xl"
+                    style={{
+                      fontFamily: '"Century Gothic", sans-serif',
+                      letterSpacing: "0.05em",
+                    }}
                   >
-                    OFFICE
+                    GET IN TOUCH
                   </h3>
                   <p
-                    className="text-xs sm:text-sm text-muted-foreground leading-relaxed px-1"
+                    className="text-sm sm:text-base text-white/95 leading-relaxed max-w-2xl mx-auto drop-shadow-lg"
                     style={{ fontFamily: '"Inter", sans-serif' }}
                   >
-                    EurosHub, Rawalpindi
+                    Ready to start your next project? Reach out and let&apos;s create something amazing together.
                   </p>
                 </div>
-              </div>
 
-              {/* Phone */}
-              <div className="bg-card p-5 sm:p-6 rounded-lg border border-border hover:border-[#0fb8af] transition-all duration-300 group">
-                <div className="text-center">
-                  <div className="flex justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
-                    <Phone className="w-7 h-7 sm:w-8 sm:h-8 text-[#0fb8af]" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                  <div className="text-center">
+                    <div className="flex justify-center mb-4 sm:mb-5">
+                      <MapPin className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
+                      OFFICE
+                    </h3>
+                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
+                      EurosHub, Rawalpindi
+                    </p>
                   </div>
-                  <h3
-                    className="text-base sm:text-lg font-bold text-foreground mb-3 sm:mb-4 uppercase tracking-wider"
-                    style={{ fontFamily: '"Century Gothic", sans-serif' }}
-                  >
-                    CALL US
-                  </h3>
-                  <p
-                    className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed px-1"
-                    style={{ fontFamily: '"Inter", sans-serif' }}
-                  >
-                    +923000369622
-                  </p>
-                </div>
-              </div>
 
-              {/* Email */}
-              <div className="bg-card p-5 sm:p-6 rounded-lg border border-border hover:border-[#0fb8af] transition-all duration-300 group">
-                <div className="text-center">
-                  <div className="flex justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
-                    <Mail className="w-7 h-7 sm:w-8 sm:h-8 text-[#0fb8af]" />
+                  <div className="text-center">
+                    <div className="flex justify-center mb-4 sm:mb-5">
+                      <Phone className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
+                      CALL US
+                    </h3>
+                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
+                      +923000369622
+                    </p>
                   </div>
-                  <h3
-                    className="text-base sm:text-lg font-bold text-foreground mb-3 sm:mb-4 uppercase tracking-wider"
-                    style={{ fontFamily: '"Century Gothic", sans-serif' }}
-                  >
-                    EMAIL US
-                  </h3>
-                  <p
-                    className="text-xs sm:text-sm text-muted-foreground leading-relaxed px-1 break-words"
-                    style={{ fontFamily: '"Inter", sans-serif' }}
-                  >
-                    hello@sheikhnabeel.com
-                  </p>
-                </div>
-              </div>
 
-              {/* Hours */}
-              <div className="bg-card p-5 sm:p-6 rounded-lg border border-border hover:border-[#0fb8af] transition-all duration-300 group">
-                <div className="text-center">
-                  <div className="flex justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
-                    <Clock className="w-7 h-7 sm:w-8 sm:h-8 text-[#0fb8af]" />
+                  <div className="text-center">
+                    <div className="flex justify-center mb-4 sm:mb-5">
+                      <Mail className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
+                      EMAIL US
+                    </h3>
+                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 break-words drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
+                      hello@sheikhnabeel.com
+                    </p>
                   </div>
-                  <h3
-                    className="text-base sm:text-lg font-bold text-foreground mb-3 sm:mb-4 uppercase tracking-wider"
-                    style={{ fontFamily: '"Century Gothic", sans-serif' }}
-                  >
-                    WORKING HOURS
-                  </h3>
-                  <p
-                    className="text-xs sm:text-sm text-muted-foreground leading-relaxed px-1"
-                    style={{ fontFamily: '"Inter", sans-serif' }}
-                  >
-                    Mon - Sat, 24 Hours
-                  </p>
+
+                  <div className="text-center">
+                    <div className="flex justify-center mb-4 sm:mb-5">
+                      <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
+                      WORKING HOURS
+                    </h3>
+                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
+                      Mon - Sat, 24 Hours
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
