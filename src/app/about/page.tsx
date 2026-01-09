@@ -308,6 +308,7 @@ export default function About2() {
                 </div>
 
                {/* Navigation Arrows */}
+                       {/* Navigation Arrows */}
                         <button
                             onClick={prevService}
                             className="absolute left-2 sm:left-3 lg:left-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
