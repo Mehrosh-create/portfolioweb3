@@ -1,16 +1,18 @@
 // components/services/ServicesGrid.tsx
 "use client";
 
+
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { 
-  ChevronDown, 
+import {
+  ChevronDown,
   ArrowRight
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
 
 const FadeSlide = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
   <motion.div
@@ -23,10 +25,22 @@ const FadeSlide = ({ children, delay = 0 }: { children: React.ReactNode; delay?:
   </motion.div>
 );
 
+
+const shimmer = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+
 const ServicesGrid = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [showAllServices, setShowAllServices] = useState(false);
+
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -34,179 +48,182 @@ const ServicesGrid = () => {
     offset: ["start end", "end start"],
   });
 
+
   const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
+
   const serviceCards = [
-    { 
+    {
       id: 1,
-      title: "Accuracy Verification", 
-      description: "99.9% accuracy guarantee with quality control, data validation, and compliance verification systems.", 
+      title: "Accuracy Verification",
+      description: "99.9% accuracy guarantee with quality control, data validation, and compliance verification systems.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce1f6f855821383d1c14_Quality%20Assurance%20.avif",
       href: "/services/accuracy-verification"
     },
-    { 
+    {
       id: 2,
-      title: "Ecommerce Solutions", 
-      description: "Shopify, WooCommerce, Magento full-store builds with payment, inventory & marketing.", 
+      title: "Ecommerce Solutions",
+      description: "Shopify, WooCommerce, Magento full-store builds with payment, inventory & marketing.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce2de7c668dd873f6ef6_SaaS.avif",
-      href: "/services/ecommerce-solutions" 
+      href: "/services/ecommerce-solutions"
     },
-    { 
+    {
       id: 3,
-      title: "Account Management", 
-      description: "Dedicated success managers for long-term growth and retention.", 
+      title: "Account Management",
+      description: "Dedicated success managers for long-term growth and retention.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67bce7eff5d9e573cacb93d1_Overview-Section-Driving-Ecommerce_11zon.webp",
-      href: "/services/account-management" 
+      href: "/services/account-management"
     },
-    { 
+    {
       id: 4,
-      title: "Automated Workflow", 
-      description: "Zapier, Make.com, n8n eliminate manual tasks forever.", 
+      title: "Automated Workflow",
+      description: "Zapier, Make.com, n8n eliminate manual tasks forever.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67c5c1f213fe8086fc311cd2_Mobile-Automation--min.avif",
-      href: "/services/automated-workflow" 
+      href: "/services/automated-workflow"
     },
-    { 
+    {
       id: 5,
-      title: "Project Management", 
-      description: "Asana, ClickUp, Jira structured delivery with transparency.", 
+      title: "Project Management",
+      description: "Asana, ClickUp, Jira structured delivery with transparency.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c0241c66269762456ad870_compressed_ongoing-enhancement.webp",
-      href: "/services/project-management" 
+      href: "/services/project-management"
     },
-    { 
+    {
       id: 6,
-      title: "Program Management", 
-      description: "Multi-project alignment with business strategy and KPIs.", 
+      title: "Program Management",
+      description: "Multi-project alignment with business strategy and KPIs.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c023e72f27c271ccbefd30_compressed_Third-party-integrations.webp",
-      href: "/services/program-management" 
+      href: "/services/program-management"
     },
-    { 
+    {
       id: 7,
-      title: "Email Marketing", 
-      description: "Klaviyo flows, segmentation, deliverability, A/B testing, and compliance.", 
+      title: "Email Marketing",
+      description: "Klaviyo flows, segmentation, deliverability, A/B testing, and compliance.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce1f6f855821383d1c14_Quality%20Assurance%20.avif",
-      href: "/services/email-marketing" 
+      href: "/services/email-marketing"
     },
-    { 
+    {
       id: 8,
-      title: "Data Analysis", 
-      description: "Tableau, Power BI dashboards with predictive analytics and insights.", 
+      title: "Data Analysis",
+      description: "Tableau, Power BI dashboards with predictive analytics and insights.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce2de7c668dd873f6ef6_SaaS.avif",
-      href: "/services/data-analysis" 
+      href: "/services/data-analysis"
     },
-    { 
+    {
       id: 9,
-      title: "AI Solutions", 
-      description: "Custom ML models, chatbots, predictive systems with ethical AI.", 
+      title: "AI Solutions",
+      description: "Custom ML models, chatbots, predictive systems with ethical AI.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67bce7eff5d9e573cacb93d1_Overview-Section-Driving-Ecommerce_11zon.webp",
-      href: "/services/ai-solutions" 
+      href: "/services/ai-solutions"
     },
-    { 
+    {
       id: 10,
-      title: "Cybersecurity", 
-      description: "Penetration testing, monitoring, compliance with SOC2/ISO standards.", 
+      title: "Cybersecurity",
+      description: "Penetration testing, monitoring, compliance with SOC2/ISO standards.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67c5c1f213fe8086fc311cd2_Mobile-Automation--min.avif",
-      href: "/services/cybersecurity" 
+      href: "/services/cybersecurity"
     },
-    { 
+    {
       id: 11,
-      title: "UI/UX Design", 
-      description: "Figma prototypes, user research, accessibility-optimized interfaces.", 
+      title: "UI/UX Design",
+      description: "Figma prototypes, user research, accessibility-optimized interfaces.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c0241c66269762456ad870_compressed_ongoing-enhancement.webp",
-      href: "/services/ui-ux-design" 
+      href: "/services/ui-ux-design"
     },
-    { 
+    {
       id: 12,
-      title: "Web Development", 
-      description: "Next.js, React progressive web apps with SEO and performance.", 
+      title: "Web Development",
+      description: "Next.js, React progressive web apps with SEO and performance.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c023e72f27c271ccbefd30_compressed_Third-party-integrations.webp",
-      href: "/services/web-development" 
+      href: "/services/web-development"
     },
-    { 
+    {
       id: 13,
-      title: "Cloud Solutions", 
-      description: "AWS, Azure migration, serverless architecture, cost optimization.", 
+      title: "Cloud Solutions",
+      description: "AWS, Azure migration, serverless architecture, cost optimization.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce1f6f855821383d1c14_Quality%20Assurance%20.avif",
-      href: "/services/cloud-solutions" 
+      href: "/services/cloud-solutions"
     },
-    { 
+    {
       id: 14,
-      title: "SaaS Development", 
-      description: "Multi-tenant apps, subscription billing, scalable infrastructure.", 
+      title: "SaaS Development",
+      description: "Multi-tenant apps, subscription billing, scalable infrastructure.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce2de7c668dd873f6ef6_SaaS.avif",
-      href: "/services/saas-development" 
+      href: "/services/saas-development"
     },
-    { 
+    {
       id: 15,
-      title: "Data Migration", 
-      description: "Zero-downtime transfers, data mapping, integrity validation.", 
+      title: "Data Migration",
+      description: "Zero-downtime transfers, data mapping, integrity validation.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67bce7eff5d9e573cacb93d1_Overview-Section-Driving-Ecommerce_11zon.webp",
-      href: "/services/data-migration" 
+      href: "/services/data-migration"
     },
-    { 
+    {
       id: 16,
-      title: "DevOps & CI/CD", 
-      description: "GitHub Actions, Kubernetes orchestration, automated deployments.", 
+      title: "DevOps & CI/CD",
+      description: "GitHub Actions, Kubernetes orchestration, automated deployments.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67c5c1f213fe8086fc311cd2_Mobile-Automation--min.avif",
-      href: "/services/devops-cicd" 
+      href: "/services/devops-cicd"
     },
-    { 
+    {
       id: 17,
-      title: "Google Workspace", 
-      description: "Setup, training, custom apps for collaboration and productivity.", 
+      title: "Google Workspace",
+      description: "Setup, training, custom apps for collaboration and productivity.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c0241c66269762456ad870_compressed_ongoing-enhancement.webp",
-      href: "/services/google-workspace" 
+      href: "/services/google-workspace"
     },
-    { 
+    {
       id: 18,
-      title: "HubSpot CRM", 
-      description: "Implementation, automation, sales/marketing alignment.", 
+      title: "HubSpot CRM",
+      description: "Implementation, automation, sales/marketing alignment.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c023e72f27c271ccbefd30_compressed_Third-party-integrations.webp",
-      href: "/services/hubspot-crm" 
+      href: "/services/hubspot-crm"
     },
-    { 
+    {
       id: 19,
-      title: "Administrative Support", 
-      description: "Virtual assistants, scheduling, document management services.", 
+      title: "Administrative Support",
+      description: "Virtual assistants, scheduling, document management services.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce1f6f855821383d1c14_Quality%20Assurance%20.avif",
-      href: "/services/administrative-support" 
+      href: "/services/administrative-support"
     },
-    { 
+    {
       id: 20,
-      title: "Staff Augmentation", 
-      description: "Skilled developers, designers on-demand for your team.", 
+      title: "Staff Augmentation",
+      description: "Skilled developers, designers on-demand for your team.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/6746ce2de7c668dd873f6ef6_SaaS.avif",
-      href: "/services/staff-augmentation" 
+      href: "/services/staff-augmentation"
     },
-    { 
+    {
       id: 21,
-      title: "Business Operations", 
-      description: "Process optimization, KPI tracking, operational excellence.", 
+      title: "Business Operations",
+      description: "Process optimization, KPI tracking, operational excellence.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67bce7eff5d9e573cacb93d1_Overview-Section-Driving-Ecommerce_11zon.webp",
-      href: "/services/business-operations" 
+      href: "/services/business-operations"
     },
-    { 
+    {
       id: 22,
-      title: "CRM Automation", 
-      description: "Salesforce, HubSpot custom automations and integrations.", 
+      title: "CRM Automation",
+      description: "Salesforce, HubSpot custom automations and integrations.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/67c5c1f213fe8086fc311cd2_Mobile-Automation--min.avif",
-      href: "/services/crm-automation" 
+      href: "/services/crm-automation"
     },
-    { 
+    {
       id: 23,
-      title: "Compliance Services", 
-      description: "GDPR, HIPAA audits, risk assessment, compliance management.", 
+      title: "Compliance Services",
+      description: "GDPR, HIPAA audits, risk assessment, compliance management.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c0241c66269762456ad870_compressed_ongoing-enhancement.webp",
-      href: "/services/compliance-services" 
+      href: "/services/compliance-services"
     },
-    { 
+    {
       id: 24,
-      title: "Technical Documentation", 
-      description: "API docs, user manuals, knowledge base creation.", 
+      title: "Technical Documentation",
+      description: "API docs, user manuals, knowledge base creation.",
       image: "https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83dcf/68c023e72f27c271ccbefd30_compressed_Third-party-integrations.webp",
-      href: "/services/technical-documentation" 
+      href: "/services/technical-documentation"
     },
   ];
+
 
   return (
     <StyledWrapper>
@@ -216,7 +233,7 @@ const ServicesGrid = () => {
           isDark ? "bg-[#0a0a0a]" : "bg-white"
         }`}
       >
-        {/* Background gradient blur effect - same as ServicesProcess and CounterSection */}
+        {/* Background gradient blur effect */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             style={{ y: y1 }}
@@ -227,6 +244,7 @@ const ServicesGrid = () => {
             className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#1fc8db]/10 rounded-full blur-[100px]"
           />
         </div>
+
 
         <div className="max-w-7xl mx-auto relative z-10">
           <FadeSlide delay={0}>
@@ -245,6 +263,7 @@ const ServicesGrid = () => {
               </p>
             </div>
           </FadeSlide>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {serviceCards.slice(0, showAllServices ? undefined : 6).map((card, index) => (
@@ -274,6 +293,7 @@ const ServicesGrid = () => {
             ))}
           </div>
 
+
           <AnimatePresence>
             {!showAllServices && (
               <motion.div
@@ -298,14 +318,17 @@ const ServicesGrid = () => {
   );
 };
 
+
 const StyledWrapper = styled.div`
   .heading-font {
     font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   }
 
+
   .body-font {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
+
 
   .card-container {
     position: relative;
@@ -313,6 +336,7 @@ const StyledWrapper = styled.div`
     height: 400px;
     cursor: pointer;
   }
+
 
   .card {
     position: relative;
@@ -330,6 +354,7 @@ const StyledWrapper = styled.div`
     color: white;
   }
 
+
   .card::before {
     content: '';
     position: absolute;
@@ -345,6 +370,7 @@ const StyledWrapper = styled.div`
     transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
+
   .card::after {
     content: "";
     z-index: 1;
@@ -357,6 +383,7 @@ const StyledWrapper = styled.div`
     transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
+
   .card-image {
     position: absolute;
     inset: 2px;
@@ -364,6 +391,7 @@ const StyledWrapper = styled.div`
     overflow: hidden;
     z-index: 2;
   }
+
 
   .card-overlay {
     position: absolute;
@@ -374,6 +402,7 @@ const StyledWrapper = styled.div`
     transition: all 0.3s ease;
   }
 
+
   .card-content {
     position: relative;
     z-index: 4;
@@ -383,12 +412,31 @@ const StyledWrapper = styled.div`
     justify-content: flex-end;
   }
 
+
   .card-heading {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.75rem;
     line-height: 1.2;
+   
+    /* Shimmer effect */
+    background: linear-gradient(
+      90deg,
+      #ffffff 0%,
+      #0fb8af 25%,
+      #00f0ff 50%,
+      #0fb8af 75%,
+      #ffffff 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+   
+    animation: ${shimmer} 4s linear infinite;
   }
+
 
   .card-description {
     font-size: 0.875rem;
@@ -401,6 +449,7 @@ const StyledWrapper = styled.div`
     overflow: hidden;
   }
 
+
   .card-cta {
     display: flex;
     align-items: center;
@@ -410,6 +459,7 @@ const StyledWrapper = styled.div`
     transition: transform 0.3s ease;
   }
 
+
   .card-arrow {
     margin-left: 0.5rem;
     width: 1rem;
@@ -417,31 +467,38 @@ const StyledWrapper = styled.div`
     transition: transform 0.3s ease;
   }
 
+
   .card:hover .card-cta {
     transform: translateX(8px);
   }
 
+
   .card:hover .card-arrow {
     transform: translateX(4px);
   }
+
 
   .card:hover::after {
     filter: blur(30px);
     opacity: 0.9;
   }
 
+
   .card:hover::before {
     transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
   }
+
 
   .card:hover .card-image img {
     transform: scale(1.1);
     transition: transform 0.7s ease;
   }
 
+
   .card .card-image img {
     transition: transform 0.7s ease;
   }
 `;
+
 
 export default ServicesGrid;
