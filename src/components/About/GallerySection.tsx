@@ -36,18 +36,13 @@ const SlidingHighlight = ({ text }: { text: string }) => {
 
   return (
     <div ref={ref} className="relative inline-block mx-auto mb-8">
-      {/* Solid #0FB8AF Capsule Background */}
       <div className="absolute inset-0 bg-[#0FB8AF] rounded-full" />
-
-      {/* Sliding Reveal (white to teal) */}
       <div
         className="absolute inset-0 bg-white rounded-full origin-left transition-transform duration-1000 ease-out"
         style={{
           transform: inView ? "scaleX(0)" : "scaleX(1)",
         }}
       />
-
-      {/* Text */}
       <span className="relative z-10 block px-8 py-3 text-sm font-bold tracking-widest uppercase text-white font-['Century_Gothic',sans-serif]">
         {text}
       </span>
@@ -72,7 +67,6 @@ const galleryItems: GalleryItem[] = [
   { id: 6, title: "Digital Marketing", description: "Modern marketing strategies", src: "/images/digital-markiting-3.jpg" },
 ];
 
-/* ---------------------- Split into two columns ---------------------- */
 const leftColumn = galleryItems.filter((_, i) => i % 2 === 0);
 const rightColumn = galleryItems.filter((_, i) => i % 2 === 1);
 const duplicatedLeft = [...leftColumn, ...leftColumn, ...leftColumn];
@@ -86,33 +80,27 @@ const InsightsSection = () => {
     <section className="py-24 bg-background font-['Inter',sans-serif]">
       <div className="max-w-[1600px] mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Left: Text Content */}
-          <div className="text-left space-y-8 lg:sticky lg:top-24">
+          {/* Left: Text Content - More prominent & longer version */}
+          <div className="text-left space-y-10 lg:sticky lg:top-20">
             <FadeSlide>
               <SlidingHighlight text="Featured Insights" />
             </FadeSlide>
 
             <FadeSlide delay={0.2}>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-foreground font-['Century_Gothic',sans-serif]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-tight text-foreground font-['Century_Gothic',sans-serif]">
                 From{" "}
-                <span className="text-[#0FB8AF]">Concept </span>to Completion
+                <span className="text-[#0FB8AF]">Concept</span> to Completion
               </h2>
             </FadeSlide>
 
             <FadeSlide delay={0.4}>
-              <p className="text-xl text-muted-foreground">
-                Explore our portfolio of successful projects and business transformations
+              <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
+                Explore our diverse portfolio of successful projects and meaningful business transformations. 
+                Discover how we help ambitious companies evolve from early-stage concepts into scalable, market-leading solutions through strategic thinking, operational excellence, and innovative digital approaches.
               </p>
             </FadeSlide>
 
-            <FadeSlide delay={0.6}>
-              <Link
-                href="/learning"
-                className="inline-block px-8 py-4 bg-[#0FB8AF] text-white font-medium rounded-xl hover:scale-105 transition-transform duration-300 font-['Century_Gothic',sans-serif]"
-              >
-                Explore More
-              </Link>
-            </FadeSlide>
+          
           </div>
 
           {/* Right: Scrolling Gallery Columns */}
@@ -159,6 +147,8 @@ const InsightsSection = () => {
                   </div>
                 ))}
               </motion.div>
+              <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
+              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
             </div>
 
             {/* Right Column - Scrolls Up */}
@@ -203,6 +193,8 @@ const InsightsSection = () => {
                   </div>
                 ))}
               </motion.div>
+              <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
+              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
             </div>
           </div>
         </div>
