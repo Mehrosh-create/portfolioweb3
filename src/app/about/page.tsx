@@ -72,7 +72,6 @@ const LogosSection = () => {
 };
 
 export default function About2() {
-  // Using your exact image paths with /imagess/
   const services = [
     { name: "Business Operations & Process Optimization", img: "/imagess/process-optimization.jpg" },
     { name: "Automated Workflow Systems", img: "/imagess/automated-workflow.jpg" },
@@ -111,7 +110,6 @@ export default function About2() {
     setCurrentIndex((prev) => (prev - 3 < 0 ? Math.max(services.length - 3, 0) : prev - 3));
   };
 
-  // Auto-rotate every 2 seconds
   useEffect(() => {
     if (!isPaused) {
       const interval = setInterval(nextService, 2000);
@@ -119,14 +117,12 @@ export default function About2() {
     }
   }, [isPaused]);
 
-  // Mouse tracking
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Drag state
   useEffect(() => {
     const handleMouseDown = () => setIsDragging(true);
     const handleMouseUp = () => setIsDragging(false);
@@ -138,7 +134,6 @@ export default function About2() {
     };
   }, []);
 
-  // Responsive profile card
   useEffect(() => {
     const updateHeights = () => {
       const viewportWidth = window.innerWidth;
@@ -168,7 +163,7 @@ export default function About2() {
   }, []);
 
   return (
-    <div className="about-page min-h-screen bg-background flex flex-col w-full overflow-x-hidden pt-10 sm:pt-14 md:pt-16 lg:pt-20">
+    <div className="about-page min-h-screen bg-background flex flex-col w-full overflow-x-hidden pt-10 sm:pt-14 md:pt-16 lg:pt-20 scrollbar-hide">
       <div className="flex-grow w-full max-w-full mx-auto px-0 py-3 sm:py-5 md:py-7 lg:py-9">
         {/* HERO SECTION */}
         <FadeSlide direction="up" delay={0.1}>
@@ -192,6 +187,25 @@ export default function About2() {
 
         {/* MAIN CONTENT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 mb-8 sm:mb-10 md:mb-12 px-3 sm:px-4 md:px-6 lg:px-8">
+          <FadeSlide direction="left" delay={0.3}>
+            <div className="order-1 lg:order-2 flex justify-center items-center px-1 sm:px-2 md:px-3">
+              <div className="w-full flex justify-center">
+                <div ref={profileImageRef} className="tc-elementor-card group relative" style={{ minHeight: "280px" }}>
+                  <Image
+                    src="/images/about-profile.jpg"
+                    alt="Sheikh Nabeel - Digital Transformation Expert"
+                    fill
+                    className="object-cover w-full h-full rounded-xl sm:rounded-2xl"
+                    sizes="(max-width: 768px) 90vw, 500px"
+                    priority
+                    quality={95}
+                  />
+                  <div className="tc-elementor-content"></div>
+                </div>
+              </div>
+            </div>
+          </FadeSlide>
+
           <FadeSlide direction="right" delay={0.2}>
             <div ref={textContentRef} className="order-2 lg:order-1 flex flex-col justify-center px-1 sm:px-2 md:px-3"
               style={{ minHeight: '280px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -211,25 +225,6 @@ export default function About2() {
               </div>
             </div>
           </FadeSlide>
-
-          <FadeSlide direction="left" delay={0.3}>
-            <div className="order-1 lg:order-2 flex justify-center items-center px-1 sm:px-2 md:px-3">
-              <div className="w-full flex justify-center">
-                <div ref={profileImageRef} className="tc-elementor-card group relative" style={{ minHeight: "280px" }}>
-                  <Image
-                    src="/images/about-profile.jpg"
-                    alt="Sheikh Nabeel - Digital Transformation Expert"
-                    fill
-                    className="object-cover w-full h-full rounded-xl sm:rounded-2xl"
-                    sizes="(max-width: 768px) 90vw, 500px"
-                    priority
-                    quality={95}
-                  />
-                  <div className="tc-elementor-content"></div>
-                </div>
-              </div>
-            </div>
-          </FadeSlide>
         </div>
 
         <FadeSlide direction="up" delay={0.4}>
@@ -240,10 +235,8 @@ export default function About2() {
           <div className="mb-8 sm:mb-10 md:mb-12"><GallerySection /></div>
         </FadeSlide>
 
-        {/* TECHNOLOGIES & PLATFORMS - Full Carousel (matching Testimonials page) */}
         <FadeSlide direction="up" delay={0.5}>
           <div className="relative py-12">
-            {/* Header with sliding teal bar */}
             <div className="text-center mb-12 lg:mb-16">
               <h2
                 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black uppercase text-foreground mb-6 leading-tight"
@@ -266,14 +259,12 @@ export default function About2() {
               </div>
             </div>
 
-            {/* Carousel */}
             <div
               className="relative max-w-5xl mx-auto"
               onMouseEnter={() => !isTouchDevice && setIsPaused(true)}
               onMouseLeave={() => !isTouchDevice && setIsPaused(false)}
             >
               <div className="bg-gray-dark rounded-lg p-6 sm:p-8 lg:p-12 relative border border-gray-600 hover:border-[#0fb8af] transition-all duration-300 overflow-hidden">
-                {/* Subtle background pattern */}
                 <div
                   className="absolute inset-0 opacity-5"
                   style={{
@@ -283,9 +274,7 @@ export default function About2() {
                   }}
                 ></div>
 
-                {/* Responsive grid: 1–3 cards - INFINITE LOOP (no end point) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
-                  {/* Always show 3 cards by wrapping around */}
                   {[
                     services[(currentIndex + 0) % services.length],
                     services[(currentIndex + 1) % services.length],
@@ -307,24 +296,21 @@ export default function About2() {
                   ))}
                 </div>
 
-               {/* Navigation Arrows */}
-                       {/* Navigation Arrows */}
-                        <button
-                            onClick={prevService}
-                            className="absolute left-2 sm:left-3 lg:left-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
-                            aria-label="Previous Service"
-                        >
-                            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
-                        </button>
-                        <button
-                            onClick={nextService}
-                            className="absolute right-2 sm:right-3 lg:right-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
-                            aria-label="Next Service"
-                        >
-                            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
-                        </button>
+                <button
+                  onClick={prevService}
+                  className="absolute left-2 sm:left-3 lg:left-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
+                  aria-label="Previous Service"
+                >
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
+                </button>
+                <button
+                  onClick={nextService}
+                  className="absolute right-2 sm:right-3 lg:right-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
+                  aria-label="Next Service"
+                >
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
+                </button>
 
-                {/* Dot indicators - grouped by 3, infinite loop */}
                 <div className="flex justify-center mt-6 sm:mt-8 gap-2 relative z-10">
                   {Array(Math.ceil(services.length / 3)).fill(null).map((_, index) => (
                     <button
@@ -350,7 +336,27 @@ export default function About2() {
         </FadeSlide>
       </div>
 
-      {/* Global Styles */}
+      {/* Hide default scrollbar on this page */}
+      <style jsx global>{`
+        .about-page {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;     /* Firefox */
+        }
+
+        .about-page::-webkit-scrollbar {
+          display: none;             /* Chrome, Safari, Opera */
+        }
+
+        /* Optional: if you still want scrollbar track to be invisible but thumb visible in some cases */
+        .about-page::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .about-page::-webkit-scrollbar-thumb {
+          background: transparent;
+        }
+      `}</style>
+
       <style jsx global>{`
         .glass-card-wrapper {
           padding: 0 8px;

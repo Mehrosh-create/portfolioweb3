@@ -428,15 +428,7 @@ const GlobalReach: React.FC = () => {
               {/* CTA Button */}
               <FadeSlide delay={0.9}>
                 <div className="mt-10">
-                  <button 
-                    className={`${
-                      theme === 'dark' 
-                        ? 'bg-[#0fb8af] hover:bg-[#0da69c] text-white' 
-                        : 'bg-[#0fb8af] hover:bg-[#0da69c] text-white'
-                    } px-8 py-3 rounded-full font-medium transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg font-inter`}
-                  >
-                    Explore Our Global Impact
-                  </button>
+                 
                 </div>
               </FadeSlide>
             </FadeSlide>
