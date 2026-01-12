@@ -1,10 +1,9 @@
-
 "use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import {
   FaTwitter,
   FaFacebookF,
@@ -28,7 +27,6 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
   const [screenSize, setScreenSize] =
     useState<"mobile" | "tablet" | "desktop">("desktop");
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
-
   const pathname = usePathname();
   const { theme } = useTheme();
 
@@ -46,7 +44,6 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
         setIsOpen(true);
       }
     };
-
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
     return () => window.removeEventListener("resize", checkScreenSize);
@@ -73,6 +70,7 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
       socialIcon: "text-white",
       border: "border-[#0fb8af]/40",
       logoFilter: "filter-none",
+      menuButton: "bg-black text-white border-white/20",
     },
     light: {
       sidebar: "bg-white text-black",
@@ -81,6 +79,7 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
       socialIcon: "text-black",
       border: "border-[#0fb8af]/40",
       logoFilter: "filter invert",
+      menuButton: "bg-white text-black border-black/20",
     },
   };
 
@@ -99,6 +98,18 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
 
   return (
     <>
+      {/* Hamburger Menu Button - Only visible on mobile and tablet */}
+      {screenSize !== "desktop" && (
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`fixed top-4 left-4 z-50 p-2 rounded-md border transition-all duration-300 ${currentTheme.menuButton} hover:bg-[#0fb8af] hover:text-white hover:border-[#0fb8af]`}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      )}
+
+      {/* Overlay for mobile/tablet when sidebar is open */}
       {screenSize !== "desktop" && isOpen && (
         <div
           className={`fixed inset-0 z-40 ${currentTheme.overlay}`}
@@ -106,16 +117,16 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
         />
       )}
 
+      {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-screen w-64 ${currentTheme.sidebar} z-50
         transition-transform duration-300 shadow-xl
         ${isOpen || screenSize === "desktop" ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex flex-col h-full">
-
           {/* Logo */}
           <div className="px-4 py-4 flex justify-center">
-            <Link href="/">
+            <Link href="/" onClick={() => screenSize !== "desktop" && setIsOpen(false)}>
               <Image
                 src="/images/sign.png"
                 alt="Logo"
@@ -140,7 +151,6 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
                 const isActive = pathname === item.href;
                 const shouldHighlight =
                   hoveredNav === item.href || (isActive && hoveredNav === null);
-
                 return (
                   <li key={item.href} className="relative overflow-hidden">
                     <div
@@ -151,12 +161,12 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
                         : "scale-x-0 opacity-80 origin-left"}`}
                       style={{ zIndex: -1 }}
                     />
-
                     <Link
                       href={item.href}
                       className={`block px-4 py-2 relative ${currentTheme.navText}`}
                       onMouseEnter={() => setHoveredNav(item.href)}
                       onMouseLeave={() => setHoveredNav(null)}
+                      onClick={() => screenSize !== "desktop" && setIsOpen(false)}
                       style={{
                         fontFamily: "Century Gothic, sans-serif",
                         fontWeight: 600,
@@ -169,7 +179,6 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
                   </li>
                 );
               })}
-
               <li className="pt-3 pl-4">
                 <button onClick={onSearchClick}>
                   <Search className="w-5 h-5" />
@@ -178,7 +187,7 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
             </ul>
           </nav>
 
-          {/* ✅ Social Icons — ORIGINAL VERSION (UNCHANGED) */}
+          {/* Social Icons - UNCHANGED */}
           <div className={`p-4 border-t ${currentTheme.border}`}>
             <ul
               className={`grid ${getSocialGridCols()} justify-items-center`}
@@ -216,7 +225,6 @@ const Sidebar = ({ onSearchClick }: SidebarProps) => {
                 ))}
             </ul>
           </div>
-
         </div>
       </aside>
     </>

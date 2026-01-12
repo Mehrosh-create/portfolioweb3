@@ -1,4 +1,3 @@
-// app/blog/[slug]/page.tsx
 'use client';
 
 import React, { useState, useEffect } from "react";
@@ -386,28 +385,7 @@ export default function BlogArticlePage() {
             </Link>
           </motion.div>
         </motion.div>
-
-        {/* Floating Reading Progress */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6 }}
-          className={`fixed bottom-6 right-6 z-40 p-3 rounded-full backdrop-blur-sm ${
-            theme === 'dark' ? 'bg-gray-800/50' : 'bg-gray-200/80'
-          } shadow-lg`}
-        >
-          <div className="w-2 h-24 bg-gray-600 rounded-full overflow-hidden">
-            <motion.div
-              className="w-full bg-gradient-to-b from-[#0fb8af] to-[#1fc8db] rounded-full"
-              initial={{ height: "0%" }}
-              animate={{ height: "70%" }}
-              transition={{ duration: 2, ease: "easeOut" }}
-            />
-          </div>
-        </motion.div>
       </article>
-
-    
     </div>
   );
 }

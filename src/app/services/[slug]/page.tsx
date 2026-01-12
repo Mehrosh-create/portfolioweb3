@@ -774,9 +774,7 @@ const serviceData: Record<string, Service> = {
   },
 };
 
-// ────────────────────────────────────────────────────────────────
-// MAIN PAGE COMPONENT - Next.js 15+ compatible (no params warning)
-// ────────────────────────────────────────────────────────────────
+
 export default async function ServicePage({
   params,
 }: {

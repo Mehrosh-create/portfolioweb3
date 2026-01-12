@@ -1,12 +1,10 @@
 "use client";
 
-
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, Variants } from "framer-motion";
-
 
 /* ---------------------- FadeSlide Component ---------------------- */
 interface FadeSlideProps {
@@ -14,7 +12,6 @@ interface FadeSlideProps {
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
 }
-
 
 const fadeVariants: Variants = {
   hidden: (direction: string) => {
@@ -29,7 +26,6 @@ const fadeVariants: Variants = {
   visible: { opacity: 1, x: 0, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } },
 };
 
-
 const FadeSlide: React.FC<FadeSlideProps> = ({ children, delay = 0, direction = "up" }) => (
   <motion.div
     custom={direction}
@@ -43,10 +39,8 @@ const FadeSlide: React.FC<FadeSlideProps> = ({ children, delay = 0, direction = 
   </motion.div>
 );
 
-
 /* ---------------------- HeroSection ---------------------- */
 interface FeatureItem { id: number; text: string; }
-
 
 const TITLES = [
   "Strategic Decision Power",
@@ -55,9 +49,7 @@ const TITLES = [
   "Transforming Vision into Impact",
 ];
 
-
 const HIGHLIGHT_WORDS = ["Empowering", "Future-Ready", "Strategic", "Impact"];
-
 
 const features: FeatureItem[] = [
   { id: 1, text: "7+ Years Leadership Experience" },
@@ -65,22 +57,18 @@ const features: FeatureItem[] = [
   { id: 3, text: "Digital Transformation Expert" },
 ];
 
-
 const HeroSection: React.FC = () => {
   const themeContext = useTheme();
   const theme = themeContext?.theme ?? "light";
-
 
   const [text, setText] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-
   useEffect(() => {
     const currentTitle = TITLES[titleIndex];
     let timeout: NodeJS.Timeout;
-
 
     if (!isDeleting && charIndex < currentTitle.length) {
       timeout = setTimeout(() => {
@@ -99,10 +87,8 @@ const HeroSection: React.FC = () => {
       setTitleIndex((prev) => (prev + 1) % TITLES.length);
     }
 
-
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, titleIndex]);
-
 
   return (
     <section className={`relative py-16 sm:py-20 lg:py-24 overflow-hidden ${theme === "dark" ? "bg-[#0A0C0C]" : "bg-white"}`}>
@@ -113,7 +99,6 @@ const HeroSection: React.FC = () => {
       <div className={`absolute -bottom-32 -right-24 w-[450px] h-[450px] rounded-full blur-2xl pointer-events-none ${
         theme === "dark" ? "bg-[#0FB8AF]/5" : "bg-[#0FB8AF]/3"
       }`} />
-
 
       {/* Top fade blend for light mode */}
       {theme === "light" && (
@@ -126,7 +111,6 @@ const HeroSection: React.FC = () => {
           ? "bg-gradient-to-t from-[#0A0C0C] to-transparent"
           : "bg-gradient-to-t from-white/80 via-white/40 to-transparent"
       }`} />
-
 
       <div className="container mx-auto px-4 relative z-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -149,7 +133,6 @@ const HeroSection: React.FC = () => {
               </h1>
             </FadeSlide>
 
-
             {/* Subheading */}
             <FadeSlide delay={0.5}>
               <p
@@ -162,17 +145,16 @@ const HeroSection: React.FC = () => {
               </p>
             </FadeSlide>
 
-
             {/* CTA Buttons */}
             <FadeSlide delay={0.7}>
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <a
-                  href="#contact"
+                <Link
+                  href="/contact"
                   className="px-6 py-3 bg-[#0FB8AF] text-white rounded-xl font-medium text-sm sm:text-base shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  Book a Consultation
-                </a>
+                  Contact Me
+                </Link>
                 <Link
                   href="/about"
                   className="px-6 py-3 border border-[#0FB8AF] text-[#0FB8AF] rounded-xl font-medium text-sm sm:text-base hover:bg-[#0FB8AF]/10 hover:scale-105 transition-all duration-300"
@@ -182,7 +164,6 @@ const HeroSection: React.FC = () => {
                 </Link>
               </div>
             </FadeSlide>
-
 
             {/* Features */}
             <div className="space-y-3 mt-6">
@@ -213,7 +194,6 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-
           {/* Hero Image with fade blend overlay */}
           <div className="relative max-w-lg mx-auto w-full rounded-2xl overflow-hidden">
             {/* Image fade blend overlay */}
@@ -240,7 +220,6 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-
       {/* Additional fade blend at the very bottom of the section */}
       <div className={`absolute bottom-0 left-0 right-0 h-32 pointer-events-none ${
         theme === "dark"
@@ -250,6 +229,5 @@ const HeroSection: React.FC = () => {
     </section>
   );
 };
-
 
 export default HeroSection;
