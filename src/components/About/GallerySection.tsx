@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 /* ---------------------- FadeSlide ---------------------- */
 export const FadeSlide = ({
@@ -74,43 +75,55 @@ const duplicatedRight = [...rightColumn, ...rightColumn, ...rightColumn];
 
 /* ---------------------- Component ---------------------- */
 const InsightsSection = () => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   const [hoveredCol, setHoveredCol] = useState<number | null>(null);
 
   return (
     <section className="py-24 bg-background font-['Inter',sans-serif]">
       <div className="max-w-[1600px] mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Left: Text Content - More prominent & longer version */}
-          <div className="text-left space-y-10 lg:sticky lg:top-20">
-            <FadeSlide>
-              <SlidingHighlight text="Featured Insights" />
-            </FadeSlide>
+          {/* Left: Text Content - unchanged */}
+          <div className="relative text-left space-y-10 lg:sticky lg:top-20">
+            <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
+            
+            <div className="relative z-0">
+              <FadeSlide>
+                <SlidingHighlight text="Featured Insights" />
+              </FadeSlide>
 
-            <FadeSlide delay={0.2}>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-tight text-foreground font-['Century_Gothic',sans-serif]">
-                From{" "}
-                <span className="text-[#0FB8AF]">Concept</span> to Completion
-              </h2>
-            </FadeSlide>
+              <FadeSlide delay={0.2}>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-tight text-foreground font-['Century_Gothic',sans-serif]">
+                  From{" "}
+                  <span className="text-[#0FB8AF]">Concept</span> to Completion
+                </h2>
+              </FadeSlide>
 
-            <FadeSlide delay={0.4}>
-              <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
-                Explore our diverse portfolio of successful projects and meaningful business transformations. 
-                Discover how we help ambitious companies evolve from early-stage concepts into scalable, market-leading solutions through strategic thinking, operational excellence, and innovative digital approaches.
-              </p>
-            </FadeSlide>
+              <FadeSlide delay={0.4}>
+                <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl leading-relaxed mt-8 lg:mt-10">
+                  Explore our portfolio of successful projects and business transformations.
+                  We help companies turn early ideas into scalable, market-leading solutions through strategy, operations, and digital innovation.
+                </p>
+              </FadeSlide>
+            </div>
 
-          
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
           </div>
 
           {/* Right: Scrolling Gallery Columns */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             {/* Left Column - Scrolls Down */}
-            <div
-              className="relative overflow-hidden h-[800px]"
-              onMouseEnter={() => setHoveredCol(0)}
-              onMouseLeave={() => setHoveredCol(null)}
-            >
+            <div className="relative overflow-hidden h-[800px]">
+              {/* Top fade */}
+              <div
+                className={`absolute top-0 left-0 right-0 h-20 z-20 pointer-events-none ${
+                  isDark
+                    ? "bg-gradient-to-b from-black via-black/60 to-transparent"
+                    : "bg-gradient-to-b from-white via-white/75 to-transparent"
+                }`}
+              />
+
               <motion.div
                 animate={{ y: ["0%", "-33.33%"] }}
                 transition={{
@@ -121,6 +134,8 @@ const InsightsSection = () => {
                   },
                 }}
                 className="flex flex-col gap-8"
+                onMouseEnter={() => setHoveredCol(0)}
+                onMouseLeave={() => setHoveredCol(null)}
               >
                 {duplicatedLeft.map((item, idx) => (
                   <div
@@ -147,16 +162,28 @@ const InsightsSection = () => {
                   </div>
                 ))}
               </motion.div>
-              <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
-              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+
+              {/* Bottom fade */}
+              <div
+                className={`absolute bottom-0 left-0 right-0 h-20 z-20 pointer-events-none ${
+                  isDark
+                    ? "bg-gradient-to-t from-black via-black/60 to-transparent"
+                    : "bg-gradient-to-t from-white via-white/75 to-transparent"
+                }`}
+              />
             </div>
 
             {/* Right Column - Scrolls Up */}
-            <div
-              className="relative overflow-hidden h-[800px]"
-              onMouseEnter={() => setHoveredCol(1)}
-              onMouseLeave={() => setHoveredCol(null)}
-            >
+            <div className="relative overflow-hidden h-[800px]">
+              {/* Top fade */}
+              <div
+                className={`absolute top-0 left-0 right-0 h-20 z-20 pointer-events-none ${
+                  isDark
+                    ? "bg-gradient-to-b from-black via-black/60 to-transparent"
+                    : "bg-gradient-to-b from-white via-white/75 to-transparent"
+                }`}
+              />
+
               <motion.div
                 animate={{ y: ["-33.33%", "0%"] }}
                 transition={{
@@ -167,6 +194,8 @@ const InsightsSection = () => {
                   },
                 }}
                 className="flex flex-col gap-8"
+                onMouseEnter={() => setHoveredCol(1)}
+                onMouseLeave={() => setHoveredCol(null)}
               >
                 {duplicatedRight.map((item, idx) => (
                   <div
@@ -193,8 +222,15 @@ const InsightsSection = () => {
                   </div>
                 ))}
               </motion.div>
-              <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
-              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+
+              {/* Bottom fade */}
+              <div
+                className={`absolute bottom-0 left-0 right-0 h-20 z-20 pointer-events-none ${
+                  isDark
+                    ? "bg-gradient-to-t from-black via-black/60 to-transparent"
+                    : "bg-gradient-to-t from-white via-white/75 to-transparent"
+                }`}
+              />
             </div>
           </div>
         </div>
