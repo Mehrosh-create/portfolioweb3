@@ -235,8 +235,9 @@ export default function About2() {
           <div className="mb-8 sm:mb-10 md:mb-12"><GallerySection /></div>
         </FadeSlide>
 
+       {/* TECHNOLOGIES SECTION - UPDATED WITH CENTERED CARDS */}
         <FadeSlide direction="up" delay={0.5}>
-          <div className="relative py-12">
+          <div className="relative py-12 px-3 sm:px-4 md:px-6 lg:px-8">
             <div className="text-center mb-12 lg:mb-16">
               <h2
                 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black uppercase text-foreground mb-6 leading-tight"
@@ -260,70 +261,81 @@ export default function About2() {
             </div>
 
             <div
-              className="relative max-w-5xl mx-auto"
+              className="relative max-w-7xl mx-auto"
               onMouseEnter={() => !isTouchDevice && setIsPaused(true)}
               onMouseLeave={() => !isTouchDevice && setIsPaused(false)}
             >
-              <div className="bg-gray-dark rounded-lg p-6 sm:p-8 lg:p-12 relative border border-gray-600 hover:border-[#0fb8af] transition-all duration-300 overflow-hidden">
-                <div
-                  className="absolute inset-0 opacity-5"
-                  style={{
-                    backgroundImage:
-                      'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/svg%3E")',
-                    backgroundSize: "60px 60px",
-                  }}
-                ></div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
-                  {[
-                    services[(currentIndex + 0) % services.length],
-                    services[(currentIndex + 1) % services.length],
-                    services[(currentIndex + 2) % services.length],
-                  ].map((service, idx) => (
-                    <div key={idx} className="glass-card-wrapper">
-                      <div className="glass-card relative rounded-lg overflow-hidden" data-text={service.name}>
-                        <Image
-                          src={service.img}
-                          alt={service.name}
-                          fill
-                          className="object-cover brightness-75 contrast-110"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          quality={95}
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
+              {/* Container with flex layout for proper spacing */}
+              <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
+                {/* Left Arrow Button */}
                 <button
                   onClick={prevService}
-                  className="absolute left-2 sm:left-3 lg:left-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
+                  className="flex-shrink-0 bg-[#0FB8AF] p-2 sm:p-2.5 md:p-3 lg:p-3.5 rounded-full hover:scale-110 hover:bg-[#0ea59d] transition-all duration-300 z-20 shadow-lg"
                   aria-label="Previous Service"
                 >
-                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
-                </button>
-                <button
-                  onClick={nextService}
-                  className="absolute right-2 sm:right-3 lg:right-4 top-1/2 -translate-y-1/2 bg-[#0FB8AF] p-1.5 sm:p-2 rounded-full hover:scale-110 transition-all duration-300 z-20"
-                  aria-label="Next Service"
-                >
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
                 </button>
 
-                <div className="flex justify-center mt-6 sm:mt-8 gap-2 relative z-10">
-                  {Array(Math.ceil(services.length / 3)).fill(null).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentIndex(index * 3)}
-                      className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                        index === Math.floor(currentIndex / 3)
-                          ? "bg-[#0fb8af] scale-125"
-                          : "bg-gray-500 hover:bg-[#0fb8af]"
-                      }`}
-                    />
-                  ))}
+                {/* Cards Container */}
+                <div className="flex-1 max-w-6xl">
+                  <div className="bg-gray-dark rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 relative border border-gray-600 hover:border-[#0fb8af] transition-all duration-300 overflow-hidden">
+                    <div
+                      className="absolute inset-0 opacity-5"
+                      style={{
+                        backgroundImage:
+                          'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/svg%3E")',
+                        backgroundSize: "60px 60px",
+                      }}
+                    ></div>
+
+                    {/* Cards Grid - Centered */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8 relative z-10 place-items-center">
+                      {[
+                        services[(currentIndex + 0) % services.length],
+                        services[(currentIndex + 1) % services.length],
+                        services[(currentIndex + 2) % services.length],
+                      ].map((service, idx) => (
+                        <div key={idx} className="glass-card-wrapper flex justify-center w-full">
+                          <div className="glass-card relative rounded-lg overflow-hidden" data-text={service.name}>
+                            <Image
+                              src={service.img}
+                              alt={service.name}
+                              fill
+                              className="object-cover brightness-75 contrast-110"
+                              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                              quality={95}
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Pagination Dots */}
+                    <div className="flex justify-center mt-6 sm:mt-8 gap-2 relative z-10">
+                      {Array(Math.ceil(services.length / 3)).fill(null).map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentIndex(index * 3)}
+                          className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                            index === Math.floor(currentIndex / 3)
+                              ? "bg-[#0fb8af] scale-125"
+                              : "bg-gray-500 hover:bg-[#0fb8af]"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
+
+                {/* Right Arrow Button */}
+                <button
+                  onClick={nextService}
+                  className="flex-shrink-0 bg-[#0FB8AF] p-2 sm:p-2.5 md:p-3 lg:p-3.5 rounded-full hover:scale-110 hover:bg-[#0ea59d] transition-all duration-300 z-20 shadow-lg"
+                  aria-label="Next Service"
+                >
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
+                </button>
               </div>
             </div>
           </div>
