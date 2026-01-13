@@ -1,5 +1,6 @@
 "use client";
 
+
 import Stats from "@/components/About/Stats";
 import GallerySection from "@/components/About/GallerySection";
 import { FadeSlide } from "@/components/About/ReusableComponents";
@@ -9,8 +10,10 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
+
 const LogosSection = () => {
   const { theme } = useTheme();
+
 
   const logos = [
     { id: 1, src: "/Logo/logo-2.png", alt: "Logo 2", width: 300, height: 115 },
@@ -18,6 +21,7 @@ const LogosSection = () => {
     { id: 3, src: "/Logo/logo-11.png", alt: "Logo 11", width: 300, height: 115 },
     { id: 4, src: "/Logo/logo-7.png", alt: "Logo 7", width: 515, height: 186 },
   ];
+
 
   return (
     <section className="logos-section py-8 sm:py-12 md:py-16 lg:py-20 relative overflow-hidden">
@@ -34,6 +38,7 @@ const LogosSection = () => {
         </div>
       )}
 
+
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8 md:mb-10">
@@ -44,6 +49,7 @@ const LogosSection = () => {
               Working with industry leaders to deliver exceptional results and drive digital transformation
             </p>
           </div>
+
 
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-center justify-center">
             {logos.map((logo) => (
@@ -71,6 +77,7 @@ const LogosSection = () => {
   );
 };
 
+
 export default function About2() {
   const services = [
     { name: "Business Operations & Process Optimization", img: "/imagess/process-optimization.jpg" },
@@ -88,6 +95,7 @@ export default function About2() {
     { name: "CRM Automation & Integration", img: "/imagess/crm-automation.jpg" },
   ];
 
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -95,20 +103,25 @@ export default function About2() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
 
+
   const profileImageRef = useRef<HTMLDivElement>(null);
   const textContentRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
   }, []);
 
+
   const nextService = () => {
     setCurrentIndex((prev) => (prev + 3 >= services.length ? 0 : prev + 3));
   };
 
+
   const prevService = () => {
     setCurrentIndex((prev) => (prev - 3 < 0 ? Math.max(services.length - 3, 0) : prev - 3));
   };
+
 
   useEffect(() => {
     if (!isPaused) {
@@ -117,11 +130,13 @@ export default function About2() {
     }
   }, [isPaused]);
 
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
 
   useEffect(() => {
     const handleMouseDown = () => setIsDragging(true);
@@ -134,11 +149,13 @@ export default function About2() {
     };
   }, []);
 
+
   useEffect(() => {
     const updateHeights = () => {
       const viewportWidth = window.innerWidth;
       let cardHeight = "500px";
       let cardMaxWidth = "580px";
+
 
       if (viewportWidth <= 320) { cardHeight = "280px"; cardMaxWidth = "280px"; }
       else if (viewportWidth <= 375) { cardHeight = "320px"; cardMaxWidth = "320px"; }
@@ -147,6 +164,7 @@ export default function About2() {
       else if (viewportWidth <= 880) { cardHeight = "420px"; cardMaxWidth = "450px"; }
       else if (viewportWidth <= 1024) { cardHeight = "440px"; cardMaxWidth = "480px"; }
       else if (viewportWidth <= 1366) { cardHeight = "460px"; cardMaxWidth = "500px"; }
+
 
       if (profileImageRef.current) {
         profileImageRef.current.style.height = cardHeight;
@@ -157,10 +175,12 @@ export default function About2() {
       }
     };
 
+
     updateHeights();
     window.addEventListener('resize', updateHeights);
     return () => window.removeEventListener('resize', updateHeights);
   }, []);
+
 
   return (
     <div className="about-page min-h-screen bg-background flex flex-col w-full overflow-x-hidden pt-10 sm:pt-14 md:pt-16 lg:pt-20 scrollbar-hide">
@@ -185,6 +205,7 @@ export default function About2() {
           </div>
         </FadeSlide>
 
+
         {/* MAIN CONTENT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 mb-8 sm:mb-10 md:mb-12 px-3 sm:px-4 md:px-6 lg:px-8">
           <FadeSlide direction="left" delay={0.3}>
@@ -205,6 +226,7 @@ export default function About2() {
               </div>
             </div>
           </FadeSlide>
+
 
           <FadeSlide direction="right" delay={0.2}>
             <div ref={textContentRef} className="order-2 lg:order-1 flex flex-col justify-center px-1 sm:px-2 md:px-3"
@@ -227,13 +249,16 @@ export default function About2() {
           </FadeSlide>
         </div>
 
+
         <FadeSlide direction="up" delay={0.4}>
           <div className="mb-8 sm:mb-10 md:mb-12"><LogosSection /></div>
         </FadeSlide>
 
+
         <FadeSlide direction="up" delay={0.45}>
           <div className="mb-8 sm:mb-10 md:mb-12"><GallerySection /></div>
         </FadeSlide>
+
 
        {/* TECHNOLOGIES SECTION - UPDATED WITH CENTERED CARDS */}
         <FadeSlide direction="up" delay={0.5}>
@@ -245,6 +270,7 @@ export default function About2() {
               >
                 TECHNOLOGIES & <span className="text-[#0fb8af]">PLATFORMS</span>
               </h2>
+
 
               <div className="relative inline-block mx-auto">
                 <span
@@ -259,6 +285,7 @@ export default function About2() {
                 </span>
               </div>
             </div>
+
 
             <div
               className="relative max-w-7xl mx-auto"
@@ -276,6 +303,7 @@ export default function About2() {
                   <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
                 </button>
 
+
                 {/* Cards Container */}
                 <div className="flex-1 max-w-6xl">
                   <div className="bg-gray-dark rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 relative border border-gray-600 hover:border-[#0fb8af] transition-all duration-300 overflow-hidden">
@@ -287,6 +315,7 @@ export default function About2() {
                         backgroundSize: "60px 60px",
                       }}
                     ></div>
+
 
                     {/* Cards Grid - Centered */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8 relative z-10 place-items-center">
@@ -311,6 +340,7 @@ export default function About2() {
                       ))}
                     </div>
 
+
                     {/* Pagination Dots */}
                     <div className="flex justify-center mt-6 sm:mt-8 gap-2 relative z-10">
                       {Array(Math.ceil(services.length / 3)).fill(null).map((_, index) => (
@@ -328,6 +358,7 @@ export default function About2() {
                   </div>
                 </div>
 
+
                 {/* Right Arrow Button */}
                 <button
                   onClick={nextService}
@@ -341,12 +372,14 @@ export default function About2() {
           </div>
         </FadeSlide>
 
+
         <FadeSlide direction="up" delay={0.6}>
           <div className="px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8">
             <div className="stats-hover-container"><Stats /></div>
           </div>
         </FadeSlide>
       </div>
+
 
       {/* Hide default scrollbar on this page */}
       <style jsx global>{`
@@ -355,24 +388,29 @@ export default function About2() {
           scrollbar-width: none;     /* Firefox */
         }
 
+
         .about-page::-webkit-scrollbar {
           display: none;             /* Chrome, Safari, Opera */
         }
+
 
         /* Optional: if you still want scrollbar track to be invisible but thumb visible in some cases */
         .about-page::-webkit-scrollbar-track {
           background: transparent;
         }
 
+
         .about-page::-webkit-scrollbar-thumb {
           background: transparent;
         }
       `}</style>
 
+
       <style jsx global>{`
         .glass-card-wrapper {
           padding: 0 8px;
         }
+
 
         .glass-card {
           position: relative !important;
@@ -387,6 +425,7 @@ export default function About2() {
           -webkit-backdrop-filter: blur(16px);
           overflow: hidden;
         }
+
 
         .glass-card::before {
           content: attr(data-text);
@@ -412,10 +451,12 @@ export default function About2() {
           pointer-events: none;
         }
 
+
         @keyframes slideRight {
           from { width: 0%; }
           to { width: 100%; }
         }
+
 
         @media (max-width: 640px) {
           .glass-card { width: 200px; height: 240px; }
@@ -425,6 +466,7 @@ export default function About2() {
           .glass-card { width: 220px; height: 260px; }
         }
       `}</style>
+
 
       <style jsx>{`
         .tc-elementor-card {

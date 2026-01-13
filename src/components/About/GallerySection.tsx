@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useTheme } from "next-themes";
 
 /* ---------------------- FadeSlide ---------------------- */
@@ -84,10 +83,10 @@ const InsightsSection = () => {
     <section className="py-24 bg-background font-['Inter',sans-serif]">
       <div className="max-w-[1600px] mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Left: Text Content - unchanged */}
+          {/* Left: Text Content */}
           <div className="relative text-left space-y-10 lg:sticky lg:top-20">
             <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
-            
+
             <div className="relative z-0">
               <FadeSlide>
                 <SlidingHighlight text="Featured Insights" />
@@ -111,17 +110,13 @@ const InsightsSection = () => {
             <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
           </div>
 
-          {/* Right: Scrolling Gallery Columns */}
+          {/* Gallery Columns */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             {/* Left Column - Scrolls Down */}
-            <div className="relative overflow-hidden h-[800px]">
-              {/* Top fade */}
+            <div className="relative overflow-hidden h-[800px] rounded-2xl">
+              {/* Strong top fade - always black based */}
               <div
-                className={`absolute top-0 left-0 right-0 h-20 z-20 pointer-events-none ${
-                  isDark
-                    ? "bg-gradient-to-b from-black via-black/60 to-transparent"
-                    : "bg-gradient-to-b from-white via-white/75 to-transparent"
-                }`}
+                className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-b from-black via-black/65 via-40% to-transparent"
               />
 
               <motion.div
@@ -149,7 +144,7 @@ const InsightsSection = () => {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent opacity-90" />
                     </div>
                     <div className="p-6">
                       <h3 className="text-lg font-semibold mb-2 font-['Century_Gothic',sans-serif]">
@@ -163,25 +158,17 @@ const InsightsSection = () => {
                 ))}
               </motion.div>
 
-              {/* Bottom fade */}
+              {/* Strong bottom fade - same style as top */}
               <div
-                className={`absolute bottom-0 left-0 right-0 h-20 z-20 pointer-events-none ${
-                  isDark
-                    ? "bg-gradient-to-t from-black via-black/60 to-transparent"
-                    : "bg-gradient-to-t from-white via-white/75 to-transparent"
-                }`}
+                className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-t from-black via-black/65 via-40% to-transparent"
               />
             </div>
 
             {/* Right Column - Scrolls Up */}
-            <div className="relative overflow-hidden h-[800px]">
-              {/* Top fade */}
+            <div className="relative overflow-hidden h-[800px] rounded-2xl">
+              {/* Strong top fade - always black based */}
               <div
-                className={`absolute top-0 left-0 right-0 h-20 z-20 pointer-events-none ${
-                  isDark
-                    ? "bg-gradient-to-b from-black via-black/60 to-transparent"
-                    : "bg-gradient-to-b from-white via-white/75 to-transparent"
-                }`}
+                className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-b from-black via-black/65 via-40% to-transparent"
               />
 
               <motion.div
@@ -209,7 +196,7 @@ const InsightsSection = () => {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent opacity-90" />
                     </div>
                     <div className="p-6">
                       <h3 className="text-lg font-semibold mb-2 font-['Century_Gothic',sans-serif]">
@@ -223,13 +210,9 @@ const InsightsSection = () => {
                 ))}
               </motion.div>
 
-              {/* Bottom fade */}
+              {/* Strong bottom fade - same style as top */}
               <div
-                className={`absolute bottom-0 left-0 right-0 h-20 z-20 pointer-events-none ${
-                  isDark
-                    ? "bg-gradient-to-t from-black via-black/60 to-transparent"
-                    : "bg-gradient-to-t from-white via-white/75 to-transparent"
-                }`}
+                className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-t from-black via-black/65 via-40% to-transparent"
               />
             </div>
           </div>
