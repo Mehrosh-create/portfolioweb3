@@ -11,7 +11,7 @@ const Contact = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <div className="flex-grow max-w-7xl xl:max-w-8xl 2xl:max-w-9xl mx-auto w-full px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pb-6 sm:pb-12 md:pb-16 lg:pb-20">
 
-        {/* Hero Section - Kept exactly as is */}
+        {/* Hero Section */}
         <div className="relative -mx-3 xs:-mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12 xl:-mx-16 overflow-hidden rounded-none mb-12 sm:mb-16 md:mb-20 -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-28">
           <Image
             src="/images/contact-hero.jpg"
@@ -50,146 +50,101 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Form + Map Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 mb-12 sm:mb-16 md:mb-20">
-          {/* Left: Contact Form */}
-          <div>
-            <h2
-              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6 sm:mb-8 lg:mb-12 uppercase"
-              style={{
-                fontFamily: '"Century Gothic", sans-serif',
-                letterSpacing: "0.05em",
-              }}
-            >
-              SEND US A MESSAGE
-            </h2>
-            <ContactForm />
-          </div>
+        {/* Form Section */}
+        <div className="mb-12 sm:mb-16 md:mb-20">
+          <h2
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6 sm:mb-8 lg:mb-10 uppercase"
+            style={{
+              fontFamily: '"Century Gothic", sans-serif',
+              letterSpacing: "0.05em",
+            }}
+          >
+            SEND US A MESSAGE
+          </h2>
+          <ContactForm />
+        </div>
 
-          {/* Right: Map on top + Contact Info below */}
-          <div className="flex flex-col gap-8 sm:gap-10">
-            {/* Google Map Container - Enhanced for better content visibility & brand match */}
-            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl">
-              {/* Premium abstract teal waves background (perfect #0fb8af match, dark base with glow) */}
-              <Image
-                src="https://images.unsplash.com/photo-1727283274675-BNfRWhuUw8E?auto=format&fit=crop&w=1920&q=80"
-                alt="Abstract teal waves background"
-                fill
-                className="object-cover"
-                priority={false}
-              />
-              {/* Stronger brand teal tint + reduced dark overlay for clearer content visibility */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0fb8af]/60 via-[#0fb8af]/30 to-transparent"></div>
-              <div className="absolute inset-0 bg-black/35 backdrop-blur-md"></div>
+        {/* Map + Contact Info – equal height containers */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-10 auto-rows-fr">
+          {/* Map Container */}
+          <div className="relative rounded-2xl overflow-hidden border-none shadow-xl flex flex-col min-h-[380px] md:min-h-[420px] lg:min-h-[460px]">
+            <Image
+              src="https://images.unsplash.com/photo-1727283274675-BNfRWhuUw8E?auto=format&fit=crop&w=1920&q=80"
+              alt="Abstract teal waves background"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0fb8af]/60 via-[#0fb8af]/30 to-transparent"></div>
+            <div className="absolute inset-0 bg-black/35 backdrop-blur-md"></div>
 
-              {/* Content */}
-              <div className="relative p-6 sm:p-8">
-                <h3
-                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-6 sm:mb-8 lg:mb-12 uppercase drop-shadow-2xl"
-                  style={{
-                    fontFamily: '"Century Gothic", sans-serif',
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  VISIT OUR OFFICE
-                </h3>
-                <div className="rounded-xl overflow-hidden shadow-2xl border border-white/30">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.2671625831645!2d73.0432365749624!3d33.59837194156107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df95237c77a5a1%3A0x3f4c08bddd97bf2b!2sEurosHub!5e0!3m2!1sen!2s!4v1762231799960!5m2!1sen!2s"
-                    width="100%"
-                    height="400"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="rounded-xl"
-                    title="Google Maps - EurosHub Rawalpindi"
-                  />
-                </div>
+            <div className="relative p-5 sm:p-6 flex-1 flex flex-col">
+              <h3
+                className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 uppercase drop-shadow-2xl"
+                style={{ fontFamily: '"Century Gothic", sans-serif', letterSpacing: "0.05em" }}
+              >
+                VISIT OUR OFFICE
+              </h3>
+              <div className="flex-1 rounded-xl overflow-hidden border-none">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.2671625831645!2d73.0432365749624!3d33.59837194156107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df95237c77a5a1%3A0x3f4c08bddd97bf2b!2sEurosHub!5e0!3m2!1sen!2s!4v1762231799960!5m2!1sen!2s"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Google Maps - EurosHub Rawalpindi"
+                />
               </div>
             </div>
+          </div>
 
-            {/* Contact Info Container - Same enhancements */}
-            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl">
-              <Image
-                src="https://images.unsplash.com/photo-1727283274675-BNfRWhuUw8E?auto=format&fit=crop&w=1920&q=80"
-                alt="Abstract teal waves background"
-                fill
-                className="object-cover"
-                priority={false}
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0fb8af]/60 via-[#0fb8af]/30 to-transparent"></div>
-              <div className="absolute inset-0 bg-black/35 backdrop-blur-md"></div>
+          {/* Contact Info Container – matches map height */}
+          <div className="relative rounded-2xl overflow-hidden border-none shadow-xl flex flex-col min-h-[380px] md:min-h-[420px] lg:min-h-[460px]">
+            <Image
+              src="https://images.unsplash.com/photo-1727283274675-BNfRWhuUw8E?auto=format&fit=crop&w=1920&q=80"
+              alt="Abstract teal waves background"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0fb8af]/60 via-[#0fb8af]/30 to-transparent"></div>
+            <div className="absolute inset-0 bg-black/35 backdrop-blur-md"></div>
 
-              {/* Content */}
-              <div className="relative p-6 sm:p-8">
-                <div className="text-center mb-8 sm:mb-10">
-                  <h3
-                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-3 sm:mb-4 uppercase drop-shadow-2xl"
-                    style={{
-                      fontFamily: '"Century Gothic", sans-serif',
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    GET IN TOUCH
-                  </h3>
-                  <p
-                    className="text-sm sm:text-base text-white/95 leading-relaxed max-w-2xl mx-auto drop-shadow-lg"
-                    style={{ fontFamily: '"Inter", sans-serif' }}
-                  >
-                    Ready to start your next project? Reach out and let&apos;s create something amazing together.
-                  </p>
-                </div>
+            <div className="relative p-5 sm:p-6 flex-1 flex flex-col">
+              <div className="text-center mb-6">
+                <h3
+                  className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 uppercase drop-shadow-2xl"
+                  style={{ fontFamily: '"Century Gothic", sans-serif', letterSpacing: "0.05em" }}
+                >
+                  GET IN TOUCH
+                </h3>
+                <p className="text-sm text-white/90 leading-relaxed max-w-xl mx-auto drop-shadow-lg">
+                  Ready to start your next project? Reach out and let&apos;s create something amazing together.
+                </p>
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                  <div className="text-center">
-                    <div className="flex justify-center mb-4 sm:mb-5">
-                      <MapPin className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 flex-1 content-center">
+                {[
+                  { icon: MapPin, title: "OFFICE", text: "EurosHub, Rawalpindi" },
+                  { icon: Phone, title: "CALL US", text: "+923000369622" },
+                  { icon: Mail, title: "EMAIL US", text: "hello@sheikhnabeel.com" },
+                  { icon: Clock, title: "WORKING HOURS", text: "Mon - Sat, 24 Hours" },
+                ].map((item, i) => (
+                  <div key={i} className="text-center">
+                    <div className="flex justify-center mb-3">
+                      <item.icon className="w-7 h-7 sm:w-8 sm:h-8 text-[#0fb8af] drop-shadow-xl" />
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
-                      OFFICE
-                    </h3>
-                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
-                      EurosHub, Rawalpindi
+                    <h4
+                      className="text-sm sm:text-base font-bold text-white mb-1 uppercase tracking-wide drop-shadow-lg"
+                      style={{ fontFamily: '"Century Gothic", sans-serif' }}
+                    >
+                      {item.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-white/90 drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
+                      {item.text}
                     </p>
                   </div>
-
-                  <div className="text-center">
-                    <div className="flex justify-center mb-4 sm:mb-5">
-                      <Phone className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
-                      CALL US
-                    </h3>
-                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
-                      +923000369622
-                    </p>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="flex justify-center mb-4 sm:mb-5">
-                      <Mail className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
-                      EMAIL US
-                    </h3>
-                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 break-words drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
-                      hello@sheikhnabeel.com
-                    </p>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="flex justify-center mb-4 sm:mb-5">
-                      <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-[#0fb8af] drop-shadow-xl" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider drop-shadow-lg" style={{ fontFamily: '"Century Gothic", sans-serif' }}>
-                      WORKING HOURS
-                    </h3>
-                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed px-1 drop-shadow-md" style={{ fontFamily: '"Inter", sans-serif' }}>
-                      Mon - Sat, 24 Hours
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
