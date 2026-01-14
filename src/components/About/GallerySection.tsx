@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState } from "react";
 import Image from "next/image";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/contexts/ThemeContext";
 
 /* ---------------------- FadeSlide ---------------------- */
 export const FadeSlide = ({
@@ -74,7 +74,8 @@ const duplicatedRight = [...rightColumn, ...rightColumn, ...rightColumn];
 
 /* ---------------------- Component ---------------------- */
 const InsightsSection = () => {
-  const { theme } = useTheme();
+  const themeContext = useTheme();
+  const theme = themeContext.theme;
   const isDark = theme === "dark";
 
   const [hoveredCol, setHoveredCol] = useState<number | null>(null);
@@ -116,7 +117,8 @@ const InsightsSection = () => {
             <div className="relative overflow-hidden h-[800px] rounded-2xl">
               {/* Strong top fade - always black based */}
               <div
-                className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-b from-black via-black/65 via-40% to-transparent"
+                className={`absolute top-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-b ${isDark ? "from-black via-black/65" : "from-white via-white/65"
+                  } via-40% to-transparent`}
               />
 
               <motion.div
@@ -160,7 +162,8 @@ const InsightsSection = () => {
 
               {/* Strong bottom fade - same style as top */}
               <div
-                className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-t from-black via-black/65 via-40% to-transparent"
+                className={`absolute bottom-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-t ${isDark ? "from-black via-black/65" : "from-white via-white/65"
+                  } via-40% to-transparent`}
               />
             </div>
 
@@ -168,7 +171,8 @@ const InsightsSection = () => {
             <div className="relative overflow-hidden h-[800px] rounded-2xl">
               {/* Strong top fade - always black based */}
               <div
-                className="absolute top-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-b from-black via-black/65 via-40% to-transparent"
+                className={`absolute top-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-b ${isDark ? "from-black via-black/65" : "from-white via-white/65"
+                  } via-40% to-transparent`}
               />
 
               <motion.div
@@ -212,7 +216,8 @@ const InsightsSection = () => {
 
               {/* Strong bottom fade - same style as top */}
               <div
-                className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-t from-black via-black/65 via-40% to-transparent"
+                className={`absolute bottom-0 left-0 right-0 h-32 sm:h-40 z-20 pointer-events-none bg-gradient-to-t ${isDark ? "from-black via-black/65" : "from-white via-white/65"
+                  } via-40% to-transparent`}
               />
             </div>
           </div>
